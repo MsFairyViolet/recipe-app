@@ -1,0 +1,166 @@
+[
+    {
+        "id": 1,
+        "name": "Albondigas",
+        "ingredients": [
+            {
+                "ingredient": {
+                    "id": 6,
+                    "name": "paprika"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            },
+            {
+                "ingredient": {
+                    "id": 3,
+                    "name": "gehakt"
+                },
+                "amount": 300,
+                "amountType": "gram"
+            },
+            {
+                "ingredient": {
+                    "id": 8,
+                    "name": "bouillon"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            },
+            {
+                "ingredient": {
+                    "id": 10,
+                    "name": "harissa"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            },
+            {
+                "ingredient": {
+                    "id": 1,
+                    "name": "tomatenblokjes"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            },
+            {
+                "ingredient": {
+                    "id": 4,
+                    "name": "cous cous"
+                },
+                "amount": 1,
+                "amountType": "cup"
+            },
+            {
+                "ingredient": {
+                    "id": 7,
+                    "name": "courgette"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            },
+            {
+                "ingredient": {
+                    "id": 5,
+                    "name": "bosui"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            },
+            {
+                "ingredient": {
+                    "id": 2,
+                    "name": "tomatenpuree"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Shaksuka",
+        "ingredients": [
+            {
+                "ingredient": {
+                    "id": 3,
+                    "name": "gehakt"
+                },
+                "amount": 300,
+                "amountType": "gram"
+            },
+            {
+                "ingredient": {
+                    "id": 10,
+                    "name": "harissa"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            },
+            {
+                "ingredient": {
+                    "id": 2,
+                    "name": "tomatenpuree"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            },
+            {
+                "ingredient": {
+                    "id": 5,
+                    "name": "bosui"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            },
+            {
+                "ingredient": {
+                    "id": 9,
+                    "name": "ei"
+                },
+                "amount": 4,
+                "amountType": "unit"
+            },
+            {
+                "ingredient": {
+                    "id": 8,
+                    "name": "bouillon"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            },
+            {
+                "ingredient": {
+                    "id": 6,
+                    "name": "paprika"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            },
+            {
+                "ingredient": {
+                    "id": 4,
+                    "name": "cous cous"
+                },
+                "amount": 1,
+                "amountType": "cup"
+            },
+            {
+                "ingredient": {
+                    "id": 1,
+                    "name": "tomatenblokjes"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            },
+            {
+                "ingredient": {
+                    "id": 7,
+                    "name": "courgette"
+                },
+                "amount": 1,
+                "amountType": "unit"
+            }
+        ]
+    }
+]
