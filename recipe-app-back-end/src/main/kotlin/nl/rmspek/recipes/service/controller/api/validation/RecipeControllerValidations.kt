@@ -1,0 +1,22 @@
+package nl.rmspek.recipes.service.controller.api.validation
+
+import nl.rmspek.recipes.model.rest.RecipeView
+import nl.rmspek.recipes.service.persistence.IngredientRepository
+import nl.rmspek.recipes.service.persistence.RecipeRepository
+import org.springframework.http.HttpStatus
+import org.springframework.web.server.ResponseStatusException
+
+fun validatePersistRecipe(
+    recipeView: RecipeView,
+    recipeRepository: RecipeRepository,
+    ingredientRepository: IngredientRepository
+) {
+    val recipeByName = recipeRepository.recipeByName(recipeView.name)
+    if (recipeByName != null && recipeByName.id != recipeView.id) {
+        throw ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Recipe with name ${recipeView.name} already exists")
+    }
+
+    if (!ingredientRepository.findAll().map { it.id }.containsAll(recipeView.ingredients.map { it.ingredient.id })) {
+        throw ResponseStatusException(HttpStatus.NOT_FOUND, "Not all ingredients exist.")
+    }
+}
