@@ -1,7 +1,7 @@
-import Main from "@/app/pages/Main";
-import AllIngredients from "./pages/AllIngredients";
-import AlterRecipe from "./pages/AlterRecipe";
-import Recipe from "./pages/Recipe";
+import Main from "@/app/components/RecipeList/RecipeListPage";
+import AllIngredients from "./components/IngredientsList/IngredientsPage";
+import AlterRecipe from "./components/EditRecipe/EditRecipe";
+import Recipe from "./components/ViewRecipe/ViewRecipe";
 
 export default function Home() {
   return (
