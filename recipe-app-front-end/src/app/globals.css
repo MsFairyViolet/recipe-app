@@ -1,0 +1,36 @@
+:root {
+    --primary-color: #3551c1; 
+    --secondary-color: #cfb533; 
+    --background-color: #fffaf0; 
+    --text-color: #333;
+    --font-main: 'Inter', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-main);
+    color: var(--text-color);
+    background-color: var(--background-color);
+    line-height: 1.6;
+  }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .recipe-list-container{
+    border: 2px solid blue
+  }
+
+  .recipe-title-column{
+    border: 2px solid green
+  }
+
+  .recipe-calorie-column{
+    border: 2px solid orange
+  }
+
+  .recipe-cuisine-column{
+    border: 2px solid yellowgreen
+  }
