@@ -1,14 +1,20 @@
+import { useState, useEffect } from "react"
+
 import SearchBar from "../common/SearchBar"
 import RecipeList from "./RecipeList"
 
-export default function RecipeListPage() {
-    return (
+
+
+export default function RecipeListPage({recipes}) {
+   
+
+return (
     <>
     <h1>Recipe List Page</h1>
 
-    <div>
+    <div className="recipe-page-container">
         <SearchBar/>
-        <RecipeList/>
+        <RecipeList recipes={recipes}/>
     </div>
     </>
     )

@@ -2,6 +2,8 @@
     {
         "id": 1,
         "name": "Albondigas",
+        "calories": 800,
+        "cuisine": "Midden-Oosters",
         "ingredients": [
             {
                 "ingredient": {
@@ -80,6 +82,8 @@
     {
         "id": 2,
         "name": "Shaksuka",
+        "calories": 876,
+        "cuisine": "Midden-Oosters",
         "ingredients": [
             {
                 "ingredient": {
@@ -162,5 +166,33 @@
                 "amountType": "unit"
             }
         ]
+    },
+    {
+        "id": 3,
+        "name": "AGBeef"
+    },
+    {
+        "id": 4,
+        "name": "Pasta E Ceci"
+    },
+    {
+        "id": 5,
+        "name": "Okonamiyaki"
+    },
+    {
+        "id": 6,
+        "name": "Jerk Chicken"
+    },
+    {
+        "id": 7,
+        "name": "Lasagna Bolognese"
+    },
+    {
+        "id": 8,
+        "name": "Pad Thai"
+    },
+    {
+        "id": 9,
+        "name": "Chili con Carne"
     }
 ]

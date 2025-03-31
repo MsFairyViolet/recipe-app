@@ -1,7 +1,7 @@
 export default function SearchBar() { 
     return (
         <>
-        <input placeholder="Search recipe..."></input>
+        <input className="search-bar" placeholder="Search recipe..."></input>
         </>
     )
 }
