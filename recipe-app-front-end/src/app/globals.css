@@ -39,15 +39,6 @@ html {
   color: var(--primary-color);
 }
 
-.recipe-page-container {
-  display: flex;
-  flex-direction: column;
-  width: 95vw;
-  height: 80vh;
-  gap: 0.5rem;
-  font-size: 1.2em;
-}
-
 .search-bar {
   width: 45%;
   height: 2rem;
@@ -58,6 +49,17 @@ html {
   border: 1px solid var(--primary-color);
   border-radius: 5px;
   overflow: hidden;
+}
+
+/* Recipe List Page */
+
+.recipe-page-container {
+  display: flex;
+  flex-direction: column;
+  width: 95vw;
+  height: 80vh;
+  gap: 0.5rem;
+  font-size: 1.2em;
 }
 
 .recipe-list-container {
@@ -108,12 +110,25 @@ html {
   font-size: 1rem;
 }
 
+/* RecipeView */
+
+.recipe-container {
+  border: 2px solid var(--primary-color);
+}
+
+.ingredients-list {
+  border: 2px solid orange;
+}
+
+.ingredient-row {
+  border: 2px solid purple;
+}
+
 .no-results-message {
   text-align: center;
   color: gray;
   margin-top: 10px;
 }
-
 
 /* Web Media Query */
 @media (min-width: 600px) {
