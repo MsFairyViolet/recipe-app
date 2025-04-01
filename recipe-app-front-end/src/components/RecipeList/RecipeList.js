@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function RecipeList({ recipes, searchQuery }) {
 
     const filteredRecipes = recipes.filter((recipe) =>
@@ -13,7 +15,7 @@ export default function RecipeList({ recipes, searchQuery }) {
             {filteredRecipes.length > 0 ? (
                 filteredRecipes.map((recipe) => (
                     <div className="recipe-row" key={recipe.id}>
-                        <div className="recipe-name-column">{recipe.name}</div>
+                        <div className="recipe-name-column"><Link href={`/recipe/${recipe.id}`}>{recipe.name}</Link></div>
                         <div className="recipe-calorie-column">{recipe.servingCalories}</div>
                         <div className="recipe-cuisine-column">{recipe.cuisine}</div>
                     </div>
