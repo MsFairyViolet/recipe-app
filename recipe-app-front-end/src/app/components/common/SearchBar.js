@@ -1,7 +1,7 @@
-export default function SearchBar() { 
+export default function SearchBar({value, onChange, placeholder}) { 
     return (
         <>
-        <input className="search-bar" placeholder="Search recipe..."></input>
+        <input className="search-bar" value={value} placeholder={placeholder} onChange={(e) => onChange(e.target.value)}></input>
         </>
     )
 }

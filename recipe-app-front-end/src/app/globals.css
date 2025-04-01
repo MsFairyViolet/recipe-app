@@ -108,6 +108,11 @@ html {
   font-size: 1rem;
 }
 
+.no-results-message {
+  text-align: center;
+  color: gray;
+  margin-top: 10px;
+}
 
 
 /* Web Media Query */
