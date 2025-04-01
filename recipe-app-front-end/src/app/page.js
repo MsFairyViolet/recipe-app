@@ -12,7 +12,7 @@ export default function RecipeApp() {
   setRecipes(recipesData))
 
   return (
-    <div>
+    <div className="app">
       <main>
         <RecipeListPage recipes={recipes}/>
       </main>
