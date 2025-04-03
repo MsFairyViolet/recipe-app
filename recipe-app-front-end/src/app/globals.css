@@ -70,25 +70,22 @@ html {
 }
 
 .name-column {
-  /* border: 2px solid green; */
   width: calc(50% - 0.5rem);
 }
 
 .calorie-column {
-  /* border: 2px solid orange; */
   width: calc(16% - 0.5rem);
 }
 
 .cuisine-column {
-  /* border: 2px solid yellowgreen; */
   width: calc(32% - 0.5rem);
 }
 
-.type-column{
+.type-column {
   width: calc(16% - 0.5rem);
 }
 
-.amount-column{
+.amount-column {
   width: calc(32% - 0.5rem)
 }
 
@@ -140,11 +137,11 @@ html {
   display: flex;
 }
 
-.big-details{
+.big-details {
   width: 70%;
 }
 
-.small-details{
+.small-details {
   width: 30%;
   display: flex;
   flex-direction: column;
@@ -160,7 +157,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
- }
+}
 
 .ingredients-list {
   border: 2px solid var(--primary-color);
@@ -172,7 +169,7 @@ html {
   padding-left: 0.5rem;
 }
 
-.note-details{
+.note-details {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
   padding-left: 0.5rem;
@@ -192,13 +189,13 @@ html {
     --background-color: #e7e7e7;
   }
 
- .page-container{
-  max-width: 1100px;
- }
+  .page-container {
+    max-width: 1100px;
+  }
 
- .small-details p {
-  width: 10rem;
- }
+  .small-details p {
+    width: 10rem;
+  }
 
 
 
