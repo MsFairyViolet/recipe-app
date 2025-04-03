@@ -19,14 +19,12 @@ export default function ViewRecipeContainer() {
     // }, [recipe]);
 
     return (
-        <div className="app">
-            <main>
+        <>
                 {recipe ? (
                     <ViewRecipe recipe={recipe} />
                 ) : (
                     <p className="no-results-message">Loading recipe...</p>
                 )}
-            </main>
-        </div>
+        </>
     );
 }

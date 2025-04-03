@@ -2,51 +2,38 @@ import RecipeIngredientsList from "./RecipeIngredientsList";
 
 export default function ViewRecipe({ recipe }) {
   return (
-    <div className="recipe-container">
+    <>
       <h1 className="page-title">{recipe.name}</h1>
 
-      <dl className="recipe-details">
-        <div>
-          <dt>Calories per serving:</dt>
-          <dd>{recipe.servingCalories}</dd>
+      <div className="recipe-card">
+        <div className="top-details">
+          <div className="big-details">
+            <p>{recipe.description}</p>
+            <a className="url-details" href={recipe.externalRecipeLink}>{recipe.externalRecipeLink}</a>
+          </div>
+
+          <div className="small-details">
+            <p>{recipe.servingCalories}</p>
+
+            <p>{recipe.servingCount} p</p>
+
+            <p>{recipe.cuisine}</p>
+          </div>
         </div>
 
         <div>
-          <dt>Serving Count:</dt>
-          <dd>{recipe.servingCount} people</dd>
-        </div>
-
-        <div>
-          <dt>Description:</dt>
-          <dd>{recipe.description}</dd>
-        </div>
-
-        <div>
-          <dt>Recipe URL:</dt>
-          <dd>
-            <a href={recipe.externalRecipeLink}>
-              {recipe.externalRecipeLink}
-            </a>
-          </dd>
-        </div>
-
-        <div>
-          <dt>Cuisine:</dt>
-          <dd>{recipe.cuisine}</dd>
-        </div>
-
-        <div>
-          <dt>Ingredients:</dt>
-          <dd><RecipeIngredientsList recipe={recipe} /></dd>
+          <h5>Ingredients:</h5>
+          <p><RecipeIngredientsList recipe={recipe} /></p>
         </div>
 
         {recipe.note && (
-          <div>
-            <dt>Notes:</dt>
-            <dd>{recipe.note}</dd>
+          <div className="note-details">
+            <h5>Notes:</h5>
+            <p>{recipe.note}</p>
           </div>
         )}
-      </dl>
-    </div>
+
+      </div >
+    </>
   );
 }

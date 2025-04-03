@@ -6,18 +6,18 @@ export default function RecipeList({ recipes, searchQuery }) {
         recipe.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
     return (
-        <div className="recipe-list-container">
-            <div className="recipe-row column-title">
-                <p className="recipe-name-column">Name</p>
-                <p className="recipe-calorie-column">Cal.</p>
-                <p className="recipe-cuisine-column">Cuisine</p>
+        <div className="recipe-list">
+            <div className="row column-title">
+                <p className="name-column">Name</p>
+                <p className="calorie-column">Cal.</p>
+                <p className="cuisine-column">Cuisine</p>
             </div>
             {filteredRecipes.length > 0 ? (
                 filteredRecipes.map((recipe) => (
-                    <div className="recipe-row" key={recipe.id}>
-                        <div className="recipe-name-column"><Link href={`/recipe/${recipe.id}`}>{recipe.name}</Link></div>
-                        <div className="recipe-calorie-column">{recipe.servingCalories}</div>
-                        <div className="recipe-cuisine-column">{recipe.cuisine}</div>
+                    <div className="row" key={recipe.id}>
+                        <div className="name-column"><Link href={`/recipe/${recipe.id}`}>{recipe.name}</Link></div>
+                        <div className="calorie-column">{recipe.servingCalories}</div>
+                        <div className="cuisine-column">{recipe.cuisine}</div>
                     </div>
                 ))
             ) : (

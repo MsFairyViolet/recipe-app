@@ -16,10 +16,6 @@ export default function RecipeListContainer() {
     // })
 
     return (
-        <div className="app">
-            <main>
-                <RecipeListPage recipes={recipes} />
-            </main>
-        </div>
+            <RecipeListPage recipes={recipes} />
     );
 }

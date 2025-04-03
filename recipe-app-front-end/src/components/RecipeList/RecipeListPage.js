@@ -9,7 +9,7 @@ return (
     <>
     <h1 className="page-title">Recipe List Page</h1>
 
-    <div className="recipe-page-container">
+    <div className="recipe-list-container">
         <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={"Search for recipe..."}/>
         <RecipeList recipes={recipes} searchQuery={searchQuery}/>
     </div>

@@ -178,7 +178,7 @@
       "servingCount": 2,
       "cuisine": "Mexicaans",
       "note": "Stevige bonenschotel met kruiden",
-      "externalRecipeLink": "https://example.com/chili-con-carne",
+      "externalRecipeLink": "",
       "ingredients": [
         { "id": 5, "name": "gehakt", "amount": 300, "amountType": "gram" },
         { "id": 37, "name": "kidneybonen", "amount": 250, "amountType": "gram" },

@@ -9,7 +9,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {children}
+        <div className="page-container">
+          <main>
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );
