@@ -14,9 +14,7 @@ export default function ViewRecipe({ recipe }) {
 
           <div className="small-details">
             <p>{recipe.servingCalories}</p>
-
             <p>{recipe.servingCount} p</p>
-
             <p>{recipe.cuisine}</p>
           </div>
         </div>
@@ -27,9 +25,11 @@ export default function ViewRecipe({ recipe }) {
         </div>
 
         {recipe.note && (
-          <div className="note-details">
+          <div>
             <h5>Notes:</h5>
-            <p>{recipe.note}</p>
+            <div className="note-details">
+              <p>{recipe.note}</p>
+            </div>
           </div>
         )}
 
