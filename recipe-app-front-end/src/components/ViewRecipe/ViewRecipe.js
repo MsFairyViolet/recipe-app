@@ -20,18 +20,20 @@ export default function ViewRecipe({ recipe }) {
         </div>
 
         <div>
-          <h5>Ingredients:</h5>
+          <h4>Ingredients:</h4>
           <p><RecipeIngredientsList recipe={recipe} /></p>
         </div>
 
         {recipe.note && (
           <div>
-            <h5>Notes:</h5>
+            <h4>Notes:</h4>
             <div className="note-details">
               <p>{recipe.note}</p>
             </div>
           </div>
         )}
+
+        <button className="edit-recipe-button">Edit</button>
 
       </div >
     </>

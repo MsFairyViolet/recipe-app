@@ -32,6 +32,7 @@ html {
   display: flex;
   flex-direction: column;
   width: 90vw;
+  min-width: 380px;
   height: 95vh;
   gap: 0.5rem;
 }
@@ -62,9 +63,10 @@ html {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   gap: 0.5rem;
   border-bottom: 1px solid var(--primary-color);
+  flex-wrap: wrap;
   overflow: hidden;
 }
 
@@ -88,12 +90,9 @@ html {
   width: calc(23% - 0.5rem);
 }
 
-
-
 /* Recipe List Page */
 
 .recipe-list-container {
-  /* border: 2px solid green; */
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -171,6 +170,14 @@ html {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
   padding: 0.5rem;
+}
+
+.edit-recipe-button {
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+  width: 30%;
+  height: 3rem;
+  margin-left: auto;
 }
 
 /* Common CSS Rules */
