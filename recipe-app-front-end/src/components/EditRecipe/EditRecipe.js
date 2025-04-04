@@ -1,4 +1,13 @@
+"use client"
+
+import { useEffect } from "react";
+
 export default function EditRecipe({ recipe }) {
+
+      useEffect(() => {
+        document.title = "Edit " + recipe.name
+      }, [recipe.name])
+
     return (
         <>
             <h1 className="page-title">EDIT {recipe.name}</h1>
@@ -32,8 +41,6 @@ export default function EditRecipe({ recipe }) {
 
                 <button className="delete-recipe-button">Delete</button>
                 <button className="save-recipe-button">Save</button>
-
-
             </div >
         </>
     );

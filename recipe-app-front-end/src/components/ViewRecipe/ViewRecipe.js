@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation"
 import RecipeIngredientsList from "./RecipeIngredientsList";
 
@@ -9,6 +10,10 @@ export default function ViewRecipe({ recipe }) {
   const handleClick = () => {
     router.push(`/recipe/${recipe.id}/edit`)
   }
+
+  useEffect(() => {
+    document.title = recipe.name
+  }, [recipe.name])
 
   return (
     <>
