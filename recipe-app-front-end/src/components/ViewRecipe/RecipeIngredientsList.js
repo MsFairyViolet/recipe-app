@@ -3,15 +3,15 @@ export default function RecipeIngredientsList({ recipe }) {
 
         <div className="ingredients-list">
             <div className="row column-title">
-                <p className="name-column">Name</p>
-                <p className="amount-column">Amount</p>
-                <p className="type-column">Type</p>
+                <span className="name-column">Name</span>
+                <span className="amount-column">Amount</span>
+                <span className="type-column">Type</span>
             </div>
             {recipe.ingredients.map((ingredient, index) => (
                 <div className="row" key={`${ingredient.name}-${index}`}>
-                    <p className="name-column">{ingredient.name}</p>
-                    <p className="amount-column">{ingredient.amount}</p>
-                    <p className="type-column">{ingredient.amountType}</p>
+                    <span className="name-column">{ingredient.name}</span>
+                    <span className="amount-column">{ingredient.amount}</span>
+                    <span className="type-column">{ingredient.amountType}</span>
                     </div>
             ))
             }

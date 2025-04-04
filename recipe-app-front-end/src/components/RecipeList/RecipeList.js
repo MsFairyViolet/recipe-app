@@ -8,20 +8,20 @@ export default function RecipeList({ recipes, searchQuery }) {
     return (
         <div className="recipe-list">
             <div className="row column-title">
-                <p className="name-column">Name</p>
-                <p className="calorie-column">Cal.</p>
-                <p className="cuisine-column">Cuisine</p>
+                <span className="name-column">Name</span>
+                <span className="calorie-column">Cal.</span>
+                <span className="cuisine-column">Cuisine</span>
             </div>
             {filteredRecipes.length > 0 ? (
                 filteredRecipes.map((recipe) => (
                     <div className="row" key={recipe.id}>
-                        <p className="name-column"><Link href={`/recipe/${recipe.id}`}>{recipe.name}</Link></p>
-                        <p className="calorie-column">{recipe.servingCalories}</p>
-                        <p className="cuisine-column">{recipe.cuisine}</p>
+                        <span className="name-column"><Link href={`/recipe/${recipe.id}`}>{recipe.name}</Link></span>
+                        <span className="calorie-column">{recipe.servingCalories}</span>
+                        <span className="cuisine-column">{recipe.cuisine}</span>
                     </div>
                 ))
             ) : (
-                <p className="no-results-message">No recipes found.</p>
+                <span className="no-results-message">No recipes found.</span>
             )
             }
         </div>

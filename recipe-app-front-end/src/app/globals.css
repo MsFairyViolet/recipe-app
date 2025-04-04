@@ -148,7 +148,7 @@ html {
   gap: 0.5rem;
 }
 
-.small-details p {
+.small-details span {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
   width: 5.5rem;
