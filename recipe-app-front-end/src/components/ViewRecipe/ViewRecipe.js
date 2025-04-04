@@ -1,6 +1,15 @@
+"use client"
+
+import { useRouter } from "next/navigation"
 import RecipeIngredientsList from "./RecipeIngredientsList";
 
 export default function ViewRecipe({ recipe }) {
+
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(`/recipe/${recipe.id}/edit`)
+  }
+
   return (
     <>
       <h1 className="page-title">{recipe.name}</h1>
@@ -33,8 +42,7 @@ export default function ViewRecipe({ recipe }) {
           </div>
         )}
 
-        <button className="edit-recipe-button">Edit</button>
-
+        <button className="edit-recipe-button" onClick={handleClick}>Edit</button>
       </div >
     </>
   );
