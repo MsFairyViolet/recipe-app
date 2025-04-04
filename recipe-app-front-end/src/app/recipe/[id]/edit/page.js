@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import EditRecipe from "@/components/EditRecipe/EditRecipe";
-import recipesData from "../../../../../data/mockrecipes.json";
+import EditRecipe from "@components/EditRecipe/EditRecipe";
+import recipesData from "@data/mockrecipes.json";
 
 export default function EditRecipeContainer() {
     const [recipe, setRecipe] = useState(null);

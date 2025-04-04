@@ -1,5 +1,5 @@
 import { useState } from "react"
-import SearchBar from "../common/SearchBar"
+import SearchBar from "@common/SearchBar"
 import RecipeList from "./RecipeList"
 
 export default function RecipeListPage({recipes}) {
