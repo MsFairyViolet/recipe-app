@@ -307,4 +307,23 @@ class RecipeControllerIntegrationTest(
             ).also { it.ingredients.add(RecipeIngredientView(IngredientView(1, "ingredient"), 5, "stuk")) }
         ).andExpect(status().isNotFound)
     }
+
+    private fun getOne(id: Long) = mockMvc.perform(
+        MockMvcRequestBuilders
+            .get("/api/recipe/$id")
+            .accept(MediaType.APPLICATION_JSON)
+    )
+
+    @Test
+    fun `getOne returns existing recipe`() {
+        val r1 = recipeRepository.save(defaultRecipe())
+        getOne(r1.id!!)
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.name", `is`(r1.name)))
+    }
+
+    @Test
+    fun `getOne returns 404 for missing recipe`() {
+        getOne(99L).andExpect(status().isNotFound)
+    }
 }

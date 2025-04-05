@@ -24,6 +24,11 @@ public class RecipeController(
     @GetMapping
     fun all(): List<RecipeView> = recipeRepository.findAll().map(Recipe::fromDb)
 
+    @GetMapping("{id}")
+    fun getOne(
+        @PathVariable id: Long,
+    ): RecipeView = recipeRepository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }.fromDb()
+
     @PostMapping
     fun create(
         @RequestBody recipeView: RecipeView,
