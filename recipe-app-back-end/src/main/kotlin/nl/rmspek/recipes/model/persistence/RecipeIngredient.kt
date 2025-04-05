@@ -11,7 +11,9 @@ import java.math.BigDecimal
 class RecipeIngredient(
     @Column(precision = 10, scale = 2)
     val amountValue: BigDecimal,
-    val amountType: String,
+
+    @Enumerated(EnumType.STRING)
+    val amountType: AmountType,
 ) {
     @EmbeddedId
     lateinit var id: RecipeIngredientKey

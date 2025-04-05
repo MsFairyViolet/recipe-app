@@ -29,6 +29,9 @@ databaseChangeLog:
                   name: serving_count
                   type: int
               - column:
+                  name: cuisine
+                  type: varchar(255)
+              - column:
                   name: note
                   type: text
               - column:

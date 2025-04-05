@@ -5,7 +5,15 @@ import java.math.BigDecimal
 
 @Entity
 @Table(name="recipes")
-class Recipe(@Column(unique = true) var name: String) {
+class Recipe(
+    @Column(unique = true) var name: String,
+    var description: String,
+    var servingCalories: Int,
+    var servingCount: Int,
+    var cuisine: String,
+    var note: String,
+    var externalRecipeLink: String,
+) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -14,8 +22,8 @@ class Recipe(@Column(unique = true) var name: String) {
     val ingredients: MutableSet<RecipeIngredient> = mutableSetOf()
 }
 
-fun Recipe.addIngredient(ingredient: Ingredient, amount: BigDecimal, unitType: String) {
-    this.ingredients.add(RecipeIngredient(amount, unitType).also {
+fun Recipe.addIngredient(ingredient: Ingredient, amount: BigDecimal, amountType: AmountType) {
+    this.ingredients.add(RecipeIngredient(amount, amountType).also {
         it.id = RecipeIngredientKey(this.id, ingredient.id)
         it.ingredient = ingredient
         it.recipe = this

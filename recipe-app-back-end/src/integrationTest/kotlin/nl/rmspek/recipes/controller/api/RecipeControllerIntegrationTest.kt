@@ -2,10 +2,7 @@ package nl.rmspek.recipes.controller.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import nl.rmspek.recipes.BaseIntegrationTest
-import nl.rmspek.recipes.model.persistence.Ingredient
-import nl.rmspek.recipes.model.persistence.Recipe
-import nl.rmspek.recipes.model.persistence.RecipeIngredient
-import nl.rmspek.recipes.model.persistence.RecipeIngredientKey
+import nl.rmspek.recipes.model.persistence.*
 import nl.rmspek.recipes.model.rest.IngredientView
 import nl.rmspek.recipes.model.rest.RecipeIngredientView
 import nl.rmspek.recipes.service.persistence.RecipeRepository
@@ -14,6 +11,8 @@ import nl.rmspek.recipes.model.rest.fromDb
 import nl.rmspek.recipes.service.persistence.IngredientRepository
 import nl.rmspek.recipes.util.IterableNumberTypeAgnosticMatcher
 import nl.rmspek.recipes.util.SingleNumberTypeAgnosticMatcher
+import nl.rmspek.recipes.util.defaultRecipe
+import nl.rmspek.recipes.util.defaultRecipeView
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 import org.junit.jupiter.api.Test
@@ -41,7 +40,7 @@ class RecipeControllerIntegrationTest(
 
     @Test
     fun `all() returns one recipe`() {
-        val recipe = recipeRepository.save(Recipe("testfood"))
+        val recipe = recipeRepository.save(defaultRecipe("testfood"))
 
         getAll()
             .andExpect(status().isOk)
@@ -52,8 +51,8 @@ class RecipeControllerIntegrationTest(
 
     @Test
     fun `all() returns multiple recipes`() {
-        val r1 = recipeRepository.save(Recipe( "testfood"))
-        val r2 = recipeRepository.save(Recipe( "testOther"))
+        val r1 = recipeRepository.save(defaultRecipe( "testfood"))
+        val r2 = recipeRepository.save(defaultRecipe( "testOther"))
 
         getAll()
             .andExpect(status().isOk)
@@ -72,7 +71,7 @@ class RecipeControllerIntegrationTest(
     fun `create() saves a new recipe witout ingredients`() {
         assertThat(recipeRepository.findAll(), emptyIterable())
 
-        val recipe = RecipeView(null, "foo", mutableSetOf())
+        val recipe = defaultRecipeView()
         createRecipe(recipe)
             .andExpect(status().isCreated)
             .andExpect(jsonPath("$.name", `is`(recipe.name)))
@@ -82,9 +81,9 @@ class RecipeControllerIntegrationTest(
 
     @Test
     fun `create() responds with unprocessible entity if the recipe name is already used`() {
-        recipeRepository.save(Recipe( "taken"))
+        recipeRepository.save(defaultRecipe("taken"))
 
-        val recipe = RecipeView(null, "taken", mutableSetOf())
+        val recipe = defaultRecipeView(name = "taken")
         createRecipe(recipe).andExpect(status().isUnprocessableEntity)
 
         assertThat(recipeRepository.findAll().map { it.name }, `is`(listOf("taken")))
@@ -92,15 +91,14 @@ class RecipeControllerIntegrationTest(
 
     @Test
     fun `create responds with unprocessible entity if the recipe contains an ID`() {
-        createRecipe(RecipeView(1L, "foo", mutableSetOf()))
-            .andExpect(status().isUnprocessableEntity)
+        createRecipe(defaultRecipeView(1L)).andExpect(status().isUnprocessableEntity)
     }
 
     @Test
     fun `create() saves a new recipe with ingredients`() {
         val ingredient = ingredientRepository.save(Ingredient("ingredient"))
+        val recipe = defaultRecipeView().also { it.ingredients.add(RecipeIngredientView(ingredient.fromDb(), 1L, "stuk")) }
 
-        val recipe = RecipeView(null, "foo", mutableSetOf(RecipeIngredientView(ingredient.fromDb(), 1L, "unit")))
         createRecipe(recipe)
             .andExpect(status().isCreated)
             .andExpect(jsonPath("$.name", `is`(recipe.name)))
@@ -113,13 +111,11 @@ class RecipeControllerIntegrationTest(
     @Test
     fun `create throws an error if it tries to create a recipe with non existent ingredients`() {
         createRecipe(
-            RecipeView(
-                null,
-                "foo",
-                mutableSetOf(
-                    RecipeIngredientView(IngredientView(1L, "ingredient"), 1L, "unit")
+            defaultRecipeView().also {
+                it.ingredients.add(
+                    RecipeIngredientView(IngredientView(1L, "ingredient"), 1L, "stuk")
                 )
-            )
+            }
         ).andExpect(status().isNotFound)
     }
 
@@ -128,17 +124,45 @@ class RecipeControllerIntegrationTest(
         val i1 = ingredientRepository.save(Ingredient( "one"))
         val i2 = ingredientRepository.save(Ingredient( "two"))
         createRecipe(
-            RecipeView(
-                null,
-                "foo",
-                mutableSetOf(
-                    RecipeIngredientView(IngredientView(i2.id!! + 1L, "Missing ingredient 1"), 1L, "unit"),
-                    RecipeIngredientView(IngredientView(i2.id!! + 2L, "Missing ingredient 2"), 1L, "unit"),
-                    RecipeIngredientView(IngredientView(i1.id, "Ingredient 1"), 1L, "unit"),
-                    RecipeIngredientView(IngredientView(i2.id, "Ingredient 2"), 1L, "unit"),
-                )
-            )
+            defaultRecipeView().also {
+                it.ingredients.addAll(listOf(
+                    RecipeIngredientView(IngredientView(i2.id!! + 1L, "Missing ingredient 1"), 1L, "stuk"),
+                    RecipeIngredientView(IngredientView(i2.id!! + 2L, "Missing ingredient 2"), 1L, "stuk"),
+                    RecipeIngredientView(IngredientView(i1.id, "Ingredient 1"), 1L, "stuk"),
+                    RecipeIngredientView(IngredientView(i2.id, "Ingredient 2"), 1L, "stuk"),
+                ))
+            }
         ).andExpect(status().isNotFound)
+    }
+
+    @Test
+    fun `create accepts all valid amount types`() {
+        val i1 = ingredientRepository.save(Ingredient("one"))
+        listOf(
+            "stuk",
+            "portie",
+            "g",
+            "cup",
+            "ml",
+            "theelepel",
+            "eetlepel",
+        ).forEach { unit ->
+            createRecipe(
+                defaultRecipeView(name = "recipe-$unit").also { recipeView ->
+                    recipeView.ingredients.add(RecipeIngredientView(IngredientView(i1.id!!, i1.name), 1, unit))
+                }
+            ).andExpect(status().isCreated)
+        }
+    }
+
+    @Test
+    fun `create throws an error if the amount type does not exist`() {
+        val i1 = ingredientRepository.save(Ingredient("one"))
+        createRecipe(
+            defaultRecipeView().also { recipeView ->
+                recipeView.ingredients.add(RecipeIngredientView(IngredientView(i1.id!!, i1.name), 1, "blorgons"))
+            }
+        ).andExpect(status().isUnprocessableEntity)
     }
 
     private fun updateRecipe(id: Long, recipe: RecipeView) = mockMvc.perform(
@@ -152,21 +176,14 @@ class RecipeControllerIntegrationTest(
     fun `update adds new ingredients`() {
         val i1 = ingredientRepository.save(Ingredient( "one"))
         val i2 = ingredientRepository.save(Ingredient( "two"))
-        val dbRecipe = recipeRepository.save(
-            Recipe("recipe")
-        ).also { recipe ->
-            recipe.ingredients += RecipeIngredient(BigDecimal(10), "units").also {
-                it.ingredient = i1
-                it.recipe = recipe
-                it.id = RecipeIngredientKey(recipe.id, i1.id)
-            }
-            recipeRepository.save(recipe)
-        }
+        val dbRecipe = recipeRepository.save(defaultRecipe())
+        dbRecipe.addIngredient(i1, BigDecimal(10), AmountType.STUK)
+        recipeRepository.save(dbRecipe)
 
         updateRecipe(
             dbRecipe.id!!,
             dbRecipe.fromDb().also {
-                it.ingredients += RecipeIngredientView(i2.fromDb(), 10, "units")
+                it.ingredients += RecipeIngredientView(i2.fromDb(), 10, "stuk")
             }
         ).andExpect(status().isOk)
 
@@ -176,21 +193,10 @@ class RecipeControllerIntegrationTest(
     fun `update removes unused ingredients`() {
         val i1 = ingredientRepository.save(Ingredient( "one"))
         val i2 = ingredientRepository.save(Ingredient( "two"))
-        val dbRecipe = recipeRepository.save(
-            Recipe("recipe")
-        ).also { recipe ->
-            recipe.ingredients += RecipeIngredient(BigDecimal(10), "units").also {
-                it.ingredient = i1
-                it.recipe = recipe
-                it.id = RecipeIngredientKey(recipe.id, i1.id)
-            }
-            recipe.ingredients += RecipeIngredient(BigDecimal(10), "units").also {
-                it.ingredient = i2
-                it.recipe = recipe
-                it.id = RecipeIngredientKey(recipe.id, i2.id)
-            }
-            recipeRepository.save(recipe)
-        }
+        val dbRecipe = recipeRepository.save(defaultRecipe())
+        dbRecipe.addIngredient(i1, BigDecimal(10), AmountType.STUK)
+        dbRecipe.addIngredient(i2, BigDecimal(10), AmountType.STUK)
+        recipeRepository.save(dbRecipe)
 
         updateRecipe(
             dbRecipe.id!!,
@@ -204,24 +210,12 @@ class RecipeControllerIntegrationTest(
 
     @Test
     fun `update can clear all the ingredients of a recipe`() {
-
         val i1 = ingredientRepository.save(Ingredient( "one"))
         val i2 = ingredientRepository.save(Ingredient( "two"))
-        val dbRecipe = recipeRepository.save(
-            Recipe("recipe")
-        ).also { recipe ->
-            recipe.ingredients += RecipeIngredient(BigDecimal(10), "units").also {
-                it.ingredient = i1
-                it.recipe = recipe
-                it.id = RecipeIngredientKey(recipe.id, i1.id)
-            }
-            recipe.ingredients += RecipeIngredient(BigDecimal(10), "units").also {
-                it.ingredient = i2
-                it.recipe = recipe
-                it.id = RecipeIngredientKey(recipe.id, i2.id)
-            }
-            recipeRepository.save(recipe)
-        }
+        val dbRecipe = recipeRepository.save(defaultRecipe())
+        dbRecipe.addIngredient(i1, BigDecimal(10), AmountType.STUK)
+        dbRecipe.addIngredient(i2, BigDecimal(10), AmountType.STUK)
+        recipeRepository.save(dbRecipe)
 
         updateRecipe(
             dbRecipe.id!!,
@@ -237,21 +231,15 @@ class RecipeControllerIntegrationTest(
     @Test
     fun `update updates the values of existing ingredients`() {
         val i1 = ingredientRepository.save(Ingredient( "one"))
-        val dbRecipe = recipeRepository.save(
-            Recipe("recipe")
-        ).also { recipe ->
-            recipe.ingredients += RecipeIngredient(BigDecimal(10), "units").also {
-                it.ingredient = i1
-                it.recipe = recipe
-                it.id = RecipeIngredientKey(recipe.id, i1.id)
-            }
-        }
+        val dbRecipe = recipeRepository.save(defaultRecipe())
+        dbRecipe.addIngredient(i1, BigDecimal(10), AmountType.STUK)
+        recipeRepository.save(dbRecipe)
 
         updateRecipe(
             dbRecipe.id!!,
             dbRecipe.fromDb().also {
                 it.ingredients.clear()
-                it.ingredients += RecipeIngredientView(i1.fromDb(), 14, "blorgons")
+                it.ingredients += RecipeIngredientView(i1.fromDb(), 14, "g")
             }
         ).andExpect(status().isOk)
 
@@ -259,18 +247,18 @@ class RecipeControllerIntegrationTest(
         assertThat(newRecipe.ingredients, hasSize(1))
         val recipeIngredient = newRecipe.ingredients.first()
         assertThat(recipeIngredient.amountValue, `is`(BigDecimal("14.00")))
-        assertThat(recipeIngredient.amountType, `is`("blorgons"))
+        assertThat(recipeIngredient.amountType, `is`(AmountType.GRAM))
     }
 
     @Test
     fun `update can rename a recipe`() {
         val dbRecipe = recipeRepository.save(
-            Recipe("recipe")
+            defaultRecipe()
         )
 
         updateRecipe(
             dbRecipe.id!!,
-            RecipeView(dbRecipe.id, "new name", mutableSetOf())
+            defaultRecipeView(dbRecipe.id, "new name")
         ).andExpect(status().isOk)
 
         assertThat(recipeRepository.findAll().first().name, `is`("new name"))
@@ -279,12 +267,12 @@ class RecipeControllerIntegrationTest(
     @Test
     fun `update can save a recipe without ingredients`() {
         val dbRecipe = recipeRepository.save(
-            Recipe("recipe")
+            defaultRecipe()
         )
 
         updateRecipe(
             dbRecipe.id!!,
-            RecipeView(dbRecipe.id, "recipe", mutableSetOf())
+            defaultRecipeView(dbRecipe.id, dbRecipe.name)
         ).andExpect(status().isOk)
 
         assertThat(recipeRepository.findAll().first().name, `is`("recipe"))
@@ -294,32 +282,29 @@ class RecipeControllerIntegrationTest(
     fun `update returns 404 when the recipe does not exist`() {
         updateRecipe(
             1,
-            RecipeView(1, "recipe", mutableSetOf())
+            defaultRecipeView(1L)
         ).andExpect(status().isNotFound)
     }
 
     @Test
     fun `update cannot change the name to an existing recipe name`() {
-        recipeRepository.save(Recipe("first"))
-        val second = recipeRepository.save(Recipe("second"))
+        recipeRepository.save(defaultRecipe("first"))
+        val second = recipeRepository.save(defaultRecipe("second"))
         updateRecipe(
             second.id!!,
-            RecipeView(second.id, "first", mutableSetOf())
+            defaultRecipeView(second.id, "first")
         ).andExpect(status().isUnprocessableEntity)
     }
 
     @Test
     fun `update fails when not all ingredients exist`() {
-        val recipe = recipeRepository.save(Recipe("recipe"))
+        val recipe = recipeRepository.save(defaultRecipe())
         updateRecipe(
             recipe.id!!,
-            RecipeView(
+            defaultRecipeView(
                 recipe.id,
                 "recipe",
-                mutableSetOf(
-                    RecipeIngredientView(IngredientView(1, "ingredient"), 5, "units")
-                )
-            )
+            ).also { it.ingredients.add(RecipeIngredientView(IngredientView(1, "ingredient"), 5, "stuk")) }
         ).andExpect(status().isNotFound)
     }
 }

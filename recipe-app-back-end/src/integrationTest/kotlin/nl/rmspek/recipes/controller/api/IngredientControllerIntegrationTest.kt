@@ -8,6 +8,7 @@ import nl.rmspek.recipes.service.persistence.IngredientRepository
 import nl.rmspek.recipes.service.persistence.RecipeRepository
 import nl.rmspek.recipes.util.IterableNumberTypeAgnosticMatcher
 import nl.rmspek.recipes.util.SingleNumberTypeAgnosticMatcher
+import nl.rmspek.recipes.util.defaultRecipe
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert
 import org.hamcrest.MatcherAssert.assertThat
@@ -173,11 +174,9 @@ class IngredientControllerIntegrationTest(
     @Test
     fun `delete fails if the ingredient is used in a recipe`() {
         val i1 = ingredientRepository.save(Ingredient( "one"))
-        val dbRecipe = recipeRepository.save(
-            Recipe("recipe")
-        )
+        val dbRecipe = recipeRepository.save(defaultRecipe())
 
-        dbRecipe.addIngredient(i1, BigDecimal(10), "unit")
+        dbRecipe.addIngredient(i1, BigDecimal(10), AmountType.STUK)
         recipeRepository.save(dbRecipe)
 
         deleteIngredient(i1.id!!).andExpect(status().isConflict)

@@ -3,6 +3,7 @@ package nl.rmspek.recipes.service.persistence
 import nl.rmspek.recipes.model.persistence.Recipe
 import nl.rmspek.recipes.model.persistence.RecipeIngredient
 import nl.rmspek.recipes.model.persistence.RecipeIngredientKey
+import nl.rmspek.recipes.model.persistence.parseAmountType
 import nl.rmspek.recipes.model.rest.RecipeView
 import nl.rmspek.recipes.model.rest.toDb
 import org.springframework.transaction.annotation.Transactional
@@ -13,7 +14,17 @@ fun RecipeRepository.persistRecipe(
     recipeView: RecipeView,
 ): Recipe {
     val recipe = if (recipeView.id == null) {
-        save(Recipe(recipeView.name))
+        save(
+            Recipe(
+                recipeView.name,
+                recipeView.description,
+                recipeView.servingCalories,
+                recipeView.servingCount,
+                recipeView.cuisine,
+                recipeView.note,
+                recipeView.externalRecipeLink
+            )
+        )
     } else {
         findById(recipeView.id).orElseThrow().also { it.name = recipeView.name }
     }
@@ -24,7 +35,7 @@ fun RecipeRepository.persistRecipe(
         recipeView.ingredients.map { recipeIngredientView ->
             RecipeIngredient(
                 BigDecimal(recipeIngredientView.amount),
-                recipeIngredientView.amountType,
+                recipeIngredientView.parseAmountType(),
             ).also { recipeIngredient ->
                 val ingredient =  recipeIngredientView.ingredient.toDb()
                 recipeIngredient.id = RecipeIngredientKey(recipe.id, ingredient.id)

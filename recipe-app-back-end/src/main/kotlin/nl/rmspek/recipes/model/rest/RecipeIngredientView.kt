@@ -11,5 +11,5 @@ data class RecipeIngredientView(
 fun RecipeIngredient.fromDb() = RecipeIngredientView(
     ingredient.fromDb(),
     amountValue.toLong(),
-    amountType
+    amountType.present()
 )

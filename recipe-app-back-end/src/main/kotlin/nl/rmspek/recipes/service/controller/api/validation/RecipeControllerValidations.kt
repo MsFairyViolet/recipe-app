@@ -1,5 +1,7 @@
 package nl.rmspek.recipes.service.controller.api.validation
 
+import nl.rmspek.recipes.model.persistence.parseAmountType
+import nl.rmspek.recipes.model.persistence.representationMap
 import nl.rmspek.recipes.model.rest.RecipeView
 import nl.rmspek.recipes.service.persistence.IngredientRepository
 import nl.rmspek.recipes.service.persistence.RecipeRepository
@@ -13,7 +15,16 @@ fun validatePersistRecipe(
 ) {
     val recipeByName = recipeRepository.recipeByName(recipeView.name)
     if (recipeByName != null && recipeByName.id != recipeView.id) {
-        throw ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Recipe with name ${recipeView.name} already exists")
+        throw ResponseStatusException(
+            HttpStatus.UNPROCESSABLE_ENTITY,
+            "Recipe with name ${recipeView.name} already exists"
+        )
+    }
+
+    recipeView.ingredients.map { it.amountType }.forEach { amountString ->
+        if (!representationMap.keys.contains(amountString)) {
+            throw ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid unit type $amountString")
+        }
     }
 
     if (!ingredientRepository.findAll().map { it.id }.containsAll(recipeView.ingredients.map { it.ingredient.id })) {
