@@ -40,7 +40,7 @@ class IngredientController(
         return ResponseEntity(ingredientRepository.save(ingredientView.toDb()).fromDb(), HttpStatus.CREATED)
     }
 
-    @PutMapping("{id}")
+    @PatchMapping("{id}")
     fun update (
         @PathVariable id: Long,
         @RequestBody ingredientView: IngredientView,
