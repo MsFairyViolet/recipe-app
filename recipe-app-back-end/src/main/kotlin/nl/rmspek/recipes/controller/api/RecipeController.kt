@@ -70,4 +70,15 @@ public class RecipeController(
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find recipe with id: $id")
         }
     }
+
+    @DeleteMapping("{id}")
+    fun delete(
+        @PathVariable id: Long
+    ) {
+        val recipe = recipeRepository
+            .findById(id)
+            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find recipe with id $id") }
+
+        recipeRepository.delete(recipe)
+    }
 }
