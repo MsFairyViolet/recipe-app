@@ -22,20 +22,20 @@ export default function ViewRecipe({ recipe }) {
       <div className="recipe-card">
         <div className="top-details">
           <div className="big-details">
-            <span>{recipe.description}</span>
+            <span className="description-details">{recipe.description}</span>
             <a className="url-details" href={recipe.externalRecipeLink}>{recipe.externalRecipeLink}</a>
           </div>
 
           <div className="small-details">
             <span>{recipe.servingCalories}</span>
-            <span>{recipe.servingCount} span</span>
+            <span>{recipe.servingCount}</span>
             <span>{recipe.cuisine}</span>
           </div>
         </div>
 
         <div>
           <h4>Ingredients:</h4>
-          <span><RecipeIngredientsList recipe={recipe} /></span>
+          <span><RecipeIngredientsList recipe={recipe}/></span>
         </div>
 
         {recipe.note && (
@@ -47,7 +47,7 @@ export default function ViewRecipe({ recipe }) {
           </div>
         )}
 
-        <button className="edit-recipe-button" onClick={handleClick}>Edit</button>
+        <button className="recipe-button" onClick={handleClick}>Edit</button>
       </div >
     </>
   );

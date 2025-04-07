@@ -36,14 +36,14 @@ export default function EditRecipe({ recipe }) {
         router.push(`/recipe/${recipe.id}`)
     }
     return (
-        <form onSubmit={handleSave}>
+        <form className="edit-page" onSubmit={handleSave}>
             <input className="page-title" type="text" name="name" value={formData.name} onChange={handleChange}></input>
 
             <div className="recipe-card">
                 <div className="top-details">
                     <div className="big-details">
-                        <input className="description-details" type="text" name="description" value={formData.description} onChange={handleChange}></input>
-                        <input className="url-details" type="text" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></input>
+                        <textarea className="description-details" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
+                        <textarea className="url-details" type="text" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
                     </div>
 
                     <div className="small-details">
