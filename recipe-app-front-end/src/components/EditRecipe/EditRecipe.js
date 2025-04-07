@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
 
 export default function EditRecipe({ recipe }) {
@@ -27,10 +28,12 @@ export default function EditRecipe({ recipe }) {
             [name]: type === "number" ? Number(value) : value
         }))
     }
- 
-    const handleSave = () => {
+    const router = useRouter();
+
+    const handleSave = (e) => {
         e.preventDefault();
         console.log("Data saved! ",formData)
+        router.push(`/recipe/${recipe.id}`)
     }
     return (
         <form onSubmit={handleSave}>
