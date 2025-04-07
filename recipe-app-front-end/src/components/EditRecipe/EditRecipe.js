@@ -1,47 +1,71 @@
 "use client"
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import EditRecipeIngriedientList from "./EditRecipeIngredientList"
 
 export default function EditRecipe({ recipe }) {
+
+    const [formData, setFormData] = useState({
+        name: recipe.name,
+        description: recipe.description,
+        externalRecipeLink: recipe.externalRecipeLink,
+        servingCalories: recipe.servingCalories,
+        servingCount: recipe.servingCount,
+        cuisine: recipe.cuisine,
+        note: recipe.note
+    })
 
       useEffect(() => {
         document.title = "Edit " + recipe.name
       }, [recipe.name])
 
+    const handleChange = (e) => {
+        const { name, value, type } = e.target
+
+        setFormData((prev) => ({
+            ...prev,
+            [name]: type === "number" ? Number(value) : value
+        }))
+    }
+ 
+    const handleSave = () => {
+        e.preventDefault();
+        console.log("Data saved! ",formData)
+    }
     return (
-        <>
-            <h1 className="page-title">EDIT {recipe.name}</h1>
+        <form onSubmit={handleSave}>
+            <input className="page-title" type="text" name="name" value={formData.name} onChange={handleChange}></input>
 
             <div className="recipe-card">
                 <div className="top-details">
                     <div className="big-details">
-                        <span>{recipe.description}</span>
-                        <a className="url-details" href={recipe.externalRecipeLink}>{recipe.externalRecipeLink}</a>
+                        <input className="description-details" type="text" name="description" value={formData.description} onChange={handleChange}></input>
+                        <input className="url-details" type="text" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></input>
                     </div>
 
                     <div className="small-details">
-                        <span>{recipe.servingCalories}</span>
-                        <span>{recipe.servingCount} span</span>
-                        <span>{recipe.cuisine}</span>
+                        <input name="servingCalories" type="number" value={formData.servingCalories} onChange={handleChange}></input>
+                        <input name="servingCount" type="number" value={formData.servingCount} onChange={handleChange}></input>
+                        <input name="cuisine" type="text" value={formData.cuisine} onChange={handleChange}></input>
                     </div>
                 </div>
 
                 <div>
                     <h4>Ingredients:</h4>
+                    <EditRecipeIngriedientList recipe={recipe}/>
                 </div>
 
                 {recipe.note && (
                     <div>
                         <h4>Notes:</h4>
-                        <div className="note-details">
-                            <span>{recipe.note}</span>
-                        </div>
+                        <textarea className="note-details" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
                     </div>
                 )}
-
-                <button className="delete-recipe-button">Delete</button>
-                <button className="save-recipe-button">Save</button>
+                <div className="button-container">
+                <button className="recipe-button">Delete</button>
+                <button className="recipe-button" type="submit">Save</button>
+                </div>
             </div >
-        </>
+        </form>
     );
 }

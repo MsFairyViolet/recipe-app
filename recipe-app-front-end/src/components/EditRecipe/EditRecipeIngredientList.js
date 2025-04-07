@@ -1,0 +1,21 @@
+export default function EditRecipeIngredientsList({ recipe }) {
+    return (
+        <div className="ingredients-list">
+            <h4>Edit list</h4>
+            <div className="row column-title">
+                <span className="name-column">Name</span>
+                <span className="amount-column">Amount</span>
+                <span className="type-column">Type</span>
+            </div>
+            {recipe.ingredients.map((ingredient, index) => (
+                <div className="row" key={`${ingredient.name}-${index}`}>
+                    <span className="name-column">{ingredient.name}</span>
+                    <span className="amount-column">{ingredient.amount}</span>
+                    <span className="type-column">{ingredient.amountType}</span>
+                    </div>
+            ))
+            }
+        </div >
+
+    )
+}

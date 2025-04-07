@@ -138,6 +138,8 @@ html {
 
 .big-details {
   width: 70%;
+  display: flex;
+  flex-direction: column;
 }
 
 .small-details {
@@ -172,12 +174,25 @@ html {
   padding: 0.5rem;
 }
 
-.edit-recipe-button {
+.description-details{
+  border: 2px solid var(--primary-color);
+}
+
+.url-details{
+  border: 2px solid var(--primary-color);
+}
+
+.button-container{
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  gap: 0.5rem;
+}
+.recipe-button {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
   width: 30%;
   height: 3rem;
-  margin-left: auto;
 }
 
 /* Common CSS Rules */
