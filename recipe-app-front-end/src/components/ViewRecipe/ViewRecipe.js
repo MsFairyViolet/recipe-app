@@ -35,7 +35,7 @@ export default function ViewRecipe({ recipe }) {
 
         <div>
           <h4>Ingredients:</h4>
-          <span><RecipeIngredientsList recipe={recipe}/></span>
+          <span><RecipeIngredientsList recipe={recipe} /></span>
         </div>
 
         {recipe.note && (
@@ -46,8 +46,9 @@ export default function ViewRecipe({ recipe }) {
             </div>
           </div>
         )}
-
-        <button className="recipe-button" onClick={handleClick}>Edit</button>
+        <div className="button-container">
+          <button className="recipe-button" onClick={handleClick}>Edit</button>
+        </div>
       </div >
     </>
   );
