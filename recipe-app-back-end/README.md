@@ -18,6 +18,8 @@
 
 ### Backend
 
+* Start up XAMMP
+* In Windows command line, browse to "C:\coding\react\recipe-app\recipe-app-back-end>"
 * `./gradlew.bat bootRun`
 * In a browser go to "localhost:8080/api/recipes/all"
 
