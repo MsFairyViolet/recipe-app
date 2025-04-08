@@ -6,6 +6,7 @@ import EditRecipeIngriedientList from "./EditRecipeIngredientList"
 
 export default function EditRecipe({ recipe }) {
 
+    const router = useRouter();
     const [formData, setFormData] = useState({
         name: recipe.name,
         description: recipe.description,
@@ -13,7 +14,8 @@ export default function EditRecipe({ recipe }) {
         servingCalories: recipe.servingCalories,
         servingCount: recipe.servingCount,
         cuisine: recipe.cuisine,
-        note: recipe.note
+        note: recipe.note,
+        ingredients: recipe.ingredients
     })
 
       useEffect(() => {
@@ -28,15 +30,30 @@ export default function EditRecipe({ recipe }) {
             [name]: type === "number" ? Number(value) : value
         }))
     }
-    const router = useRouter();
 
+    const handleIngredientChange = (index, field, value) => {
+        console.log(`Updating ingredient ${index}, field: ${field}, value: ${value}`);
+        setFormData(prev => {
+            const updatedIngredients = [...prev.ingredients]
+            updatedIngredients[index] = {
+                ...updatedIngredients[index],
+                [field]: value
+            }
+            console.log("Updated ingredients:", updatedIngredients); // Log the updated array
+            return {
+                ...prev,
+                ingredients: updatedIngredients
+            }
+        })
+    }
+  
     const handleSave = (e) => {
         e.preventDefault();
         console.log("Data saved! ",formData)
         router.push(`/recipe/${recipe.id}`)
     }
     return (
-        <form className="edit-page" onSubmit={handleSave}>
+        <div className="edit-page">
             <input className="page-title" type="text" name="name" value={formData.name} onChange={handleChange}></input>
 
             <div className="recipe-card">
@@ -55,7 +72,7 @@ export default function EditRecipe({ recipe }) {
 
                 <div>
                     <h4>Ingredients:</h4>
-                    <EditRecipeIngriedientList recipe={recipe}/>
+                    <EditRecipeIngriedientList recipe={recipe} ingredients={formData.ingredients} onIngredientChange={handleIngredientChange}/>
                 </div>
 
                 {recipe.note && (
@@ -66,9 +83,9 @@ export default function EditRecipe({ recipe }) {
                 )}
                 <div className="button-container">
                 <button className="recipe-button">Delete</button>
-                <button className="recipe-button" type="submit">Save</button>
+                <button className="recipe-button" onClick={handleSave}>Save</button>
                 </div>
             </div >
-        </form>
+        </div>
     );
 }

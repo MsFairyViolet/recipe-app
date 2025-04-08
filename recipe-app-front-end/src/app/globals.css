@@ -72,22 +72,44 @@ html {
 }
 
 .name-column {
-  width: calc(50% - 0.5rem);
+  /* border: 1px solid red; */
+  width: calc(47% - 0.5rem);
 }
 
 .calorie-column {
+  /* border: 1px solid blue; */
   width: calc(16% - 0.5rem);
 }
 
 .cuisine-column {
+  /* border: 1px solid green; */
   width: calc(32% - 0.5rem);
 }
 
 .amount-column {
+  /* border: 1px solid purple; */
   width: calc(23% - 0.5rem)
 }
 
 .type-column {
+  /* border: 1px solid orange; */
+  width: calc(23% - 0.5rem);
+}
+
+.delete-column {
+  /* border: 1px solid grey; */
+  width: calc(6% - 0.5rem);
+}
+
+.edit-page .name-column {
+  width: calc(47% - 0.5rem);
+}
+
+.edit-page .amount-column {
+  width: calc(23% - 0.5rem)
+}
+
+.edit-page .type-column {
   width: calc(23% - 0.5rem);
 }
 
@@ -186,11 +208,18 @@ html {
 }
 
 .edit-page input,
-.edit-page textarea {
+.edit-page textarea,
+.edit-page select {
   border: 2px solid var(--secondary-color);
   border-radius: 5px;
   padding: 0.5rem;
-  font-family: var(--font-main)
+  font-family: var(--font-main);
+  width: 100%;
+}
+
+.edit-page .row input,
+.edit-page .row select{
+  height: 35px;
 }
 
 input.page-title {
@@ -227,6 +256,12 @@ textarea.note-details {
   background-color: var(--background-color);
   width: 50%;
   height: 3rem;
+}
+
+button.delete-column {
+  border: 2px solid var(--secondary-color);
+  border-radius: 5px;
+  height: 35px;
 }
 
 /* Common CSS Rules */
