@@ -326,4 +326,28 @@ class RecipeControllerIntegrationTest(
     fun `getOne returns 404 for missing recipe`() {
         getOne(99L).andExpect(status().isNotFound)
     }
+
+    private fun delete(id: Long) = mockMvc.perform(
+        MockMvcRequestBuilders
+            .delete("/api/recipe/$id")
+            .accept(MediaType.APPLICATION_JSON)
+    )
+
+    @Test
+    fun `delete removes the recipe, but leaves ingredients`() {
+        val i1 = ingredientRepository.save(Ingredient("ingredient"))
+        val recipe = recipeRepository.save(defaultRecipe())
+        recipe.addIngredient(i1, BigDecimal(1), AmountType.STUK)
+        recipeRepository.save(recipe)
+
+        delete(recipe.id!!).andExpect(status().isOk)
+
+        assertThat("Recipe is removed", recipeRepository.findById(recipe.id!!).isEmpty)
+        assertThat("Ingredient is still in the database", ingredientRepository.findById(i1.id!!).isPresent)
+    }
+
+    @Test
+    fun `delete returns 404 for missing recipe`() {
+        delete(99).andExpect(status().isNotFound)
+    }
 }
