@@ -1,4 +1,4 @@
-export default function EditRecipeIngredientsList({ ingredients, onIngredientChange }) {
+export default function EditRecipeIngredientsList({ ingredients, onIngredientChange, onDeleteIngredient }) {
 
     const amountTypeOptions = ["stuk", "portie", "g", "cup", "ml", "tsp", "tbsp"]
 
@@ -19,7 +19,7 @@ export default function EditRecipeIngredientsList({ ingredients, onIngredientCha
                             <option key={type} value={type}>{type}</option> 
                         ))}
                     </select>
-                    <button className="delete-column">x</button>
+                    <button className="delete-column" onClick={() => onDeleteIngredient(index)}>x</button>
                 </div>
             ))
             }

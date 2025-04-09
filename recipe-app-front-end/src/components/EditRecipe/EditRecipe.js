@@ -46,7 +46,23 @@ export default function EditRecipe({ recipe }) {
             }
         })
     }
-  
+
+    const handleDeleteIngredient = (indexToDelete) => {
+        setFormData(prev => {
+            console.log("Before deletion:", prev.ingredients);
+
+            const updatedIngredients = prev.ingredients.filter((ingredient, index) => index !== indexToDelete);
+
+            console.log("Deleting ingredient at index:", indexToDelete);
+            console.log("After deletion:", updatedIngredients);
+
+            return {
+                ...prev,
+                ingredients: updatedIngredients
+            };
+        });
+    };
+
     const handleSave = (e) => {
         e.preventDefault();
         console.log("Data saved! ",formData)
@@ -72,7 +88,7 @@ export default function EditRecipe({ recipe }) {
 
                 <div>
                     <h4>Ingredients:</h4>
-                    <EditRecipeIngriedientList recipe={recipe} ingredients={formData.ingredients} onIngredientChange={handleIngredientChange}/>
+                    <EditRecipeIngriedientList recipe={recipe} ingredients={formData.ingredients} onIngredientChange={handleIngredientChange} onDeleteIngredient={handleDeleteIngredient}/>
                 </div>
 
                 {recipe.note && (
