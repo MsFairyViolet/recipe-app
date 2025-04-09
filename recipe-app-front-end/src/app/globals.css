@@ -222,7 +222,6 @@ html {
 }
 
 input.page-title {
-  border: 2px solid var(--secondary-color);
   margin-bottom: 0.5rem;
 }
 
@@ -275,6 +274,19 @@ button.delete-column {
   height: 35px;
 }
 
+.add-button{
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+  display: flex;
+  margin-left: auto;
+  margin: 0.5rem;
+  height: 35px;
+  width: 10rem;
+  font-size: 1.1rem;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Common CSS Rules */
 
 .no-results-message {
@@ -290,7 +302,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 input[type="number"] {
-  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 /* Web Media Query */

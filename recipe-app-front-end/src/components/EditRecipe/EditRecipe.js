@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"
+import { v4 as uuidv4 } from 'uuid'
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
 
 export default function EditRecipe({ recipe }) {
@@ -18,9 +19,9 @@ export default function EditRecipe({ recipe }) {
         ingredients: recipe.ingredients
     })
 
-      useEffect(() => {
+    useEffect(() => {
         document.title = "Edit " + recipe.name
-      }, [recipe.name])
+    }, [recipe.name])
 
     const handleChange = (e) => {
         const { name, value, type } = e.target
@@ -29,6 +30,22 @@ export default function EditRecipe({ recipe }) {
             ...prev,
             [name]: type === "number" ? Number(value) : value
         }))
+    }
+
+    const handleIngredientAdd = () => {
+        setFormData(prev => ({
+            ...prev,
+            ingredients: [
+                ...prev.ingredients,
+                {
+                    id: uuidv4(),
+                    name: "",
+                    amount: "",
+                    amountType: "stuk"
+                }
+            ]
+        }))
+        console.log("Added new ingredient")
     }
 
     const handleIngredientChange = (index, field, value) => {
@@ -47,15 +64,9 @@ export default function EditRecipe({ recipe }) {
         })
     }
 
-    const handleDeleteIngredient = (indexToDelete) => {
+    const handleIngredientDelete = (indexToDelete) => {
         setFormData(prev => {
-            console.log("Before deletion:", prev.ingredients);
-
             const updatedIngredients = prev.ingredients.filter((ingredient, index) => index !== indexToDelete);
-
-            console.log("Deleting ingredient at index:", indexToDelete);
-            console.log("After deletion:", updatedIngredients);
-
             return {
                 ...prev,
                 ingredients: updatedIngredients
@@ -65,7 +76,7 @@ export default function EditRecipe({ recipe }) {
 
     const handleSave = (e) => {
         e.preventDefault();
-        console.log("Data saved! ",formData)
+        console.log("Data saved! ", formData)
         router.push(`/recipe/${recipe.id}`)
     }
     return (
@@ -88,7 +99,7 @@ export default function EditRecipe({ recipe }) {
 
                 <div>
                     <h4>Ingredients:</h4>
-                    <EditRecipeIngriedientList recipe={recipe} ingredients={formData.ingredients} onIngredientChange={handleIngredientChange} onDeleteIngredient={handleDeleteIngredient}/>
+                    <EditRecipeIngriedientList recipe={recipe} ingredients={formData.ingredients} onIngredientAdd={handleIngredientAdd} onIngredientChange={handleIngredientChange} onIngredientDelete={handleIngredientDelete} />
                 </div>
 
                 {recipe.note && (
@@ -98,8 +109,9 @@ export default function EditRecipe({ recipe }) {
                     </div>
                 )}
                 <div className="button-container">
-                <button className="recipe-button">Delete</button>
-                <button className="recipe-button" onClick={handleSave}>Save</button>
+                    <button className="recipe-button">Delete</button>
+                    <button className="recipe-button">Cancel</button>
+                    <button className="recipe-button" onClick={handleSave}>Save</button>
                 </div>
             </div >
         </div>

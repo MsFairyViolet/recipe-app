@@ -1,4 +1,4 @@
-export default function EditRecipeIngredientsList({ ingredients, onIngredientChange, onDeleteIngredient }) {
+export default function EditRecipeIngredientsList({ ingredients, onIngredientAdd, onIngredientChange, onIngredientDelete }) {
 
     const amountTypeOptions = ["stuk", "portie", "g", "cup", "ml", "tsp", "tbsp"]
 
@@ -12,17 +12,18 @@ export default function EditRecipeIngredientsList({ ingredients, onIngredientCha
             </div>
             {ingredients.map((ingredient, index) => (
                 <div className="row" key={ingredient.id}>
-                    <input className="name-column" type="text" value={ingredient.name} onChange={(e) => onIngredientChange(index, "name" , e.target.value) }></input>
-                    <input className="amount-column" type="number" value={ingredient.amount} onChange={(e) => onIngredientChange(index, "amount" , e.target.value) }></input>
-                    <select className="type-column" type="text" value={ingredient.amountType} onChange={(e) => onIngredientChange(index, "amountType" , e.target.value) }>
+                    <input className="name-column" type="text" value={ingredient.name} onChange={(e) => onIngredientChange(index, "name", e.target.value)}></input>
+                    <input className="amount-column" type="number" value={ingredient.amount} onChange={(e) => onIngredientChange(index, "amount", e.target.value)}></input>
+                    <select className="type-column" type="text" value={ingredient.amountType} onChange={(e) => onIngredientChange(index, "amountType", e.target.value)}>
                         {amountTypeOptions.map((type) => (
-                            <option key={type} value={type}>{type}</option> 
+                            <option key={type} value={type}>{type}</option>
                         ))}
                     </select>
-                    <button className="delete-column" onClick={() => onDeleteIngredient(index)}>x</button>
+                    <button className="delete-column" onClick={() => onIngredientDelete(index)}>x</button>
                 </div>
             ))
             }
+            <button className="add-button" onClick={() => onIngredientAdd()}>Add ingredient</button>
         </div >
 
     )
