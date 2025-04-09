@@ -43,7 +43,6 @@ export default function EditRecipe({ recipe }) {
             note: recipe.note,
             ingredients: recipe.ingredients
         })
-
         router.push(`/recipe/${recipe.id}`)
     }
 
@@ -60,7 +59,6 @@ export default function EditRecipe({ recipe }) {
                 }
             ]
         }))
-        console.log("Added new ingredient")
     }
 
     const handleIngredientChange = (index, field, value) => {
