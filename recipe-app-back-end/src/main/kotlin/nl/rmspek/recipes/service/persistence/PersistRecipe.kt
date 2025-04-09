@@ -5,7 +5,7 @@ import nl.rmspek.recipes.model.persistence.RecipeIngredient
 import nl.rmspek.recipes.model.persistence.RecipeIngredientKey
 import nl.rmspek.recipes.model.persistence.parseAmountType
 import nl.rmspek.recipes.model.rest.RecipeView
-import nl.rmspek.recipes.model.rest.toDb
+import nl.rmspek.recipes.model.rest.toDbIngredient
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
 
@@ -37,7 +37,7 @@ fun RecipeRepository.persistRecipe(
                 BigDecimal(recipeIngredientView.amount),
                 recipeIngredientView.parseAmountType(),
             ).also { recipeIngredient ->
-                val ingredient =  recipeIngredientView.ingredient.toDb()
+                val ingredient =  recipeIngredientView.toDbIngredient()
                 recipeIngredient.id = RecipeIngredientKey(recipe.id, ingredient.id)
                 recipeIngredient.recipe = recipe
                 recipeIngredient.ingredient = ingredient

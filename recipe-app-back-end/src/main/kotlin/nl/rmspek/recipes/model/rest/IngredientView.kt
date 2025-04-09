@@ -9,4 +9,4 @@ data class IngredientView(
 
 fun Ingredient.fromDb() = IngredientView(id, name)
 
-fun IngredientView.toDb() = Ingredient(name).also { it.id = id }
+fun IngredientView.toDb() = Ingredient(name).also { it.id = this.id }

@@ -98,7 +98,7 @@ class IngredientControllerIntegrationTest(
         id: Long,
         ingredientView: IngredientView
     ) = mockMvc.perform(
-        MockMvcRequestBuilders.put("/api/ingredient/$id")
+        MockMvcRequestBuilders.patch("/api/ingredient/$id")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .characterEncoding(Charsets.UTF_8)

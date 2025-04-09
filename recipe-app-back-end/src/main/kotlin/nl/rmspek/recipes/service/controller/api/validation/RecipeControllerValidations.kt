@@ -27,7 +27,7 @@ fun validatePersistRecipe(
         }
     }
 
-    if (!ingredientRepository.findAll().map { it.id }.containsAll(recipeView.ingredients.map { it.ingredient.id })) {
+    if (!ingredientRepository.findAll().map { it.id }.containsAll(recipeView.ingredients.map { it.id })) {
         throw ResponseStatusException(HttpStatus.NOT_FOUND, "Not all ingredients exist.")
     }
 }

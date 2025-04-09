@@ -97,7 +97,7 @@ class RecipeControllerIntegrationTest(
     @Test
     fun `create() saves a new recipe with ingredients`() {
         val ingredient = ingredientRepository.save(Ingredient("ingredient"))
-        val recipe = defaultRecipeView().also { it.ingredients.add(RecipeIngredientView(ingredient.fromDb(), 1L, "stuk")) }
+        val recipe = defaultRecipeView().also { it.ingredients.add(RecipeIngredientView(ingredient.id, ingredient.name, 1L, "stuk")) }
 
         createRecipe(recipe)
             .andExpect(status().isCreated)
@@ -113,7 +113,7 @@ class RecipeControllerIntegrationTest(
         createRecipe(
             defaultRecipeView().also {
                 it.ingredients.add(
-                    RecipeIngredientView(IngredientView(1L, "ingredient"), 1L, "stuk")
+                    RecipeIngredientView(null, "non-existent", 1L, "stuk")
                 )
             }
         ).andExpect(status().isNotFound)
@@ -126,10 +126,10 @@ class RecipeControllerIntegrationTest(
         createRecipe(
             defaultRecipeView().also {
                 it.ingredients.addAll(listOf(
-                    RecipeIngredientView(IngredientView(i2.id!! + 1L, "Missing ingredient 1"), 1L, "stuk"),
-                    RecipeIngredientView(IngredientView(i2.id!! + 2L, "Missing ingredient 2"), 1L, "stuk"),
-                    RecipeIngredientView(IngredientView(i1.id, "Ingredient 1"), 1L, "stuk"),
-                    RecipeIngredientView(IngredientView(i2.id, "Ingredient 2"), 1L, "stuk"),
+                    RecipeIngredientView(i2.id!! + 1L, "Missing ingredient 1", 1L, "stuk"),
+                    RecipeIngredientView(i2.id!! + 2L, "Missing ingredient 2", 1L, "stuk"),
+                    RecipeIngredientView(i1.id, "Ingredient 1", 1L, "stuk"),
+                    RecipeIngredientView(i2.id, "Ingredient 2", 1L, "stuk"),
                 ))
             }
         ).andExpect(status().isNotFound)
@@ -149,7 +149,7 @@ class RecipeControllerIntegrationTest(
         ).forEach { unit ->
             createRecipe(
                 defaultRecipeView(name = "recipe-$unit").also { recipeView ->
-                    recipeView.ingredients.add(RecipeIngredientView(IngredientView(i1.id!!, i1.name), 1, unit))
+                    recipeView.ingredients.add(RecipeIngredientView(i1.id!!, i1.name, 1, unit))
                 }
             ).andExpect(status().isCreated)
         }
@@ -160,7 +160,7 @@ class RecipeControllerIntegrationTest(
         val i1 = ingredientRepository.save(Ingredient("one"))
         createRecipe(
             defaultRecipeView().also { recipeView ->
-                recipeView.ingredients.add(RecipeIngredientView(IngredientView(i1.id!!, i1.name), 1, "blorgons"))
+                recipeView.ingredients.add(RecipeIngredientView(i1.id!!, i1.name, 1, "blorgons"))
             }
         ).andExpect(status().isUnprocessableEntity)
     }
@@ -183,7 +183,7 @@ class RecipeControllerIntegrationTest(
         updateRecipe(
             dbRecipe.id!!,
             dbRecipe.fromDb().also {
-                it.ingredients += RecipeIngredientView(i2.fromDb(), 10, "stuk")
+                it.ingredients += RecipeIngredientView(i2.id, i2.name, 10, "stuk")
             }
         ).andExpect(status().isOk)
 
@@ -239,7 +239,7 @@ class RecipeControllerIntegrationTest(
             dbRecipe.id!!,
             dbRecipe.fromDb().also {
                 it.ingredients.clear()
-                it.ingredients += RecipeIngredientView(i1.fromDb(), 14, "g")
+                it.ingredients += RecipeIngredientView(i1.id!!, i1.name, 14, "g")
             }
         ).andExpect(status().isOk)
 
@@ -304,7 +304,7 @@ class RecipeControllerIntegrationTest(
             defaultRecipeView(
                 recipe.id,
                 "recipe",
-            ).also { it.ingredients.add(RecipeIngredientView(IngredientView(1, "ingredient"), 5, "stuk")) }
+            ).also { it.ingredients.add(RecipeIngredientView(1, "ingredient", 5, "stuk")) }
         ).andExpect(status().isNotFound)
     }
 
