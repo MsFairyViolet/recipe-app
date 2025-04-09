@@ -17,11 +17,11 @@ enum class AmountType {
 val representationMap = mapOf(
     Pair("stuk", AmountType.STUK),
     Pair("portie", AmountType.PORTIE),
-    Pair("g", AmountType.GRAM),
+    Pair("gram", AmountType.GRAM),
     Pair("cup", AmountType.CUP),
     Pair("ml", AmountType.MILLILITER),
-    Pair("theelepel", AmountType.THEELEPEL),
-    Pair("eetlepel", AmountType.EETLEPEL)
+    Pair("tsp", AmountType.THEELEPEL),
+    Pair("tbsp", AmountType.EETLEPEL)
 )
 
 fun RecipeIngredientView.parseAmountType(): AmountType = representationMap[this.amountType]!!
