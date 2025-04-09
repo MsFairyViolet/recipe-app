@@ -32,6 +32,21 @@ export default function EditRecipe({ recipe }) {
         }))
     }
 
+    const handleCancel = () => {
+        setFormData({
+            name: recipe.name,
+            description: recipe.description,
+            externalRecipeLink: recipe.externalRecipeLink,
+            servingCalories: recipe.servingCalories,
+            servingCount: recipe.servingCount,
+            cuisine: recipe.cuisine,
+            note: recipe.note,
+            ingredients: recipe.ingredients
+        })
+
+        router.push(`/recipe/${recipe.id}`)
+    }
+
     const handleIngredientAdd = () => {
         setFormData(prev => ({
             ...prev,
@@ -99,7 +114,7 @@ export default function EditRecipe({ recipe }) {
 
                 <div>
                     <h4>Ingredients:</h4>
-                    <EditRecipeIngriedientList recipe={recipe} ingredients={formData.ingredients} onIngredientAdd={handleIngredientAdd} onIngredientChange={handleIngredientChange} onIngredientDelete={handleIngredientDelete} />
+                    <EditRecipeIngriedientList recipe={recipe} ingredients={formData.ingredients} onIngredientAdd={handleIngredientAdd} onIngredientChange={handleIngredientChange} onIngredientDelete={handleIngredientDelete}/>
                 </div>
 
                 {recipe.note && (
@@ -110,7 +125,7 @@ export default function EditRecipe({ recipe }) {
                 )}
                 <div className="button-container">
                     <button className="recipe-button">Delete</button>
-                    <button className="recipe-button">Cancel</button>
+                    <button className="recipe-button" onClick={handleCancel}>Cancel</button>
                     <button className="recipe-button" onClick={handleSave}>Save</button>
                 </div>
             </div >
