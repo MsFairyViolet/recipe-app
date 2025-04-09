@@ -39,7 +39,7 @@ export default function EditRecipe({ recipe }) {
                 ...updatedIngredients[index],
                 [field]: value
             }
-            console.log("Updated ingredients:", updatedIngredients); // Log the updated array
+            console.log("Updated ingredients:", updatedIngredients);
             return {
                 ...prev,
                 ingredients: updatedIngredients
