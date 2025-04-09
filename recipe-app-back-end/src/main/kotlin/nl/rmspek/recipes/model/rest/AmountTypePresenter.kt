@@ -5,9 +5,9 @@ import nl.rmspek.recipes.model.persistence.AmountType
 fun AmountType.present(): String = when (this) {
     AmountType.STUK -> "stuk"
     AmountType.PORTIE -> "portie"
-    AmountType.GRAM -> "g"
+    AmountType.GRAM -> "gram"
     AmountType.CUP -> "cup"
     AmountType.MILLILITER -> "ml"
-    AmountType.THEELEPEL -> "theelepel"
-    AmountType.EETLEPEL -> "eetlepel"
+    AmountType.THEELEPEL -> "tsp"
+    AmountType.EETLEPEL -> "tbsp"
 }
