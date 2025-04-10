@@ -33,16 +33,6 @@ export default function EditRecipe({ recipe }) {
     }
 
     const handleCancel = () => {
-        setFormData({
-            name: recipe.name,
-            description: recipe.description,
-            externalRecipeLink: recipe.externalRecipeLink,
-            servingCalories: recipe.servingCalories,
-            servingCount: recipe.servingCount,
-            cuisine: recipe.cuisine,
-            note: recipe.note,
-            ingredients: recipe.ingredients
-        })
         router.push(`/recipe/${recipe.id}`)
     }
 

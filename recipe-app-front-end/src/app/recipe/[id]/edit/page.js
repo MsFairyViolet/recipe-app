@@ -8,11 +8,32 @@ import recipesData from "@data/mockrecipes.json";
 export default function EditRecipeContainer() {
     const [recipe, setRecipe] = useState(null);
     const { id } = useParams();
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+
+    const fetchRecipe = () => {
+        fetch(`/api/recipe/${id}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch recipes")
+                }
+                return response.json()
+            })
+            .then((data) => {
+                console.log("Fetched recipes:", data);
+                setRecipe(data)
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.log("Error fetching recipes: ", error)
+                setError(error.message)
+                setLoading(false)
+            })
+    }
 
     useEffect(() => {
-        const foundRecipe = recipesData.find((recipe) => recipe.id === Number(id));
-        setRecipe(foundRecipe);
-    }, [id]);
+        fetchRecipe()
+    }, [])
 
     return (
         <>

@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import recipesData from "@data/mockrecipes.json"
 import RecipeListPage from "@components/RecipeList/RecipeListPage";
 
 export default function RecipeListContainer() {
@@ -9,12 +8,8 @@ export default function RecipeListContainer() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
-    // useEffect(() => {
-    //     setRecipes(recipesData)
-    // }, [])
-
     const fetchRecipes = () => {
-        fetch("api/recipe")
+        fetch("/api/recipe")
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to fetch recipes")
@@ -35,10 +30,6 @@ export default function RecipeListContainer() {
     useEffect(() => {
         fetchRecipes()
     }, [])
-    
-    // useEffect(() => {
-    //     console.log(recipes[0])
-    // })
 
     return (
             <RecipeListPage recipes={recipes} />
