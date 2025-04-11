@@ -52,14 +52,12 @@ export default function EditRecipe({ recipe }) {
     }
 
     const handleIngredientChange = (index, field, value) => {
-        console.log(`Updating ingredient ${index}, field: ${field}, value: ${value}`);
         setFormData(prev => {
             const updatedIngredients = [...prev.ingredients]
             updatedIngredients[index] = {
                 ...updatedIngredients[index],
                 [field]: value
             }
-            console.log("Updated ingredients:", updatedIngredients);
             return {
                 ...prev,
                 ingredients: updatedIngredients
@@ -79,7 +77,6 @@ export default function EditRecipe({ recipe }) {
 
     const handleSave = (e) => {
         e.preventDefault();
-        console.log("Data saved! ", formData)
         router.push(`/recipe/${recipe.id}`)
     }
     return (
