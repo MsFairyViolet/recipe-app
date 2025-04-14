@@ -19,7 +19,6 @@ export default function EditRecipeContainer() {
                 return response.json()
             })
             .then((data) => {
-                console.log("Fetched recipes:", data);
                 setRecipe(data)
                 setLoading(false)
             })

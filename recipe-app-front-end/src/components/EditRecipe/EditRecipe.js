@@ -9,6 +9,7 @@ export default function EditRecipe({ recipe }) {
 
     const router = useRouter();
     const [formData, setFormData] = useState({
+        id: recipe.id,
         name: recipe.name,
         description: recipe.description,
         externalRecipeLink: recipe.externalRecipeLink,
@@ -75,10 +76,27 @@ export default function EditRecipe({ recipe }) {
         });
     };
 
-    const handleSave = (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
-        router.push(`/recipe/${recipe.id}`)
+
+        try {
+            const res = await fetch(`/api/recipe/${recipe.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+            if (!res.ok) {
+                throw new Error("Failed to update recipe")
+            }
+            router.push(`/recipe/${recipe.id}`)
+        }
+        catch (err) {
+            console.error(err)
+        }
     }
+
     return (
         <div className="edit-page">
             <input className="page-title" type="text" name="name" value={formData.name} onChange={handleChange}></input>
@@ -99,7 +117,7 @@ export default function EditRecipe({ recipe }) {
 
                 <div>
                     <h4>Ingredients:</h4>
-                    <EditRecipeIngriedientList recipe={recipe} ingredients={formData.ingredients} onIngredientAdd={handleIngredientAdd} onIngredientChange={handleIngredientChange} onIngredientDelete={handleIngredientDelete}/>
+                    <EditRecipeIngriedientList recipe={recipe} ingredients={formData.ingredients} onIngredientAdd={handleIngredientAdd} onIngredientChange={handleIngredientChange} onIngredientDelete={handleIngredientDelete} />
                 </div>
 
                 {recipe.note && (
