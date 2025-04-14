@@ -19,6 +19,7 @@ class Recipe(
     var id: Long? = null
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OrderBy("ingredient.id")
     val ingredients: MutableSet<RecipeIngredient> = mutableSetOf()
 }
 
