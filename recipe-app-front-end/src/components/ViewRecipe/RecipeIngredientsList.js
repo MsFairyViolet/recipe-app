@@ -1,4 +1,5 @@
-export default function RecipeIngredientsList({ recipe }) {
+export default function RecipeIngredientsList({ ingredients }) {
+
     return (
 
         <div className="ingredients-list">
@@ -7,7 +8,7 @@ export default function RecipeIngredientsList({ recipe }) {
                 <span className="amount-column">Amount</span>
                 <span className="type-column">Type</span>
             </div>
-            {recipe.ingredients.map((ingredient, index) => (
+            {ingredients.map((ingredient, index) => (
                 <div className="row" key={`${ingredient.name}-${index}`}>
                     <span className="name-column">{ingredient.name}</span>
                     <span className="amount-column">{ingredient.amount}</span>

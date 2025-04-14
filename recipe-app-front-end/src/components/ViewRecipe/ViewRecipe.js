@@ -35,7 +35,7 @@ export default function ViewRecipe({ recipe }) {
 
         <div>
           <h4>Ingredients:</h4>
-          <span><RecipeIngredientsList recipe={recipe} /></span>
+          <span><RecipeIngredientsList ingredients={recipe.ingredients} /></span>
         </div>
 
         {recipe.note && (
