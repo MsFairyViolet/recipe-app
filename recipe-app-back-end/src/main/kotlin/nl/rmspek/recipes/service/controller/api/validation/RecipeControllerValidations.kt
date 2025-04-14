@@ -1,6 +1,5 @@
 package nl.rmspek.recipes.service.controller.api.validation
 
-import nl.rmspek.recipes.model.persistence.parseAmountType
 import nl.rmspek.recipes.model.persistence.representationMap
 import nl.rmspek.recipes.model.rest.RecipeView
 import nl.rmspek.recipes.service.persistence.IngredientRepository
@@ -13,7 +12,7 @@ fun validatePersistRecipe(
     recipeRepository: RecipeRepository,
     ingredientRepository: IngredientRepository
 ) {
-    val recipeByName = recipeRepository.recipeByName(recipeView.name)
+    val recipeByName = recipeRepository.findFirstByName(recipeView.name)
     if (recipeByName != null && recipeByName.id != recipeView.id) {
         throw ResponseStatusException(
             HttpStatus.UNPROCESSABLE_ENTITY,

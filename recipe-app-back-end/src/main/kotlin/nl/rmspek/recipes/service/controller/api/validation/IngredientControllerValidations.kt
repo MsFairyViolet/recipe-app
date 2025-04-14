@@ -10,7 +10,7 @@ fun validatePersistIngredient(
     ingredientView: IngredientView,
     ingredientRepository: IngredientRepository
 ) {
-    if (ingredientRepository.ingredientByName(ingredientView.name) != null) {
+    if (ingredientRepository.findFirstByName(ingredientView.name) != null) {
         throw ResponseStatusException(
             HttpStatus.UNPROCESSABLE_ENTITY,
             "Recipe with name ${ingredientView.name} already exists"
