@@ -141,11 +141,11 @@ class RecipeControllerIntegrationTest(
         listOf(
             "stuk",
             "portie",
-            "g",
+            "gram",
             "cup",
             "ml",
-            "theelepel",
-            "eetlepel",
+            "tsp",
+            "tbsp",
         ).forEach { unit ->
             createRecipe(
                 defaultRecipeView(name = "recipe-$unit").also { recipeView ->
@@ -239,7 +239,7 @@ class RecipeControllerIntegrationTest(
             dbRecipe.id!!,
             dbRecipe.fromDb().also {
                 it.ingredients.clear()
-                it.ingredients += RecipeIngredientView(i1.id!!, i1.name, 14, "g")
+                it.ingredients += RecipeIngredientView(i1.id!!, i1.name, 14, "gram")
             }
         ).andExpect(status().isOk)
 
