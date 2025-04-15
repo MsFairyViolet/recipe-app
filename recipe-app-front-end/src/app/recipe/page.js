@@ -10,21 +10,21 @@ export default function RecipeListContainer() {
 
     const fetchRecipes = () => {
         fetch("/api/recipe")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Failed to fetch recipes")
-            }
-            return response.json()
-        })
-        .then((data) => {
-            setRecipes(data)
-            setLoading(false)
-        })
-        .catch((error) => {
-            console.log("Error fetching recipes: ", error)
-            setError(error.message)
-            setLoading(false)
-        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch recipes")
+                }
+                return response.json()
+            })
+            .then((data) => {
+                setRecipes(data)
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.log("Error fetching recipes: ", error)
+                setError(error.message)
+                setLoading(false)
+            })
     }
 
     useEffect(() => {
@@ -32,6 +32,6 @@ export default function RecipeListContainer() {
     }, [])
 
     return (
-            <RecipeListPage recipes={recipes} />
+        <RecipeListPage recipes={recipes} />
     );
 }
