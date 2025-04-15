@@ -2,17 +2,19 @@ import { useState } from "react"
 import SearchBar from "@common/SearchBar"
 import RecipeList from "./RecipeList"
 
-export default function RecipeListPage({recipes}) {
+export default function RecipeListPage({ recipes }) {
     const [searchQuery, setSearchQuery] = useState("")
 
-return (
-    <>
-    <h1 className="page-title">Recipe List Page</h1>
+    return (
+        <>
+            <div className="page-header">
+                <h1 className="page-title">Recipe List Page</h1>
+            </div>
 
-    <div className="recipe-list-container">
-        <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={"Search for recipe..."}/>
-        <RecipeList recipes={recipes} searchQuery={searchQuery}/>
-    </div>
-    </>
+            <div className="recipe-list-container">
+                <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={"Search for recipe..."} />
+                <RecipeList recipes={recipes} searchQuery={searchQuery} />
+            </div>
+        </>
     )
 }
