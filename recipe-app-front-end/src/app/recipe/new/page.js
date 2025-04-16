@@ -8,8 +8,8 @@ export default function NewRecipePage() {
       name: "",
       description: "",
       externalRecipeLink: "",
-      servingCalories: undefined,
-      servingCount: undefined,
+      servingCalories: "",
+      servingCount: "",
       cuisine: "",
       note: "",
       ingredients: []
