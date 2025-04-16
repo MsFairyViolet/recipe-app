@@ -114,39 +114,56 @@ export default function EditRecipe({ recipe, isNew = false }) {
         }
     }
 
-    return (
-        <form className="edit-page" onSubmit={isNew ? handleCreate : handleUpdate}>
-            <input className="page-title" placeholder="Recipe name*" required={true} autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
+    const handleDelete = async () => {
+        try {
+            const res = await fetch(`/api/recipe/${recipe.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            if (!res.ok) {
+                throw new Error("Failed to delete recipe");
+            }
+            router.push("/recipe");
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
-            <div className="recipe-card">
-                <div className="top-details">
-                    <div className="big-details">
-                        <textarea className="description-details" placeholder="Add a description" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
-                        <textarea className="url-details" type="text" placeholder="Add a reference link" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
-                    </div>
+return (
+    <form className="edit-page" onSubmit={isNew ? handleCreate : handleUpdate}>
+        <input className="page-title" placeholder="Recipe name*" required={true} autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
 
-                    <div className="small-details">
-                        <input name="servingCalories" type="number" placeholder="Calories*" required={true} value={formData.servingCalories} onChange={handleChange}></input>
-                        <input name="servingCount" type="number" placeholder="Servings*" required={true} value={formData.servingCount} onChange={handleChange}></input>
-                        <input name="cuisine" type="text" placeholder="Cuisine*" required={true} value={formData.cuisine} onChange={handleChange}></input>
-                    </div>
+        <div className="recipe-card">
+            <div className="top-details">
+                <div className="big-details">
+                    <textarea className="description-details" placeholder="Add a description" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
+                    <textarea className="url-details" type="text" placeholder="Add a reference link" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
                 </div>
 
-                <div>
-                    <h4>Ingredients:</h4>
-                    <EditRecipeIngriedientList ingredients={formData.ingredients} onIngredientAdd={handleIngredientAdd} onIngredientChange={handleIngredientChange} onIngredientDelete={handleIngredientDelete} />
+                <div className="small-details">
+                    <input name="servingCalories" type="number" placeholder="Calories*" required={true} value={formData.servingCalories} onChange={handleChange}></input>
+                    <input name="servingCount" type="number" placeholder="Servings*" required={true} value={formData.servingCount} onChange={handleChange}></input>
+                    <input name="cuisine" type="text" placeholder="Cuisine*" required={true} value={formData.cuisine} onChange={handleChange}></input>
                 </div>
+            </div>
 
-                <div>
-                    <h4>Notes:</h4>
-                    <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
-                </div>
-                <div className="button-container">
-                    <button className="recipe-button" type="button">Delete</button>
-                    <button className="recipe-button" type="button" onClick={handleCancel}>Cancel</button>
-                    <button className="recipe-button" type="submit">Save</button>
-                </div>
-            </div >
-        </form>
-    );
+            <div>
+                <h4>Ingredients:</h4>
+                <EditRecipeIngriedientList ingredients={formData.ingredients} onIngredientAdd={handleIngredientAdd} onIngredientChange={handleIngredientChange} onIngredientDelete={handleIngredientDelete} />
+            </div>
+
+            <div>
+                <h4>Notes:</h4>
+                <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
+            </div>
+            <div className="button-container">
+                <button className="recipe-button" type="button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
+                <button className="recipe-button" type="button" onClick={handleCancel}>Cancel</button>
+                <button className="recipe-button" type="submit">Save</button>
+            </div>
+        </div >
+    </form>
+);
 }
