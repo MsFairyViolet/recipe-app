@@ -116,7 +116,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
     return (
         <form className="edit-page" onSubmit={isNew ? handleCreate : handleUpdate}>
-            <input className="page-title" placeholder="Recipe name" required="true" autoFocus="true" type="text" name="name" value={formData.name} onChange={handleChange}></input>
+            <input className="page-title" placeholder="Recipe name*" required={true} autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
 
             <div className="recipe-card">
                 <div className="top-details">
@@ -126,9 +126,9 @@ export default function EditRecipe({ recipe, isNew = false }) {
                     </div>
 
                     <div className="small-details">
-                        <input name="servingCalories" type="number" placeholder="Calories" required="true" value={formData.servingCalories} onChange={handleChange}></input>
-                        <input name="servingCount" type="number" placeholder="Servings" required="true" value={formData.servingCount} onChange={handleChange}></input>
-                        <input name="cuisine" type="text" placeholder="Cuisine" required="true" value={formData.cuisine} onChange={handleChange}></input>
+                        <input name="servingCalories" type="number" placeholder="Calories*" required={true} value={formData.servingCalories} onChange={handleChange}></input>
+                        <input name="servingCount" type="number" placeholder="Servings*" required={true} value={formData.servingCount} onChange={handleChange}></input>
+                        <input name="cuisine" type="text" placeholder="Cuisine*" required={true} value={formData.cuisine} onChange={handleChange}></input>
                     </div>
                 </div>
 
