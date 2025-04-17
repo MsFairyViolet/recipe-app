@@ -1,3 +1,4 @@
+import { ConfirmProvider } from "@components/common/ConfirmProvider";
 import "./globals.css";
 
 export const metadata = {
@@ -11,7 +12,9 @@ export default function RootLayout({ children }) {
       <body>
         <div className="page-container">
           <main>
+            <ConfirmProvider>
             {children}
+            </ConfirmProvider>
           </main>
         </div>
       </body>

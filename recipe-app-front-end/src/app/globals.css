@@ -306,6 +306,46 @@ button.delete-column {
   align-items: center;
 }
 
+/* Confirmation Window */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.overlay-content {
+  position: relative;
+  background: var(--background-color);
+  padding: 2rem;
+  border-radius: 15px;
+  width: 80%;
+  height: 15%;
+  max-width: 350px;
+  text-align: center;
+}
+
+.overlay-buttons{
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.overlay-buttons button{
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+  background-color: var(--background-color);
+  width: 45%;
+  height: 3rem;
+}
+
 /* Common CSS Rules */
 
 .no-results-message {
