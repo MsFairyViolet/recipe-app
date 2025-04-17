@@ -77,6 +77,20 @@ export default function EditRecipe({ recipe, isNew = false }) {
         });
     };
 
+    const handleAllIngredientsDelete = async () => {
+        const confirmed = await confirm("Do you want to delete all ingredients for", recipe.name)
+
+        if (confirmed) {
+            setFormData(prev => {
+                const updatedIngredients = []
+                return {
+                    ...prev,
+                    ingredients: updatedIngredients
+                };
+            });
+        }
+    };
+
     const handleCreate = async (e) => {
         e.preventDefault();
         try {
@@ -156,7 +170,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                 <div>
                     <h4>Ingredients:</h4>
-                    <EditRecipeIngriedientList ingredients={formData.ingredients} onIngredientAdd={handleIngredientAdd} onIngredientChange={handleIngredientChange} onIngredientDelete={handleIngredientDelete} />
+                    <EditRecipeIngriedientList ingredients={formData.ingredients} onIngredientAdd={handleIngredientAdd} onIngredientChange={handleIngredientChange} onIngredientDelete={handleIngredientDelete} onAllIngredientsDelete={handleAllIngredientsDelete} />
                 </div>
 
                 <div>

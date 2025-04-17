@@ -273,7 +273,7 @@ textarea.note-details {
 
 .button-container {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   flex-direction: row;
   width: 100%;
   gap: 0.5rem;
@@ -293,14 +293,25 @@ button.delete-column {
   height: 35px;
 }
 
-.add-button {
+.add-ingredient-button {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
   display: flex;
-  margin-left: auto;
   margin: 0.5rem;
   height: 35px;
   width: 10rem;
+  font-size: 1.1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-all-ingredients-button{
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+  display: flex;
+  margin: 0.5rem;
+  height: 35px;
+  width: 12rem;
   font-size: 1.1rem;
   justify-content: center;
   align-items: center;
@@ -328,6 +339,7 @@ button.delete-column {
   width: 80%;
   height: 15%;
   max-width: 350px;
+  min-height: 170px;
   text-align: center;
 }
 

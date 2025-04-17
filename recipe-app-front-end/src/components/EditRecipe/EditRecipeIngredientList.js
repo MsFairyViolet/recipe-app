@@ -1,4 +1,4 @@
-export default function EditRecipeIngredientsList({ ingredients, onIngredientAdd, onIngredientChange, onIngredientDelete }) {
+export default function EditRecipeIngredientsList({ ingredients, onIngredientAdd, onIngredientChange, onIngredientDelete, onAllIngredientsDelete}) {
 
     const amountTypeOptions = ["stuk", "portie", "g", "cup", "ml", "tsp", "tbsp"]
 
@@ -23,7 +23,10 @@ export default function EditRecipeIngredientsList({ ingredients, onIngredientAdd
                 </div>
             ))
             }
-            <button className="add-button" onClick={() => onIngredientAdd()}>Add ingredient</button>
+            <div className="button-container">
+            <button className="add-ingredient-button" onClick={() => onIngredientAdd()}>Add ingredient</button>
+            <button className="delete-all-ingredients-button" type="button" onClick={() => onAllIngredientsDelete()}>Delete all ingredients</button>
+            </div>
         </div >
 
     )
