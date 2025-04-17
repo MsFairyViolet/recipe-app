@@ -6,14 +6,14 @@ import nl.rmspek.recipes.model.persistence.RecipeIngredient
 data class RecipeIngredientView(
     val id: Long?,
     val name: String,
-    val amount: Long,
+    val amount: String,
     val amountType: String
 )
 
 fun RecipeIngredient.fromDb() = RecipeIngredientView(
     ingredient.id,
     ingredient.name,
-    amountValue.toLong(),
+    amountValue.toPlainString(),
     amountType.present()
 )
 
