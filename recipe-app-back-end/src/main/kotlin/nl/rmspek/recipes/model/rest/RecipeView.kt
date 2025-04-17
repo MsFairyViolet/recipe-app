@@ -18,9 +18,10 @@ fun Recipe.fromDb() = RecipeView(
     id,
     name,
     description,
-    servingCount,
     servingCalories,
+    servingCount,
     cuisine,
     note,
     externalRecipeLink,
-    ingredients.map { it.fromDb() }.toMutableSet())
+    ingredients.map { it.fromDb() }.toMutableSet()
+)
