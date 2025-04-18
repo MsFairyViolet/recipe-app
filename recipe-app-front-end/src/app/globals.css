@@ -76,6 +76,16 @@ html {
 
 /* Lists */
 
+.list {
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+  height: 100%;
+  max-height: 700px;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  overflow-y: auto;
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -101,58 +111,42 @@ html {
   border-bottom: 2px solid var(--primary-color);
 }
 
-.column-title .delete-column {
+.column-title .fourth-column {
   text-align: center;
   font-size: 1rem;
 }
 
-.name-column {
+.first-column {
   /* border: 1px solid red; */
-  width: calc(47% - 0.5rem);
+  flex: 1.5;
+  margin-left: 0.5rem;
 }
 
-.calorie-column {
+.second-column {
   /* border: 1px solid blue; */
-  width: calc(16% - 0.5rem);
+  flex: 0.5;
 }
 
-.cuisine-column {
+.third-column {
   /* border: 1px solid green; */
-  width: calc(32% - 0.5rem);
+  flex: 1;
 }
 
-.amount-column {
-  /* border: 1px solid purple; */
-  width: calc(23% - 0.5rem)
-}
-
-.type-column {
-  /* border: 1px solid orange; */
-  width: calc(23% - 0.5rem);
-}
-
-.delete-column {
+.fourth-column {
   /* border: 1px solid grey; */
-  width: calc(10% - 0.5rem);
+ flex: 0.3;
+ text-align: center;
 }
 
-/* Recipe List Page */
+/* Pages */
 
-.recipe-list-container {
+.recipes-container,
+.ingredients-container {
   display: flex;
   flex-direction: column;
   height: 100%;
   gap: 0.5rem;
   font-size: 1em;
-}
-
-.recipe-list {
-  border: 2px solid var(--primary-color);
-  border-radius: 5px;
-  height: 100%;
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
-  overflow-y: auto;
 }
 
 /* RecipeView */
@@ -244,16 +238,21 @@ input.page-title {
   margin-bottom: 0.5rem;
 }
 
-.edit-page .name-column {
-  width: calc(47% - 0.5rem);
+.edit-page .first-column {
+flex: 2;
 }
 
-.edit-page .amount-column {
-  width: calc(21% - 0.5rem)
+.edit-page .second-column {
+flex: 1;
 }
 
-.edit-page .type-column {
-  width: calc(21% - 0.5rem);
+.edit-page .third-column {
+  flex: 1;
+}
+.edit-page .fourth-column{
+  flex: 0.3;
+  margin-right: 0.5rem;
+
 }
 
 .recipe-card input,
@@ -279,7 +278,8 @@ textarea.note-details {
   gap: 0.5rem;
 }
 
-.recipe-button {
+.recipe-button,
+.ingredient-button {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
   background-color: var(--background-color);
@@ -287,7 +287,7 @@ textarea.note-details {
   height: 3rem;
 }
 
-button.delete-column {
+button.fourth-column {
   border: 2px solid var(--secondary-color);
   border-radius: 5px;
   height: 35px;
@@ -394,7 +394,7 @@ input[type="number"] {
     font-size: 1rem;
   }
 
-  .recipe-list-container {
+  .recipes-container {
     font-size: 1.2em;
   }
 

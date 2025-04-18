@@ -6,12 +6,14 @@ export default function IngredientsList({ ingredients, searchQuery}) {
    return (
       <div className="list">
          <div className="row column-title">
-            <span className="name-column">Name</span>
+            <span className="first-column">Name</span>
+            <span className="second-column">Used in</span>
          </div>
          {ingredients.length > 0 ? (
             filteredIngredients.map((ingredient) => (
                <div className="row" key={ingredient.id}>
-                  <span className="name-column">{ingredient.name}</span>
+                  <span className="first-column">{ingredient.name}</span>
+                  <span className="second-column">recipes here</span>
                </div>
             ))
          ) : (

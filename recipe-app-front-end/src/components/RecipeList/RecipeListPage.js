@@ -17,7 +17,7 @@ export default function RecipeListPage({ recipes }) {
                 <h1 className="page-title">Recipe List Page</h1>
             </div>
 
-            <div className="recipe-list-container">
+            <div className="recipes-container">
                 <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={"Search for recipe..."} />
                 <RecipeList recipes={recipes} searchQuery={searchQuery} />
                 <button className="recipe-button" onClick={handleRecipeAdd}>Add new recipe</button>
