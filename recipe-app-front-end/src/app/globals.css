@@ -136,6 +136,7 @@ html {
   /* border: 1px solid grey; */
  flex: 0.3;
  text-align: center;
+ margin-right: 0.5rem;
 }
 
 /* Pages */
@@ -213,7 +214,7 @@ html {
   padding: 0.5rem;
 }
 
-/* Edit Page */
+/* Edit Recipe Page */
 
 .edit-page input,
 .edit-page textarea,
@@ -251,8 +252,6 @@ flex: 1;
 }
 .edit-page .fourth-column{
   flex: 0.3;
-  margin-right: 0.5rem;
-
 }
 
 .recipe-card input,
@@ -287,6 +286,7 @@ textarea.note-details {
   height: 3rem;
 }
 
+button.third-column,
 button.fourth-column {
   border: 2px solid var(--secondary-color);
   border-radius: 5px;
@@ -315,6 +315,15 @@ button.fourth-column {
   font-size: 1.1rem;
   justify-content: center;
   align-items: center;
+}
+
+/* All Ingredients Page */
+.ingredients-page .first-column{
+  flex: 0.7;
+}
+.ingredients-page .third-column,
+.ingredients-page .fourth-column{
+  flex: 0.3;
 }
 
 /* Confirmation Window */
