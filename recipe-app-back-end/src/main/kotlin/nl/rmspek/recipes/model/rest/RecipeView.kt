@@ -11,7 +11,7 @@ data class RecipeView(
     val cuisine: String,
     val note: String,
     val externalRecipeLink: String,
-    val ingredients: MutableSet<RecipeIngredientView>
+    val ingredients: MutableList<RecipeIngredientView>
 )
 
 fun Recipe.fromDb() = RecipeView(
@@ -23,5 +23,5 @@ fun Recipe.fromDb() = RecipeView(
     cuisine,
     note,
     externalRecipeLink,
-    ingredients.map { it.fromDb() }.toMutableSet()
+    ingredients.map { it.fromDb() }.toMutableList()
 )

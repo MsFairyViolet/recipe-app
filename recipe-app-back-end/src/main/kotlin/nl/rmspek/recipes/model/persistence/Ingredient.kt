@@ -11,4 +11,7 @@ class Ingredient(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+
+    @OneToMany(mappedBy = "ingredient")
+    val recipeIngredients: List<RecipeIngredient> = emptyList()
 }
