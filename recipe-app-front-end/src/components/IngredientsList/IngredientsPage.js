@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation"
 import IngredientsList from "./IngredientsList";
 import SearchBar from "@components/common/SearchBar";
 import { useConfirm } from "@components/common/ConfirmProvider";
 
-export default function IngredientsPage({ ingredients }) {
+export default function IngredientsPage({ ingredients, fetchIngredients }) {
     const [searchQuery, setSearchQuery] = useState("")
     const confirm = useConfirm();
+    const router = useRouter();
 
     const handleIngredientAdd = () => {
         return
@@ -23,12 +25,12 @@ export default function IngredientsPage({ ingredients }) {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ name: newName })
+                    body: JSON.stringify({ ...ingredient, name: newName })
                 })
                 if (!response.ok) {
                     throw new Error("Failed to update ingredient");
                 }
-                //How to update the UI? Reload from backend, or update in frontend?
+                fetchIngredients()
             }
             catch (error) {
                 console.error("Error updating ingredient:", error);

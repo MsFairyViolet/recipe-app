@@ -57,7 +57,7 @@ export function ConfirmProvider({ children }) {
                   <p>{message} <strong>{value}</strong>?</p>
 
                   {hasInput && (
-                     <input type="text" value={inputValue} autofocus onChange={(e) => setInputValue(e.target.value)}/>
+                     <input type="text" value={inputValue} autoFocus onChange={(e) => setInputValue(e.target.value)}/>
                   )}
                   <div className="overlay-buttons">
                      <button onClick={handleCancel}>Cancel</button>
