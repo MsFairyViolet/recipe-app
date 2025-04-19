@@ -165,6 +165,17 @@ class RecipeControllerIntegrationTest(
         ).andExpect(status().isUnprocessableEntity)
     }
 
+    @Test
+    fun `create should be able to save recipeingredients with amounts between 0 and 1`() {
+        val i1 = ingredientRepository.save(Ingredient("one"))
+        createRecipe(
+            defaultRecipeView().also {  recipe ->
+                recipe.ingredients.add(RecipeIngredientView(i1.id!!, i1.name, "0.75", "gram"))
+            }
+        ).andExpect(status().isCreated)
+            .andExpect(jsonPath("$.ingredients[0].amount", `is`("0.75")))
+    }
+
     private fun updateRecipe(id: Long, recipe: RecipeView) = mockMvc.perform(
         MockMvcRequestBuilders.patch("/api/recipe/${id}")
             .accept(MediaType.APPLICATION_JSON)
