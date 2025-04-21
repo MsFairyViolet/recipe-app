@@ -27,6 +27,9 @@ class IngredientController(
     @GetMapping
     fun all(): List<IngredientView> = ingredientRepository.findAll().map(Ingredient::fromDb)
 
+    @GetMapping("{id}")
+    fun getOne(@PathVariable id: Long): IngredientView = ingredientRepository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }.fromDb()
+
     @PostMapping
     fun create(
         @RequestBody ingredientView: IngredientView,
