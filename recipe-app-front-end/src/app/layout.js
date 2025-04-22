@@ -1,4 +1,6 @@
+
 import { ConfirmProvider } from "@components/common/ConfirmProvider";
+import NavBar from "@components/common/NavBar"
 import "./globals.css";
 
 export const metadata = {
@@ -10,10 +12,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <NavBar />
         <div className="page-container">
           <main>
             <ConfirmProvider>
-            {children}
+              {children}
             </ConfirmProvider>
           </main>
         </div>

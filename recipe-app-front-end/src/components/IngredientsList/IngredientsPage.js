@@ -63,7 +63,7 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
     return (
         <>
             <div className="page-header">
-                <h1 className="page-title">All Ingredients Page</h1>
+                <h1 className="page-title">All Ingredients</h1>
             </div>
             <div className="ingredients-container">
                 <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={"Search for ingredient..."} />

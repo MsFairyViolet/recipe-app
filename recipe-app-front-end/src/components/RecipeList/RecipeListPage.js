@@ -14,7 +14,7 @@ export default function RecipeListPage({ recipes }) {
     return (
         <>
             <div className="page-header">
-                <h1 className="page-title">Recipe List Page</h1>
+                <h1 className="page-title">Recipes</h1>
             </div>
 
             <div className="recipes-container">
