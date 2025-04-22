@@ -59,6 +59,27 @@ class IngredientControllerIntegrationTest(
                 MockMvcResultMatchers.jsonPath("$.*.id").value(IterableNumberTypeAgnosticMatcher(listOf(i1.id, i2.id))))
     }
 
+
+    private fun getOne(id: Long) = mockMvc.perform(
+        MockMvcRequestBuilders
+            .get("/api/ingredient/${id}")
+            .accept(MediaType.APPLICATION_JSON)
+    )
+
+    @Test
+    fun `getOne() returns one ingredient`() {
+        val ingredient = ingredientRepository.save(Ingredient("testIngredient"))
+
+        getOne(ingredient.id!!)
+            .andExpect(status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id", SingleNumberTypeAgnosticMatcher(ingredient.id)))
+    }
+
+    @Test
+    fun `getOne() returns not found when there is no ingredient for that id`() {
+        getOne(99).andExpect(status().isNotFound)
+    }
+
     private fun createIngredient(ingredient: IngredientView) = mockMvc.perform(
         MockMvcRequestBuilders.post("/api/ingredient")
             .accept(MediaType.APPLICATION_JSON)
