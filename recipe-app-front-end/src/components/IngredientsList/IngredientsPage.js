@@ -54,6 +54,7 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
                 console.log("Deleted");
             } else {
                 console.error("Failed to delete");
+                alert("You can't delete an ingredient globally if it is being used in recipes.")
                 //Show list of where ingredient is used and provide option to remove it there
             }
         }
