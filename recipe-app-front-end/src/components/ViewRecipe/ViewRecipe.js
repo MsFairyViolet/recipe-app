@@ -11,19 +11,14 @@ export default function ViewRecipe({ recipe }) {
     router.push(`/recipe/${recipe.id}/edit`)
   }
 
-  const handleHome = () => {
-    router.push(`/recipe`)
-  }
-
   useEffect(() => {
     document.title = recipe.name
   }, [recipe.name])
 
   return (
     <>
-    <div className="page-header">
-    <button className="home-button" onClick={handleHome}>⌂</button>
-      <h1 className="page-title">{recipe.name}</h1>
+      <div className="page-header">
+        <h1 className="page-title">{recipe.name}</h1>
       </div>
       <div className="recipe-card">
         <div className="top-details">
