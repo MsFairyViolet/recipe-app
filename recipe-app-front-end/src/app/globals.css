@@ -50,20 +50,9 @@ html {
 }
 
 .page-title {
-  font-size: 1.5em;
+  font-size: 1.3em;
   width: 76%;
   color: var(--primary-color);
-}
-
-.home-button {
-  width: 3rem;
-  height: 3rem;
-  font-size: 2rem;
-  font-weight: bold;
-  color: var(--primary-color);
-  padding: 0.1rem;
-  border: 2px solid var(--primary-color);
-  border-radius: 5px;
 }
 
 .search-bar {
@@ -184,7 +173,6 @@ nav {
 
 .column-title .fourth-column {
   text-align: center;
-  font-size: 1rem;
 }
 
 .first-column {
@@ -218,7 +206,7 @@ nav {
   flex-direction: column;
   height: 100%;
   gap: 0.5rem;
-  font-size: 1em;
+  font-size: 0.9em;
 }
 
 /* RecipeView */
@@ -391,12 +379,12 @@ button.fourth-column {
 
 /* All Ingredients Page */
 .ingredients-page .first-column {
-  flex: 0.7;
+  flex: 0.4;
 }
 
 .ingredients-page .third-column,
 .ingredients-page .fourth-column {
-  flex: 0.3;
+  flex: 0.1;
 }
 
 /* Confirmation Window */
@@ -419,7 +407,7 @@ button.fourth-column {
   padding: 2rem;
   border-radius: 15px;
   width: 80%;
-  height: 15%;
+  min-height: 15%;
   max-width: 350px;
   min-height: 170px;
   text-align: center;
@@ -440,12 +428,42 @@ button.fourth-column {
   height: 3rem;
 }
 
+.overlay-close-button{
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  font-size: 1.5em;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.overlay ul{
+  margin-top: 1rem;
+  list-style: none;
+}
+
 /* Common CSS Rules */
 
 .no-results-message {
   text-align: center;
   color: gray;
   margin-top: 10px;
+}
+
+.inline-button {
+  background: none;
+  border: none;
+  color: var(--primary-accent);
+  font: inherit;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.inline-button:hover {
+  text-decoration: none;
+  color: #0055aa;
 }
 
 /* Hide the number input spinners in modern browsers */
@@ -467,6 +485,11 @@ input[type="number"] {
   .page-container {
     max-width: 1100px;
   }
+
+  .recipes-container,
+  .ingredients-container {
+   font-size: 1.1em;
+}
 
   /* Navbar*/
   .menu-button {
