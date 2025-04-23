@@ -487,7 +487,7 @@ input[type="number"] {
 
   .nav-links li {
     margin: 0 0.5rem;
-    line-height: 3.5rem;
+    line-height: 65px;
     list-style: none;
   }
 
