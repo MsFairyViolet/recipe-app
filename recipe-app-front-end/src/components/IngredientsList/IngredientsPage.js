@@ -9,8 +9,37 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
     const confirm = useConfirm();
     const router = useRouter();
 
-    const handleIngredientAdd = () => {
-        return
+    const handleIngredientAdd = async () => {
+        const newIngredient = await confirm("Add new ingredient", "", true)
+
+        if (newIngredient) {
+            const ingredientExists = ingredients.some(
+                (ingredient) => ingredient.name.toLowerCase() === newIngredient.toLowerCase()
+            )
+
+            if (ingredientExists) {
+                alert("That ingredient already exists!")
+                return
+            }
+
+            try {
+                const response = await fetch(`/api/ingredient`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: newIngredient })
+                })
+                if (!response.ok) {
+                    throw new Error("Failed to add ingredient");
+                }
+                fetchIngredients()
+            }
+            catch (error) {
+                console.error("Error adding ingredient:", error);
+                alert("There was an error adding the ingredient.");
+            }
+        }
     }
 
     const handleIngredientEdit = async (index) => {
@@ -18,7 +47,16 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
 
         const newName = await confirm("Globally edit", ingredient.name, true)
 
-        if (newName && newName !== ingredient.name) {
+        if (newName && newName.toLowerCase() !== ingredient.name.toLowerCase()) {
+            const nameExists = ingredients.some(
+                (i) => i.name.toLowerCase() === newName.toLowerCase() && i.id !== ingredient.id
+            )
+
+            if (nameExists) {
+                alert("Another ingredient with that name already exists!")
+                return
+            }
+
             try {
                 const response = await fetch(`api/ingredient/${ingredient.id}`, {
                     method: "PATCH",
@@ -52,6 +90,7 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
 
             if (res.ok) {
                 console.log("Deleted");
+                fetchIngredients()
             } else {
                 console.error("Failed to delete");
                 alert("You can't delete an ingredient globally if it is being used in recipes.")
