@@ -1,4 +1,6 @@
-export default function UsedInDisplay({ recipes, onClick }) {
+import Link from "next/link"
+
+export default function UsedInDisplay({ recipes, onOpenModal }) {
 
    const sortedRecipes = recipes.slice().sort((a, b) =>
       a.name.localeCompare(b.name))
@@ -8,15 +10,37 @@ export default function UsedInDisplay({ recipes, onClick }) {
    }
 
    if (recipes.length <= 2) {
-      return <span>{sortedRecipes.map((recipe) => recipe.name).join(", ")}</span>
+      return (
+         <span>
+            {sortedRecipes.map((recipe, index) => (
+               <span key={recipe.id}>
+                  <Link href={`/recipe/${recipe.id}`} className="recipe-link-inline">
+                     {recipe.name}
+                  </Link>
+                  {index < sortedRecipes.length - 1 && ", "}
+               </span>
+            ))}
+         </span>
+      )
    }
 
-   const displayed = sortedRecipes.slice(0, 2).map((recipe) => recipe.name).join(", ")
+   const displayed = sortedRecipes.slice(0, 2)
+   const hiddenCount = sortedRecipes.length - 2
 
    return (
-      <span>{displayed},{" "} <button onClick={onClick} className="inline-button">
-         and {recipes.length - 2} more
-      </button>
+      <span>
+         {displayed.map((recipe, index) => (
+            <span key={recipe.id}>
+               <Link href={`/recipe/${recipe.id}`} className="recipe-link-inline">
+                  {recipe.name}
+               </Link>
+               {index < displayed.length - 1 && ", "}
+            </span>
+         ))}
+         {", "}
+         <button onClick={onOpenModal} className="inline-button">
+            and {hiddenCount} more
+         </button>
       </span>
    )
 

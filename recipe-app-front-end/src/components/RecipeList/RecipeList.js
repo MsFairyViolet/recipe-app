@@ -15,7 +15,7 @@ export default function RecipeList({ recipes, searchQuery }) {
             {filteredRecipes.length > 0 ? (
                 filteredRecipes.map((recipe) => (
                     <div className="row" key={recipe.id}>
-                        <span className="first-column"><Link href={`/recipe/${recipe.id}`}>{recipe.name}</Link></span>
+                        <span className="first-column"><Link href={`/recipe/${recipe.id}`} className='recipe-link-inline'>{recipe.name}</Link></span>
                         <span className="second-column">{recipe.servingCalories}</span>
                         <span className="third-column">{recipe.cuisine}</span>
                     </div>
