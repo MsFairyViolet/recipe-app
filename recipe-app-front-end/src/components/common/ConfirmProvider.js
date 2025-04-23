@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState, useCallback, useEffect } from "react";
 
 const ConfirmContext = createContext(null)
 
@@ -46,6 +46,23 @@ export function ConfirmProvider({ children }) {
     setHasInput(false)
     setResolvePromise(null)
   };
+
+  useEffect(() => {
+   const handleKeyDown = (e) => {
+      if(e.key === "Enter"){
+         e.preventDefault()
+         handleConfirm()
+      } else if (e.key === "Escape") {
+         e.preventDefault()
+         handleCancel()
+      }
+   }
+   if(isOpen){
+      document.addEventListener("keydown", handleKeyDown)
+   }
+
+   return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [isOpen])
 
    return (
       <ConfirmContext.Provider value={{ confirm }}>
