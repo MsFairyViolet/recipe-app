@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation"
 import { v4 as uuidv4 } from 'uuid'
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
@@ -9,6 +9,9 @@ import { useConfirm } from "@components/common/ConfirmProvider";
 export default function EditRecipe({ recipe, isNew = false }) {
 
     const router = useRouter();
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+    const [globalIngredients, setGlobalIngredients] = useState([])
     const [formData, setFormData] = useState({
         id: recipe.id,
         name: recipe.name,
@@ -21,6 +24,30 @@ export default function EditRecipe({ recipe, isNew = false }) {
         ingredients: recipe.ingredients
     })
     const confirm = useConfirm();
+
+    const fetchGlobalIngredients = () => {
+        fetch(`/api/ingredient`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch global ingredients")
+                }
+                return response.json()
+            })
+            .then((data) => {
+                setGlobalIngredients(data)
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.log("Error fetching global ingredients: ", error)
+                setError(error.message)
+                setLoading(false)
+            })
+    }
+
+    useEffect(() => {
+        fetchGlobalIngredients()
+    }, [])
+
 
     useEffect(() => {
         document.title = "Edit " + recipe.name
@@ -170,7 +197,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                 <div>
                     <h4>Ingredients:</h4>
-                    <EditRecipeIngriedientList ingredients={formData.ingredients} onIngredientAdd={handleIngredientAdd} onIngredientChange={handleIngredientChange} onIngredientDelete={handleIngredientDelete} onAllIngredientsDelete={handleAllIngredientsDelete} />
+                    <EditRecipeIngriedientList ingredients={formData.ingredients} onIngredientAdd={handleIngredientAdd} onIngredientChange={handleIngredientChange} onIngredientDelete={handleIngredientDelete} onAllIngredientsDelete={handleAllIngredientsDelete} globalIngredients={globalIngredients} />
                 </div>
 
                 <div>

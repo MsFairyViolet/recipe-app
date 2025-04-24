@@ -57,7 +57,7 @@ html {
 
 .search-bar {
   width: 45%;
-  height: 2rem;
+  min-height: 2rem;
   margin-top: 0.5rem;
   padding-left: 0.5rem;
   align-self: flex-end;
@@ -387,6 +387,54 @@ button.fourth-column {
   flex: 0.1;
 }
 
+/* Autocomplete */
+.autocomplete-wrapper {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+/* Add focus styling to the input */
+.autocomplete-wrapper:focus {
+  border-color: var(--primary-accent); 
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.autocomplete-dropdown {
+  position: absolute; 
+  width: 15%;
+  min-width: 25vw;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  list-style: none;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.autocomplete-dropdown li {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.autocomplete-dropdown li:hover {
+  background-color: #f0f0f0;
+}
+
 /* Confirmation Window */
 .overlay {
   position: fixed;
@@ -448,7 +496,7 @@ button.fourth-column {
 .no-results-message {
   text-align: center;
   color: gray;
-  margin-top: 10px;
+  margin-left: 0.5rem;
 }
 
 .recipe-link-inline {
