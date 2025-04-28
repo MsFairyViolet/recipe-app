@@ -8,7 +8,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
     const [isOpen, setIsOpen] = useState(false)
     const [focusedIndex, setFocusedIndex] = useState(null)
 
-    const filteredGlobalIngredients = globalIngredients.filter(i => 
+    const filteredGlobalIngredients = globalIngredients.filter(i =>
         i.name.toLowerCase().includes(query.toLowerCase()) &&
         !ingredients.some(ingredient => ingredient.name == i.name)
     )
@@ -26,31 +26,41 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
 
             {ingredients.map((ingredient, index) => (
                 <div className="row" key={ingredient.id}>
-                    <input className="first-column autocomplete-wrapper ingredient-input"
-                        type="text"
-                        value={ingredient.name}
-                        onChange={(e) => {
-                            handleIngredientChange(index, "name", e.target.value)
-                            setQuery(e.target.value)
-                        }}
-                        onFocus={() => setFocusedIndex(index)}
-                        onBlur={() => setTimeout(() => setQuery(""), 100)}
-                        placeholder="Start typing..."
-                    />
-                    {focusedIndex === index && filteredGlobalIngredients.length > 0 && (
-                        <ul className="autocomplete-dropdown ingredient-input">
-                            {filteredGlobalIngredients.map((option) => (
-                                <li key={option.id}
-                                    onClick={() => {
-                                        handleIngredientChange(index, "name", option.name)
-                                        handleIngredientChange(index, "id", option.id)
-                                        setFocusedIndex(null)
-                                    }}>
-                                    {option.name}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
+                    <div className="first-column autocomplete-container">
+                        <input className="autocomplete-input ingredient-input"
+                            type="text"
+                            value={ingredient.name}
+                            onChange={(e) => {
+                                handleIngredientChange(index, "name", e.target.value)
+                                setQuery(e.target.value)
+                            }}
+                            onFocus={() => setFocusedIndex(index)}
+                            onBlur={() => setTimeout(() => setQuery(""), 100)}
+                            placeholder="Start typing..."
+                        />
+                        {focusedIndex === index && filteredGlobalIngredients.length > 0 && (
+                            <ul className="autocomplete-dropdown ingredient-input">
+                                {filteredGlobalIngredients.map((option) => (
+                                    <li key={option.id}
+                                        onClick={() => {
+                                            handleIngredientChange(index, "name", option.name)
+                                            handleIngredientChange(index, "id", option.id)
+                                            setFocusedIndex(null)
+                                        }}>
+                                        {option.name}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+
+                    {/* Alternative name-selection */}
+                    {/* <select className="first-column ingredient-input" type="text" value={ingredient.name}>
+                        {filteredGlobalIngredients.map((ingredient) =>
+                        <option key={ingredient.id} value={ingredient.name}>{ingredient.name}</option>
+                        )}
+                    </select> */}
+
                     <input className="second-column ingredient-input" type="number" value={ingredient.amount} onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}></input>
                     <select className="third-column ingredient-input" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
                         {amountTypeOptions.map((type) => (

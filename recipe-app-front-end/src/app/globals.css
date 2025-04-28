@@ -23,11 +23,8 @@ body {
 
 body,
 html {
-  height: 100vh;
+  height: 100%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
 }
 
 .page-container {
@@ -156,7 +153,6 @@ nav {
   gap: 0.5rem;
   border-bottom: 1px solid var(--primary-color);
   flex-wrap: wrap;
-  overflow: hidden;
 }
 
 .column-title {
@@ -316,7 +312,7 @@ input.page-title {
 
 .recipe-card input,
 .recipe-card textarea {
-  width: calc(100% - 0.5rem);
+  width: 100%;
   font-size: 1rem;
 }
 
@@ -388,51 +384,47 @@ button.fourth-column {
 }
 
 /* Autocomplete */
-.autocomplete-wrapper {
+.autocomplete-container {
+  position: relative;
   width: 100%;
-  padding: 8px 12px;
-  font-size: 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-  box-sizing: border-box;
+}
+
+.autocomplete-input:focus {
+  border: 2px solid var(--primary-accent);
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
   outline: none;
   transition: border-color 0.3s ease;
 }
 
-/* Add focus styling to the input */
-.autocomplete-wrapper:focus {
-  border-color: var(--primary-accent); 
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
-}
-
 .autocomplete-dropdown {
-  position: absolute; 
-  width: 15%;
-  min-width: 25vw;
+  position: absolute;
+  width: 100%;
   max-height: 200px;
   overflow-y: auto;
-  margin-top: 0.5rem;
   background-color: white;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 9999;
-  list-style: none;
-  padding: 0;
-  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 0.85rem;
+  z-index: 10;
 }
 
 .autocomplete-dropdown li {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
-  border-bottom: 1px solid #ccc;
-  cursor: pointer;
+  height: 26px;
+  padding-left: 0.3rem;
+  margin: 0.3rem;
+  border-radius: 2px;
   transition: background-color 0.2s ease;
 }
 
 .autocomplete-dropdown li:hover {
-  background-color: #f0f0f0;
+  background-color: #d5d5db;
+}
+
+select,
+.autocomplete-dropdown li {
+  background-color: white;
+  font-size: 0.9rem;
 }
 
 /* Confirmation Window */
@@ -476,7 +468,7 @@ button.fourth-column {
   height: 3rem;
 }
 
-.overlay-close-button{
+.overlay-close-button {
   position: absolute;
   top: 0.8rem;
   right: 1rem;
@@ -486,7 +478,7 @@ button.fourth-column {
   cursor: pointer;
 }
 
-.overlay ul{
+.overlay ul {
   margin-top: 1rem;
   list-style: none;
 }
@@ -503,6 +495,7 @@ button.fourth-column {
   color: var(--primary-color);
   text-decoration: underline;
 }
+
 .recipe-link-inline:hover {
   color: var(--primary-accent);
   text-decoration: none;
@@ -545,8 +538,8 @@ input[type="number"] {
 
   .recipes-container,
   .ingredients-container {
-   font-size: 1.1em;
-}
+    font-size: 1.1em;
+  }
 
   /* Navbar*/
   .menu-button {
