@@ -8,7 +8,10 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
     const [isOpen, setIsOpen] = useState(false)
     const [focusedIndex, setFocusedIndex] = useState(null)
 
-    const filteredGlobalIngredients = globalIngredients.filter(i => i.name.toLowerCase().includes(query.toLowerCase()))
+    const filteredGlobalIngredients = globalIngredients.filter(i => 
+        i.name.toLowerCase().includes(query.toLowerCase()) &&
+        !ingredients.some(ingredient => ingredient.name == i.name)
+    )
 
     const isDropDownOpen = query && filteredGlobalIngredients.length > 0
 
