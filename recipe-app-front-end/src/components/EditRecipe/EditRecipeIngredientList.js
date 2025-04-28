@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-export default function EditRecipeIngredientsList({ ingredients, onIngredientAdd, onIngredientChange, onIngredientDelete, onAllIngredientsDelete, globalIngredients }) {
+export default function EditRecipeIngredientsList({ ingredients, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, globalIngredients }) {
 
     const amountTypeOptions = ["stuk", "portie", "gram", "cup", "ml", "tsp", "tbsp"]
 
@@ -11,11 +11,6 @@ export default function EditRecipeIngredientsList({ ingredients, onIngredientAdd
     const filteredGlobalIngredients = globalIngredients.filter(i => i.name.toLowerCase().includes(query.toLowerCase()))
 
     const isDropDownOpen = query && filteredGlobalIngredients.length > 0
-
-    // useEffect(() =>
-    //     console.log("global Ingredients", globalIngredients),
-    //     console.log("Filtered global Ingredients", filteredGlobalIngredients)
-    //     , [])
 
     return (
         <div className="edit-page ingredients-list">
@@ -32,7 +27,7 @@ export default function EditRecipeIngredientsList({ ingredients, onIngredientAdd
                         type="text"
                         value={ingredient.name}
                         onChange={(e) => {
-                            onIngredientChange(index, "name", e.target.value)
+                            handleIngredientChange(index, "name", e.target.value)
                             setQuery(e.target.value)
                         }}
                         onFocus={() => setFocusedIndex(index)}
@@ -44,8 +39,8 @@ export default function EditRecipeIngredientsList({ ingredients, onIngredientAdd
                             {filteredGlobalIngredients.map((option) => (
                                 <li key={option.id}
                                     onClick={() => {
-                                        onIngredientChange(index, "name", option.name)
-                                        onIngredientChange(index, "id", option.id)
+                                        handleIngredientChange(index, "name", option.name)
+                                        handleIngredientChange(index, "id", option.id)
                                         setFocusedIndex(null)
                                     }}>
                                     {option.name}
@@ -53,19 +48,19 @@ export default function EditRecipeIngredientsList({ ingredients, onIngredientAdd
                             ))}
                         </ul>
                     )}
-                    <input className="second-column" type="number" required value={ingredient.amount} onChange={(e) => onIngredientChange(index, "amount", e.target.value)}></input>
-                    <select className="third-column" type="text" value={ingredient.amountType} onChange={(e) => onIngredientChange(index, "amountType", e.target.value)}>
+                    <input className="second-column" type="number" required value={ingredient.amount} onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}></input>
+                    <select className="third-column" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
                         {amountTypeOptions.map((type) => (
                             <option key={type} value={type}>{type}</option>
                         ))}
                     </select>
-                    <button className="fourth-column" onClick={() => onIngredientDelete(index)}>x</button>
+                    <button className="fourth-column" onClick={() => handleIngredientDelete(index)}>x</button>
                 </div>
             ))
             }
             <div className="button-container">
-                <button className="add-ingredient-button" type="button" onClick={() => onIngredientAdd()}>Add ingredient</button>
-                <button className="delete-all-ingredients-button" type="button" onClick={() => onAllIngredientsDelete()}>Delete all ingredients</button>
+                <button className="add-ingredient-button" type="button" onClick={() => handleIngredientAdd()}>Add ingredient</button>
+                <button className="delete-all-ingredients-button" type="button" onClick={() => handleAllIngredientsDelete()}>Delete all ingredients</button>
             </div>
         </div >
 
