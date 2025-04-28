@@ -23,7 +23,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
 
             {ingredients.map((ingredient, index) => (
                 <div className="row" key={ingredient.id}>
-                    <input className="first-column autocomplete-wrapper"
+                    <input className="first-column autocomplete-wrapper ingredient-input"
                         type="text"
                         value={ingredient.name}
                         onChange={(e) => {
@@ -35,7 +35,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                         placeholder="Start typing..."
                     />
                     {focusedIndex === index && filteredGlobalIngredients.length > 0 && (
-                        <ul className="autocomplete-dropdown">
+                        <ul className="autocomplete-dropdown ingredient-input">
                             {filteredGlobalIngredients.map((option) => (
                                 <li key={option.id}
                                     onClick={() => {
@@ -48,8 +48,8 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                             ))}
                         </ul>
                     )}
-                    <input className="second-column" type="number" required value={ingredient.amount} onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}></input>
-                    <select className="third-column" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
+                    <input className="second-column ingredient-input" type="number" value={ingredient.amount} onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}></input>
+                    <select className="third-column ingredient-input" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
                         {amountTypeOptions.map((type) => (
                             <option key={type} value={type}>{type}</option>
                         ))}

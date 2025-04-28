@@ -118,8 +118,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
         }
     };
 
-    const handleCreate = async (e) => {
-        e.preventDefault();
+    const handleCreate = async () => {
         try {
             const res = await fetch("/api/recipe", {
                 method: "POST",
@@ -138,8 +137,50 @@ export default function EditRecipe({ recipe, isNew = false }) {
         }
     }
 
-    const handleUpdate = async (e) => {
-        e.preventDefault();
+    const validateFormData = () => {
+        const { name, servingCalories, servingCount, cuisine } = formData
+        return name && servingCalories && servingCount && cuisine
+    }
+
+    const validateIngredients = () => {
+        return formData.ingredients.every(ingredient => {
+            return ingredient.name.trim() !== "" && ingredient.amount.trim() !== ""
+        })
+    }
+
+    const handleKeyDown = (event) => {
+        if (event.target.closest(".ingredient-input") || event.target.tagName === "TEXTAREA") {
+            if (event.key === "Enter") {
+                event.preventDefault()
+            }
+            return
+        }
+        if (event.key === "Enter") {
+            handleSave();
+        }
+    }
+
+
+    const handleSave = () => {
+        if (!validateFormData()) {
+            alert("Please fill in the required fields.")
+            return
+        }
+
+        if (!validateIngredients()) {
+            console.log("Please fill in all ingredient fields.")
+            alert("Please fill in all ingredient fields.")
+            return
+        }
+
+        if (isNew) {
+            handleCreate()
+        } else {
+            handleUpdate()
+        }
+    }
+
+    const handleUpdate = async () => {
         try {
             const res = await fetch(`/api/recipe/${recipe.id}`, {
                 method: "PATCH",
@@ -178,8 +219,8 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     return (
-        <form className="edit-page" onSubmit={isNew ? handleCreate : handleUpdate}>
-            <input className="page-title" placeholder="Recipe name*" required={true} autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
+        <div className="edit-page" onKeyDown={handleKeyDown}>
+            <input className="page-title" placeholder="Recipe name*" autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
 
             <div className="recipe-card">
                 <div className="top-details">
@@ -189,9 +230,9 @@ export default function EditRecipe({ recipe, isNew = false }) {
                     </div>
 
                     <div className="small-details">
-                        <input name="servingCalories" type="number" placeholder="Calories*" required={true} value={formData.servingCalories} onChange={handleChange}></input>
-                        <input name="servingCount" type="number" placeholder="Servings*" required={true} value={formData.servingCount} onChange={handleChange}></input>
-                        <input name="cuisine" type="text" placeholder="Cuisine*" required={true} value={formData.cuisine} onChange={handleChange}></input>
+                        <input name="servingCalories" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
+                        <input name="servingCount" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
+                        <input name="cuisine" type="text" placeholder="Cuisine*" value={formData.cuisine} onChange={handleChange}></input>
                     </div>
                 </div>
 
@@ -205,11 +246,11 @@ export default function EditRecipe({ recipe, isNew = false }) {
                     <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
                 </div>
                 <div className="button-container">
-                    <button className="recipe-button" type="button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
-                    <button className="recipe-button" type="button" onClick={handleCancel}>Cancel</button>
-                    <button className="recipe-button" type="submit">Save</button>
+                    <button className="recipe-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
+                    <button className="recipe-button" onClick={handleCancel}>Cancel</button>
+                    <button className="recipe-button" onClick={handleSave}>Save</button>
                 </div>
             </div >
-        </form>
+        </div>
     );
 }
