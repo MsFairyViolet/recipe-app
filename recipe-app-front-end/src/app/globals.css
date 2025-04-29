@@ -220,6 +220,7 @@ nav {
 .top-details {
   display: flex;
   min-height: 220px;
+  gap: 0.5rem;
 }
 
 .big-details {
@@ -398,8 +399,8 @@ button.fourth-column {
 
 .autocomplete-dropdown {
   position: absolute;
-  width: 100%;
-  max-height: 200px;
+  width: 120%;
+  max-height: 400px;
   overflow-y: auto;
   background-color: white;
   border: 1px solid #ccc;
@@ -410,9 +411,10 @@ button.fourth-column {
 }
 
 .autocomplete-dropdown li {
-  height: 26px;
+  height: 38px;
+  line-height: 38px;
   padding-left: 0.3rem;
-  margin: 0.3rem;
+  margin: 0.4rem;
   border-radius: 2px;
   transition: background-color 0.2s ease;
 }
@@ -623,5 +625,15 @@ input[type="number"] {
 
   .recipe-button {
     width: 25%;
+  }
+
+  .autocomplete-dropdown {
+   max-height: 200px;
+  }
+
+  .autocomplete-dropdown li {
+    height: 26px;
+    padding-left: 0.3rem;
+    margin: 0.3rem;
   }
 }

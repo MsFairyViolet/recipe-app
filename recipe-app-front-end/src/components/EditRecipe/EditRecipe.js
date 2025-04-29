@@ -160,7 +160,6 @@ export default function EditRecipe({ recipe, isNew = false }) {
         }
     }
 
-
     const handleSave = () => {
         if (!validateFormData()) {
             alert("Please fill in the required fields.")
