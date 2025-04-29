@@ -1,19 +1,64 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import { useConfirm } from "@components/common/ConfirmProvider";
 
-export default function EditRecipeIngredientsList({ ingredients, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, globalIngredients }) {
+
+export default function EditRecipeIngredientsList({ ingredients, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, globalIngredients, fetchGlobalIngredients }) {
 
     const amountTypeOptions = ["stuk", "portie", "gram", "cup", "ml", "tsp", "tbsp"]
 
     const [query, setQuery] = useState("")
-    const [isOpen, setIsOpen] = useState(false)
     const [focusedIndex, setFocusedIndex] = useState(null)
+    const confirm = useConfirm();
 
     const filteredGlobalIngredients = globalIngredients.filter(i =>
         i.name.toLowerCase().includes(query.toLowerCase()) &&
         !ingredients.some(ingredient => ingredient.name == i.name)
     )
 
-    const isDropDownOpen = query && filteredGlobalIngredients.length > 0
+    const handleQueryIngredientAdd = async (defaultName = "", index) => {
+        await confirm("Add new global ingredient", defaultName, true)
+        .then((queryIngredient) => {
+            if (!queryIngredient) return;
+
+            const newIngredient = queryIngredient.trim();
+            const ingredientExists = globalIngredients.some(
+                (ingredient) => ingredient.name.toLowerCase() === newIngredient.toLowerCase()
+            );
+
+            if (ingredientExists) {
+                alert("That ingredient already exists! Please modify the name and try again.");
+                return;
+            }
+
+            fetch(`/api/ingredient`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: newIngredient })
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Failed to add ingredient");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    fetchGlobalIngredients();
+
+                    if (data && data.name) {
+                        handleIngredientChange(index, "name", data.name);
+                        handleIngredientChange(index, "id", data.id);
+                    } else {
+                        handleIngredientChange(index, "name", newIngredient);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error adding ingredient:", error);
+                    alert("There was an error adding the ingredient.");
+                });
+        });
+    };
 
     return (
         <div className="edit-page ingredients-list">
@@ -38,7 +83,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                             onBlur={() => setTimeout(() => setQuery(""), 100)}
                             placeholder="Start typing..."
                         />
-                        {focusedIndex === index && filteredGlobalIngredients.length > 0 && (
+                        {focusedIndex === index && query && (
                             <ul className="autocomplete-dropdown ingredient-input">
                                 {filteredGlobalIngredients.map((option) => (
                                     <li key={option.id}
@@ -50,17 +95,20 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                                         {option.name}
                                     </li>
                                 ))}
+                                {!globalIngredients.some(
+                                    (item) => item.name.toLowerCase() === query.toLowerCase()
+                                ) && (
+                                        <li className="add-new-ingredient" onClick={() => {
+                                            handleQueryIngredientAdd(query, index)
+                                            setFocusedIndex(null)
+                                        }}>
+                                            + Add Ingredient "{query}"
+                                        </li>
+                                    )
+                                }
                             </ul>
                         )}
                     </div>
-
-                    {/* Alternative name-selection */}
-                    {/* <select className="first-column ingredient-input" type="text" value={ingredient.name}>
-                        {filteredGlobalIngredients.map((ingredient) =>
-                        <option key={ingredient.id} value={ingredient.name}>{ingredient.name}</option>
-                        )}
-                    </select> */}
-
                     <input className="second-column ingredient-input" type="number" value={ingredient.amount} onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}></input>
                     <select className="third-column ingredient-input" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
                         {amountTypeOptions.map((type) => (

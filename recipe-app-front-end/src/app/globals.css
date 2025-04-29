@@ -429,6 +429,11 @@ select,
   font-size: 0.9rem;
 }
 
+.autocomplete-dropdown li.add-new-ingredient{
+  border: 1.5px solid var(--primary-color);
+  cursor: pointer;
+}
+
 /* Confirmation Window */
 .overlay {
   position: fixed;
@@ -629,10 +634,12 @@ input[type="number"] {
 
   .autocomplete-dropdown {
    max-height: 200px;
+   width: 100%;
   }
 
   .autocomplete-dropdown li {
-    height: 26px;
+    height: 27px;
+    line-height: 27px;
     padding-left: 0.3rem;
     margin: 0.3rem;
   }
