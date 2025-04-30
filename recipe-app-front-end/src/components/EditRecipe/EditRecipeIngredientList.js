@@ -8,12 +8,26 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
 
     const [query, setQuery] = useState("")
     const [focusedIndex, setFocusedIndex] = useState(null)
+    const [isOpen, setIsOpen] = useState(false)
     const confirm = useConfirm()
 
     const filteredGlobalIngredients = globalIngredients.filter(i =>
         i.name.toLowerCase().includes(query.toLowerCase()) &&
         !ingredients.some(ingredient => ingredient.name == i.name)
     )
+
+    const handleFocus = (index) => {
+        setFocusedIndex(index)
+        setIsOpen(true)
+    }
+
+    const handleBlur = () => {
+        setTimeout(() => {
+            setQuery("")
+            setFocusedIndex(null)
+            setIsOpen(false)
+        }, 100)
+    }
 
     const handleQueryIngredientAdd = async (defaultName = "", index) => {
         await confirm("Add new global ingredient", defaultName, true)
@@ -79,15 +93,16 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                                 handleIngredientChange(index, "name", e.target.value)
                                 setQuery(e.target.value)
                             }}
-                            onFocus={() => setFocusedIndex(index)}
-                            onBlur={() => setTimeout(() => setQuery(""), 100)}
+                            onFocus={() => handleFocus(index)}
+                            onBlur={() => handleBlur()}
                             placeholder="Start typing..."
                         />
-                        {focusedIndex === index && query && (
+                        {focusedIndex === index && (
                             <ul className="autocomplete-dropdown ingredient-input">
                                 {filteredGlobalIngredients.map((option) => (
                                     <li key={option.id}
-                                        onClick={() => {
+                                        onMouseDown={(e) => {
+                                            e.preventDefault()
                                             handleIngredientChange(index, "name", option.name)
                                             handleIngredientChange(index, "id", option.id)
                                             setFocusedIndex(null)
@@ -98,7 +113,8 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                                 {!globalIngredients.some(
                                     (item) => item.name.toLowerCase() === query.toLowerCase()
                                 ) && (
-                                        <li className="add-new-ingredient" onClick={() => {
+                                        <li className="add-new-ingredient" onClick={(e) => {
+                                            e.preventDefault()
                                             handleQueryIngredientAdd(query, index)
                                             setFocusedIndex(null)
                                         }}>
