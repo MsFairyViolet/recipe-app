@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useConfirm } from "@components/common/ConfirmProvider";
+import { useConfirm } from "@components/common/ConfirmProvider"
 
 
 export default function EditRecipeIngredientsList({ ingredients, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, globalIngredients, fetchGlobalIngredients }) {
@@ -8,7 +8,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
 
     const [query, setQuery] = useState("")
     const [focusedIndex, setFocusedIndex] = useState(null)
-    const confirm = useConfirm();
+    const confirm = useConfirm()
 
     const filteredGlobalIngredients = globalIngredients.filter(i =>
         i.name.toLowerCase().includes(query.toLowerCase()) &&
@@ -17,47 +17,47 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
 
     const handleQueryIngredientAdd = async (defaultName = "", index) => {
         await confirm("Add new global ingredient", defaultName, true)
-        .then((queryIngredient) => {
-            if (!queryIngredient) return;
+            .then((queryIngredient) => {
+                if (!queryIngredient) return
 
-            const newIngredient = queryIngredient.trim();
-            const ingredientExists = globalIngredients.some(
-                (ingredient) => ingredient.name.toLowerCase() === newIngredient.toLowerCase()
-            );
+                const newIngredient = queryIngredient.trim();
+                const ingredientExists = globalIngredients.some(
+                    (ingredient) => ingredient.name.toLowerCase() === newIngredient.toLowerCase()
+                );
 
-            if (ingredientExists) {
-                alert("That ingredient already exists! Please modify the name and try again.");
-                return;
-            }
+                if (ingredientExists) {
+                    alert("That ingredient already exists! Please modify the name and try again.")
+                    return;
+                }
 
-            fetch(`/api/ingredient`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name: newIngredient })
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error("Failed to add ingredient");
-                    }
-                    return response.json();
+                fetch(`/api/ingredient`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: newIngredient })
                 })
-                .then((data) => {
-                    fetchGlobalIngredients();
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Failed to add ingredient")
+                        }
+                        return response.json()
+                    })
+                    .then((data) => {
+                        fetchGlobalIngredients();
 
-                    if (data && data.name) {
-                        handleIngredientChange(index, "name", data.name);
-                        handleIngredientChange(index, "id", data.id);
-                    } else {
-                        handleIngredientChange(index, "name", newIngredient);
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error adding ingredient:", error);
-                    alert("There was an error adding the ingredient.");
-                });
-        });
+                        if (data && data.name) {
+                            handleIngredientChange(index, "name", data.name)
+                            handleIngredientChange(index, "id", data.id)
+                        } else {
+                            handleIngredientChange(index, "name", newIngredient)
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error adding ingredient:", error)
+                        alert("There was an error adding the ingredient.")
+                    })
+            });
     };
 
     return (
@@ -123,7 +123,6 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                 <button className="add-ingredient-button" type="button" onClick={() => handleIngredientAdd()}>Add ingredient</button>
                 <button className="delete-all-ingredients-button" type="button" onClick={() => handleAllIngredientsDelete()}>Delete all ingredients</button>
             </div>
-        </div >
-
+        </div>
     )
 }

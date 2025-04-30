@@ -1,14 +1,15 @@
 "use client"
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { useConfirm } from "@components/common/ConfirmProvider"
 import { v4 as uuidv4 } from 'uuid'
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
-import { useConfirm } from "@components/common/ConfirmProvider";
 
+const confirm = useConfirm()
 export default function EditRecipe({ recipe, isNew = false }) {
-
-    const router = useRouter();
+    const router = useRouter()
+    const confirm = useConfirm()
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [globalIngredients, setGlobalIngredients] = useState([])
@@ -23,7 +24,6 @@ export default function EditRecipe({ recipe, isNew = false }) {
         note: recipe.note,
         ingredients: recipe.ingredients
     })
-    const confirm = useConfirm();
 
     const fetchGlobalIngredients = () => {
         fetch(`/api/ingredient`)
@@ -96,13 +96,13 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
     const handleIngredientDelete = (indexToDelete) => {
         setFormData(prev => {
-            const updatedIngredients = prev.ingredients.filter((ingredient, index) => index !== indexToDelete);
+            const updatedIngredients = prev.ingredients.filter((ingredient, index) => index !== indexToDelete)
             return {
                 ...prev,
                 ingredients: updatedIngredients
-            };
-        });
-    };
+            }
+        })
+    }
 
     const handleAllIngredientsDelete = async () => {
         const confirmed = await confirm("Do you want to delete all ingredients for", recipe.name)
@@ -113,28 +113,31 @@ export default function EditRecipe({ recipe, isNew = false }) {
                 return {
                     ...prev,
                     ingredients: updatedIngredients
-                };
-            });
-        }
-    };
-
-    const handleCreate = async () => {
-        try {
-            const res = await fetch("/api/recipe", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(formData)
+                }
             })
-            if (!res.ok) {
-                throw new Error("Failed to create recipe")
-            }
-            const savedRecipe = await res.json()
-            router.push(`/recipe/${savedRecipe.id}`)
-        } catch (err) {
-            console.error(err)
         }
+    }
+
+    const handleCreate = () => {
+        fetch("/api/recipe", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to create recipe")
+                }
+                return response.json()
+            })
+            .then((savedRecipe) => {
+                router.push(`/recipe/${savedRecipe.id}`)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
     }
 
     const validateFormData = () => {
@@ -156,7 +159,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             return
         }
         if (event.key === "Enter") {
-            handleSave();
+            handleSave()
         }
     }
 
@@ -180,41 +183,45 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const handleUpdate = async () => {
-        try {
-            const res = await fetch(`/api/recipe/${recipe.id}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(formData)
+        fetch(`/api/recipe/${recipe.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to update recipe")
+                }
+                router.push(`/recipe/${recipe.id}`)
             })
-            if (!res.ok) {
-                throw new Error("Failed to update recipe")
-            }
-            router.push(`/recipe/${recipe.id}`)
-        } catch (err) {
-            console.error(err)
-        }
+            .catch((error) => {
+                console.error(error)
+            })
     }
 
     const handleDelete = async () => {
-        const confirmed = await confirm("Do you want to delete the recipe for", recipe.name)
-        if (confirmed) {
-            try {
-                const res = await fetch(`/api/recipe/${recipe.id}`, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
-                if (!res.ok) {
-                    throw new Error("Failed to delete recipe");
+        await confirm("Do you want to delete the recipe for", recipe.name)
+            .then((confirmed) => {
+                if (confirmed) {
+                    fetch(`/api/recipe/${recipe.id}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
                 }
-                router.push("/recipe");
-            } catch (err) {
-                console.error(err);
-            }
-        }
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to delete recipe")
+                }
+                router.push("/recipe")
+            })
+            .catch((error) => {
+                console.error(error)
+            })
     }
 
     return (
@@ -237,7 +244,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                 <div>
                     <h4>Ingredients:</h4>
-                    <EditRecipeIngriedientList ingredients={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} globalIngredients={globalIngredients} fetchGlobalIngredients={fetchGlobalIngredients}/>
+                    <EditRecipeIngriedientList ingredients={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} globalIngredients={globalIngredients} fetchGlobalIngredients={fetchGlobalIngredients} />
                 </div>
 
                 <div>
@@ -251,5 +258,5 @@ export default function EditRecipe({ recipe, isNew = false }) {
                 </div>
             </div >
         </div>
-    );
+    )
 }

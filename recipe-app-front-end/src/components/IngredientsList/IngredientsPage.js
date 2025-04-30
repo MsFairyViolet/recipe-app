@@ -10,93 +10,95 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
     const router = useRouter();
 
     const handleIngredientAdd = async () => {
-        const newIngredient = await confirm("Add new ingredient", "", true)
+        await confirm("Add new ingredient", "", true)
+            .then((newIngredient) => {
+                if (newIngredient) {
+                    const ingredientExists = ingredients.some(
+                        (ingredient) => ingredient.name.toLowerCase() === newIngredient.toLowerCase()
+                    )
 
-        if (newIngredient) {
-            const ingredientExists = ingredients.some(
-                (ingredient) => ingredient.name.toLowerCase() === newIngredient.toLowerCase()
-            )
+                    if (ingredientExists) {
+                        alert("That ingredient already exists!")
+                        return
+                    }
 
-            if (ingredientExists) {
-                alert("That ingredient already exists!")
-                return
-            }
-
-            try {
-                const response = await fetch(`/api/ingredient`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ name: newIngredient })
-                })
-                if (!response.ok) {
-                    throw new Error("Failed to add ingredient");
+                    fetch(`/api/ingredient`, {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ name: newIngredient })
+                    })
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error("Failed to add ingredient");
+                            }
+                            fetchIngredients()
+                        })
+                        .catch((error) => {
+                            console.error("Error adding ingredient:", error);
+                            alert("There was an error adding the ingredient.");
+                        })
                 }
-                fetchIngredients()
-            }
-            catch (error) {
-                console.error("Error adding ingredient:", error);
-                alert("There was an error adding the ingredient.");
-            }
-        }
+            })
     }
 
     const handleIngredientEdit = async (index) => {
         const ingredient = ingredients[index]
 
-        const newName = await confirm("Globally edit", ingredient.name, true)
+        await confirm("Globally edit", ingredient.name, true)
+            .then((newName) => {
 
-        if (newName && newName.toLowerCase() !== ingredient.name.toLowerCase()) {
-            const nameExists = ingredients.some(
-                (i) => i.name.toLowerCase() === newName.toLowerCase() && i.id !== ingredient.id
-            )
+                if (newName && newName.toLowerCase() !== ingredient.name.toLowerCase()) {
+                    const nameExists = ingredients.some(
+                        (i) => i.name.toLowerCase() === newName.toLowerCase() && i.id !== ingredient.id
+                    )
 
-            if (nameExists) {
-                alert("Another ingredient with that name already exists!")
-                return
-            }
+                    if (nameExists) {
+                        alert("Another ingredient with that name already exists!")
+                        return
+                    }
 
-            try {
-                const response = await fetch(`api/ingredient/${ingredient.id}`, {
-                    method: "PATCH",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ ...ingredient, name: newName })
-                })
-                if (!response.ok) {
-                    throw new Error("Failed to update ingredient");
+                    fetch(`api/ingredient/${ingredient.id}`, {
+                        method: "PATCH",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ ...ingredient, name: newName })
+                    })
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error("Failed to update ingredient");
+                            }
+                            fetchIngredients()
+                        })
+                        .catch((error) => {
+                            console.error("Error updating ingredient:", error);
+                            alert("There was an error updating the ingredient.");
+                        })
                 }
-                fetchIngredients()
-            }
-            catch (error) {
-                console.error("Error updating ingredient:", error);
-                alert("There was an error updating the ingredient.");
-            }
-        }
+            })
     }
 
     const handleIngredientDelete = async (index) => {
-        const confirmed = await confirm(
-            "Do you want to globally delete:",
-            ingredients[index].name
-        );
-
-        if (confirmed) {
-            const res = await fetch(`/api/ingredient/${ingredients[index].id}`, {
-                method: "DELETE",
-            });
-
-            if (res.ok) {
-                console.log("Deleted");
-                fetchIngredients()
-            } else {
-                console.error("Failed to delete");
-                alert("You can't delete an ingredient globally if it is being used in recipes.")
-                //Show list of where ingredient is used and provide option to remove it there
-            }
-        }
+        await confirm("Do you want to globally delete:", ingredients[index].name)
+            .then((confirmed) => {
+                if (confirmed) {
+                    fetch(`/api/ingredient/${ingredients[index].id}`, {
+                        method: "DELETE",
+                    })
+                        .then((response) => {
+                            if (response.ok) {
+                                console.log("Deleted");
+                                fetchIngredients()
+                            } else {
+                                console.error("Failed to delete");
+                                alert("You can't delete an ingredient globally if it is being used in recipes.")
+                                //Show list of where ingredient is used and provide option to remove it there
+                            }
+                        })
+                }
+            })
     };
 
     return (
