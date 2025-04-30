@@ -6,7 +6,6 @@ import { useConfirm } from "@components/common/ConfirmProvider"
 import { v4 as uuidv4 } from 'uuid'
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
 
-const confirm = useConfirm()
 export default function EditRecipe({ recipe, isNew = false }) {
     const router = useRouter()
     const confirm = useConfirm()
@@ -105,17 +104,19 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const handleAllIngredientsDelete = async () => {
-        const confirmed = await confirm("Do you want to delete all ingredients for", recipe.name)
+        await confirm("Do you want to delete all ingredients for", recipe.name)
+            .then((confirmed) => {
 
-        if (confirmed) {
-            setFormData(prev => {
-                const updatedIngredients = []
-                return {
-                    ...prev,
-                    ingredients: updatedIngredients
+                if (confirmed) {
+                    setFormData(prev => {
+                        const updatedIngredients = []
+                        return {
+                            ...prev,
+                            ingredients: updatedIngredients
+                        }
+                    })
                 }
             })
-        }
     }
 
     const handleCreate = () => {
