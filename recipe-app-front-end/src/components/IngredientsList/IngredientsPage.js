@@ -81,25 +81,35 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
     }
 
     const handleIngredientDelete = async (index) => {
-        await confirm("Do you want to globally delete:", ingredients[index].name)
+
+        const ingredient = ingredients[index]
+        const usedInCount = ingredient.recipes.length
+
+        if (usedInCount > 0) {
+            alert("You can't delete an ingredient globally if it is being used in recipes. Please remove it manually from the associated recipes.")
+            return
+        }
+
+        await confirm("Do you want to globally delete:", ingredient.name)
             .then((confirmed) => {
+                if (!confirmed) {
+                    return
+                }
                 if (confirmed) {
-                    fetch(`/api/ingredient/${ingredients[index].id}`, {
+                    fetch(`/api/ingredient/${ingredient.id}`, {
                         method: "DELETE",
                     })
                         .then((response) => {
                             if (response.ok) {
-                                console.log("Deleted");
                                 fetchIngredients()
                             } else {
-                                console.error("Failed to delete");
-                                alert("You can't delete an ingredient globally if it is being used in recipes.")
-                                //Show list of where ingredient is used and provide option to remove it there
+                                console.error("Failed to delete")
+                                alert("Something went wrong when trying to delete the ingredient.")
                             }
                         })
                 }
             })
-    };
+    }
 
     return (
         <>

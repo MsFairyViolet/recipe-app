@@ -12,6 +12,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [globalIngredients, setGlobalIngredients] = useState([])
+    const [recipes, setRecipes] = useState([])
     const [formData, setFormData] = useState({
         id: recipe.id,
         name: recipe.name,
@@ -43,8 +44,28 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
+    const fetchRecipes = () => {
+        fetch("/api/recipe")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch recipes")
+                }
+                return response.json()
+            })
+            .then((data) => {
+                setRecipes(data)
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.log("Error fetching recipes: ", error)
+                setError(error.message)
+                setLoading(false)
+            })
+    }
+
     useEffect(() => {
         fetchGlobalIngredients()
+        fetchRecipes()
     }, [])
 
 
@@ -120,6 +141,15 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const handleCreate = () => {
+        const recipeExists = recipes.some(
+                (recipe) => recipe.name.toLowerCase() === formData.name.toLowerCase()
+            )
+
+            if (recipeExists) {
+                alert("A recipe with the same name already exists!")
+                return
+            }
+
         fetch("/api/recipe", {
             method: "POST",
             headers: {
@@ -184,6 +214,15 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const handleUpdate = async () => {
+        const recipeExists = recipes.some(
+            (recipe) => recipe.id !==formData.id && recipe.name.toLowerCase() === formData.name.toLowerCase()
+        )
+
+        if (recipeExists) {
+            alert("A recipe with the same name already exists!")
+            return
+        }
+
         fetch(`/api/recipe/${recipe.id}`, {
             method: "PATCH",
             headers: {
