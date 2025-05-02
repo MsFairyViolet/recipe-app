@@ -2,7 +2,8 @@
   --primary-color: #3551c1;
   --primary-accent: #4c67d3;
   --secondary-color: #cfb533;
-  --background-color: #fffaf0;
+  --background-color: #e7e7e7;
+  --alternative-background-color: #fffaf0;
   --accent-background-color: #fffefb;
   --text-color: #333;
   --font-main: 'Inter', sans-serif;
@@ -33,17 +34,16 @@ html {
   flex-direction: column;
   width: 95vw;
   min-width: 380px;
-  height: 95vh;
+  min-height: 90vh;
   gap: 0.5rem;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
   margin: 0 auto;
 }
 
 .page-header {
   display: flex;
   flex-direction: row;
-  margin-bottom: 0.5rem;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .page-title {
@@ -55,7 +55,7 @@ html {
 .search-bar {
   width: 45%;
   min-height: 2rem;
-  margin-top: 0.5rem;
+
   padding-left: 0.5rem;
   align-self: flex-end;
   background-color: var(--accent-background-color);
@@ -136,7 +136,7 @@ nav {
 .list {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
-  height: 100%;
+  height: 700px;
   max-height: 900px;
   margin-top: 0.25rem;
   margin-bottom: 0.5rem;
@@ -201,6 +201,7 @@ nav {
   display: flex;
   flex-direction: column;
   height: 100%;
+  max-height: 775px;
   gap: 0.5rem;
   font-size: 0.9em;
 }
@@ -300,11 +301,11 @@ input.page-title {
 }
 
 .edit-page .second-column {
-  flex: 1;
+  flex: 0.6;
 }
 
 .edit-page .third-column {
-  flex: 1;
+  flex: 0.6;
 }
 
 .edit-page .fourth-column {
@@ -400,7 +401,7 @@ button.fourth-column {
 .autocomplete-dropdown {
   position: absolute;
   width: 120%;
-  max-height: 400px;
+  max-height: 200px;
   overflow-y: auto;
   background-color: white;
   border: 1px solid #ccc;
@@ -545,7 +546,8 @@ input[type="number"] {
 
   .recipes-container,
   .ingredients-container {
-    font-size: 1.1em;
+    font-size: 1.2em;
+    max-height: 1100px;
   }
 
   /* Navbar*/
@@ -586,15 +588,11 @@ input[type="number"] {
   }
 
   .page-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .column-title {
     font-size: 1rem;
-  }
-
-  .recipes-container {
-    font-size: 1.2em;
   }
 
   .recipe-card {

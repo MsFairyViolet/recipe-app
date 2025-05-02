@@ -118,7 +118,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                                             handleQueryIngredientAdd(query, index)
                                             setFocusedIndex(null)
                                         }}>
-                                            + Add Ingredient "{query}"
+                                            + Add <i>{query}</i>
                                         </li>
                                     )
                                 }
