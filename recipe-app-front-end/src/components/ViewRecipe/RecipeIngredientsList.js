@@ -11,7 +11,7 @@ export default function RecipeIngredientsList({ ingredients }) {
             {ingredients.map((ingredient, index) => (
                 <div className="row" key={`${ingredient.name}-${index}`}>
                     <span className="first-column">{ingredient.name}</span>
-                    <span className="second-column">{ingredient.amount}</span>
+                    <span className="second-column">{parseFloat(ingredient.amount)}</span>
                     <span className="third-column">{ingredient.amountType}</span>
                     </div>
             ))

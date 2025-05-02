@@ -125,7 +125,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                             </ul>
                         )}
                     </div>
-                    <input className="second-column ingredient-input" type="number" value={ingredient.amount} onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}></input>
+                    <input className="second-column ingredient-input" type="number" value={parseFloat(ingredient.amount)} onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}></input>
                     <select className="third-column ingredient-input" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
                         {amountTypeOptions.map((type) => (
                             <option key={type} value={type}>{type}</option>
