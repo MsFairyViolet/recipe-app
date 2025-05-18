@@ -1,0 +1,92 @@
+[
+   {
+      "id": 1,
+      "name": "Albondigas",
+      "description": "Midden-oosterse gehaktballetjes in tomatensaus met couscous en tzatziki",
+      "servingCalories": 945,
+      "servingCount": 2,
+      "cuisine": "Midden-Oosters",
+      "note": "Couscous : water = 1 : 1",
+      "externalRecipeLink": "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas",
+      "ingredients": [
+         {
+            "id": 1,
+            "name": "tomatenblokjes",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 2,
+            "name": "tomatenpuree",
+            "amount": "2.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 3,
+            "name": "gehakt",
+            "amount": "300.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 4,
+            "name": "cous cous",
+            "amount": "0.75",
+            "amountType": "cup"
+         },
+         {
+            "id": 5,
+            "name": "bosui",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 6,
+            "name": "paprika",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 7,
+            "name": "courgette",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 8,
+            "name": "bouillon",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 10,
+            "name": "Harissa",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 11,
+            "name": "Griekse yoghurt",
+            "amount": "3.00",
+            "amountType": "tbsp"
+         },
+         {
+            "id": 12,
+            "name": "Komkommer",
+            "amount": "0.50",
+            "amountType": "stuk"
+         },
+         {
+            "id": 13,
+            "name": "Knoflooksaus",
+            "amount": "0.50",
+            "amountType": "portie"
+         },
+         {
+            "id": 14,
+            "name": "Ui",
+            "amount": "1.00",
+            "amountType": "stuk"
+         }
+      ]
+   }
+]

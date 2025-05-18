@@ -13,8 +13,8 @@ export default function RecipeList({ recipes, searchQuery }) {
                 <span className="third-column">Cuisine</span>
             </div>
             {filteredRecipes.length > 0 ? (
-                filteredRecipes.map((recipe) => (
-                    <div className="row" key={recipe.id}>
+                filteredRecipes.map((recipe, index) => (
+                    <div data-test={`recipe-row-${index}`} className="row" key={recipe.id}>
                         <span className="first-column"><Link href={`/recipe/${recipe.id}`} className='recipe-link-inline'>{recipe.name}</Link></span>
                         <span className="second-column">{recipe.servingCalories}</span>
                         <span className="third-column">{recipe.cuisine}</span>
