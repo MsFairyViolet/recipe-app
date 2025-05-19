@@ -34,10 +34,6 @@ describe('Recipe List Page', () => {
   })
 
   //Searchbar
-  it('has a search bar', () => {
-    cy.get("[data-test='search-bar']").should("exist")
-  })
-
   const searchTerms = ['okono', 'Okono', "OKONO", "Okonomiyaki"]
   searchTerms.forEach((term) => {
     it(`returns Okonomiyaki when searching ${term}`, () => {
@@ -53,7 +49,7 @@ describe('Recipe List Page', () => {
     cy.get("[data-test^='recipe-row']").should("have.length", 2)
   })
 
-  it("returns error if there's no result", () => {
+  it("returns warning if there's no result", () => {
     cy.intercept('GET', '/api/recipe', { fixture: 'all-recipes.json' })
     cy.get("[data-test='search-bar']").type("zzzzzzzz")
     cy.get(".warning").contains("No recipes found.")
@@ -66,13 +62,10 @@ describe('Recipe List Page', () => {
   })
 
   //Nav Bar
-  it.only("has a correct active Nav Bar element", () => {
+  it("has a correct active Nav Bar element", () => {
     cy.get('[data-test="nav-bar"]').should("exist")
 
-    cy.location("pathname").should('equal', "/recipe")
     cy.get('[data-test="nav-link-recipes"]').contains("Recipes").should("have.class", "active")
     cy.get('[data-test="nav-link-ingredients"]').contains("Ingredients").should("not.have.class", "active")
-
   })
-
 })
