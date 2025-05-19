@@ -78,6 +78,11 @@ databaseChangeLog:
                   type: tinytext
                   constraints:
                     nullable: false
+              - column:
+                  name: ordinal
+                  type: int
+                  constraints:
+                    nullable: false
 
         - addUniqueConstraint:
             tableName: recipe_ingredient

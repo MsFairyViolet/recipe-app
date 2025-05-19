@@ -27,4 +27,6 @@ class RecipeIngredient(
     @MapsId("ingredientId")
     @JoinColumn(name = "ingredient_id")
     lateinit var ingredient: Ingredient
+
+    var ordinal: Int = 0
 }

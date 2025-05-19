@@ -19,7 +19,7 @@ class Recipe(
     var id: Long? = null
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
-    @OrderBy("ingredient.id")
+    @OrderBy("ordinal")
     val ingredients: MutableList<RecipeIngredient> = mutableListOf()
 }
 
@@ -28,5 +28,6 @@ fun Recipe.addIngredient(ingredient: Ingredient, amount: BigDecimal, amountType:
         it.id = RecipeIngredientKey(this.id, ingredient.id)
         it.ingredient = ingredient
         it.recipe = this
+        it.ordinal = this.ingredients.size
     })
 }

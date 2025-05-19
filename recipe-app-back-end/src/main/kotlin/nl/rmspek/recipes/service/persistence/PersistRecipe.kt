@@ -32,7 +32,7 @@ fun RecipeRepository.persistRecipe(
     recipe.ingredients.clear()
 
     recipe.ingredients.addAll(
-        recipeView.ingredients.map { recipeIngredientView ->
+        recipeView.ingredients.mapIndexed { index, recipeIngredientView->
             RecipeIngredient(
                 BigDecimal(recipeIngredientView.amount),
                 recipeIngredientView.parseAmountType(),
@@ -41,6 +41,7 @@ fun RecipeRepository.persistRecipe(
                 recipeIngredient.id = RecipeIngredientKey(recipe.id, ingredient.id)
                 recipeIngredient.recipe = recipe
                 recipeIngredient.ingredient = ingredient
+                recipeIngredient.ordinal = index
             }
         }
     )
