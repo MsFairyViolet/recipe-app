@@ -493,10 +493,14 @@ select,
 
 /* Common CSS Rules */
 
-.no-results-message {
+.warning {
   text-align: center;
   color: gray;
   margin-left: 0.5rem;
+}
+
+.error {
+  color:darkred;
 }
 
 .recipe-link-inline {

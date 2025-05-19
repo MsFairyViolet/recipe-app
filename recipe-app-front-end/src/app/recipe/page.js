@@ -32,6 +32,6 @@ export default function RecipeListContainer() {
     }, [])
 
     return (
-        <RecipeListPage recipes={recipes} />
+        <RecipeListPage recipes={recipes} error={error} />
     );
 }

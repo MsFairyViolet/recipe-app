@@ -14,15 +14,15 @@ export default function NavBar() {
 
    return (
       <>
-      <nav>
+      <nav data-test="nav-bar">
 
          <button className="menu-button" onClick={toggleMenu}>&#9776;</button>
 
          <div className="logo">Recipe App</div>
 
          <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
-          <li><Link href="/recipe"  className={pathName === '/recipe' ? 'active' : ''} onClick={hideMenu}>Recipes</Link></li>
-          <li><Link href="/ingredients"  className={pathName === '/ingredients' ? 'active' : ''} onClick={hideMenu}>Ingredients</Link></li>
+          <li><Link href="/recipe" data-test="nav-link-recipes" className={pathName === '/recipe' ? 'active' : ''} onClick={hideMenu}>Recipes</Link></li>
+          <li><Link href="/ingredients" data-test="nav-link-ingredients" className={pathName === '/ingredients' ? 'active' : ''} onClick={hideMenu}>Ingredients</Link></li>
         </ul>
       </nav>
       </>
