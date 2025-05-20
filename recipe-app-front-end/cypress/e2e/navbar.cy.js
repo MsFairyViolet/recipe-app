@@ -35,7 +35,7 @@ describe('Nav Bar - Desktop', () => {
    })
 })
 
-describe.only("Nav bar - Mobile", () => {
+describe("Nav bar - Mobile", () => {
    beforeEach(() => {
       cy.visit("http://localhost:3000")
       cy.viewport(375, 667)
