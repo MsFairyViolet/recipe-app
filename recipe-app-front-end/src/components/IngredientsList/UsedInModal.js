@@ -19,7 +19,7 @@ export default function UsedInModal({ ingredient, onClose }) {
                   ))}
                </ul>
             ) : (
-               <p>This ingredient isn't used in any recipes yet.</p>
+               <p>This ingredient isn&apos;t used in any recipes yet.</p>
             )}
 
          </div>
