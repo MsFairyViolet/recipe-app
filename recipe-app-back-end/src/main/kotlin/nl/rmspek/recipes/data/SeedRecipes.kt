@@ -50,7 +50,7 @@ class SeedRecipes(
         val surimi = ingredientRepository.save(Ingredient("Surimi"))
         val nori = ingredientRepository.save(Ingredient("Nori"))
         val mayo = ingredientRepository.save(Ingredient("Mayonnaise"))
-        val okosaus = ingredientRepository.save(Ingredient("Okonamiyakisaus"))
+        val okosaus = ingredientRepository.save(Ingredient("Okonomiyakisaus"))
         val chinkool = ingredientRepository.save(Ingredient("Chinese kool"))
         val pandanRijst = ingredientRepository.save(Ingredient("Pandan rijst"))
         val kidneybonen = ingredientRepository.save(Ingredient("Kidneybonen"))

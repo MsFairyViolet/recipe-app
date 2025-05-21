@@ -4,7 +4,7 @@ import IngredientsList from "./IngredientsList";
 import SearchBar from "@components/common/SearchBar";
 import { useConfirm } from "@components/common/ConfirmProvider";
 
-export default function IngredientsPage({ ingredients, fetchIngredients }) {
+export default function IngredientsPage({ ingredients, fetchIngredients, error }) {
     const [searchQuery, setSearchQuery] = useState("")
     const confirm = useConfirm();
     const router = useRouter();
@@ -118,8 +118,8 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
             </div>
             <div className="ingredients-container">
                 <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={"Search for ingredient..."} />
-                <IngredientsList ingredients={ingredients} searchQuery={searchQuery} onIngredientEdit={handleIngredientEdit} onIngredientDelete={handleIngredientDelete} />
-                <button className="ingredient-button" onClick={handleIngredientAdd}>Add new ingredient</button>
+                <IngredientsList ingredients={ingredients} error={error} searchQuery={searchQuery} onIngredientEdit={handleIngredientEdit} onIngredientDelete={handleIngredientDelete} />
+                <button data-test="new-global-ingredient-button" className="ingredient-button" onClick={handleIngredientAdd}>Add new ingredient</button>
             </div>
         </>
     )

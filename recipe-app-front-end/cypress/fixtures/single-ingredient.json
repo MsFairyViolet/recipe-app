@@ -1,0 +1,24 @@
+[
+   {
+      "id": 5,
+      "name": "bosui",
+      "recipes": [
+         {
+            "id": 1,
+            "name": "Albondigas"
+         },
+         {
+            "id": 2,
+            "name": "Shaksuka"
+         },
+         {
+            "id": 5,
+            "name": "Okonomiyaki"
+         },
+         {
+            "id": 6,
+            "name": "Jerk Chicken"
+         }
+      ]
+   }
+]

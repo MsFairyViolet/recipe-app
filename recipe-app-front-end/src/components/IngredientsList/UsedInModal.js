@@ -11,7 +11,7 @@ export default function UsedInModal({ ingredient, onClose }) {
       <div className="overlay">
          <div className="overlay-content">
             <button className="overlay-close-button" onClick={onClose}>✕</button>
-            <p><strong>{ingredient.name} </strong> is used in:</p>
+            <p data-test="used-in-ingredient"><strong>{ingredient.name} </strong> is used in:</p>
             {sortedRecipes.length > 0 ? (
                <ul>
                   {sortedRecipes.map((recipe) => (

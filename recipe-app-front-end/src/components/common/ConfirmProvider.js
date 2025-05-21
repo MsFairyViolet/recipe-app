@@ -71,14 +71,14 @@ export function ConfirmProvider({ children }) {
          {isOpen && (
             <div className="overlay">
                <div className="overlay-content">
-                  <p>{message} <strong>{value}</strong>?</p>
+                  <p data-test="overlay-message">{message} <strong data-test="overlay-value">{value}</strong>?</p>
 
                   {hasInput && (
-                     <input type="text" value={inputValue} autoFocus onChange={(e) => setInputValue(e.target.value)}/>
+                     <input data-test="overlay-input" type="text" value={inputValue} autoFocus onChange={(e) => setInputValue(e.target.value)}/>
                   )}
                   <div className="overlay-buttons">
-                     <button onClick={handleCancel}>Cancel</button>
-                     <button onClick={handleConfirm}>Confirm</button>
+                     <button data-test="cancel-button" onClick={handleCancel}>Cancel</button>
+                     <button data-test="confirm-button" onClick={handleConfirm}>Confirm</button>
                   </div>
                </div>
             </div>
