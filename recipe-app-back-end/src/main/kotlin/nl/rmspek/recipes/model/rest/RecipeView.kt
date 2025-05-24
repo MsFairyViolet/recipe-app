@@ -20,7 +20,7 @@ fun Recipe.fromDb() = RecipeView(
     description,
     servingCalories,
     servingCount,
-    cuisine,
+    cuisine?.title ?: "",
     note,
     externalRecipeLink,
     ingredients.map { it.fromDb() }.toMutableList()

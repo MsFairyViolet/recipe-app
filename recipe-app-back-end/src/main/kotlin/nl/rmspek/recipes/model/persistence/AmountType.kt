@@ -1,8 +1,6 @@
 package nl.rmspek.recipes.model.persistence
 
-import jakarta.persistence.Entity
 import nl.rmspek.recipes.model.rest.RecipeIngredientView
-import java.util.*
 
 enum class AmountType {
     STUK,

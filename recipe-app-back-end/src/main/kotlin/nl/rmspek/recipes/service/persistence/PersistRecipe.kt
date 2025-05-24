@@ -1,12 +1,11 @@
 package nl.rmspek.recipes.service.persistence
 
-import nl.rmspek.recipes.model.persistence.Recipe
-import nl.rmspek.recipes.model.persistence.RecipeIngredient
-import nl.rmspek.recipes.model.persistence.RecipeIngredientKey
-import nl.rmspek.recipes.model.persistence.parseAmountType
+import nl.rmspek.recipes.model.persistence.*
 import nl.rmspek.recipes.model.rest.RecipeView
 import nl.rmspek.recipes.model.rest.toDbIngredient
+import org.springframework.http.HttpStatus
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.server.ResponseStatusException
 import java.math.BigDecimal
 
 @Transactional
@@ -20,7 +19,7 @@ fun RecipeRepository.persistRecipe(
                 recipeView.description,
                 recipeView.servingCalories,
                 recipeView.servingCount,
-                recipeView.cuisine,
+                cuisineByTitle(recipeView.cuisine),
                 recipeView.note,
                 recipeView.externalRecipeLink
             )
