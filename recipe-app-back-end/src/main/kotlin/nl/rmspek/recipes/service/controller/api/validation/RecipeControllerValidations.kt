@@ -1,6 +1,7 @@
 package nl.rmspek.recipes.service.controller.api.validation
 
 import nl.rmspek.recipes.model.persistence.representationMap
+import nl.rmspek.recipes.model.persistence.validCuisineTitle
 import nl.rmspek.recipes.model.rest.RecipeView
 import nl.rmspek.recipes.service.persistence.IngredientRepository
 import nl.rmspek.recipes.service.persistence.RecipeRepository
@@ -18,6 +19,10 @@ fun validatePersistRecipe(
             HttpStatus.UNPROCESSABLE_ENTITY,
             "Recipe with name ${recipeView.name} already exists"
         )
+    }
+
+    if (!validCuisineTitle(recipeView.cuisine)) {
+        throw ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Could not parse cuisine ${recipeView.cuisine}.")
     }
 
     recipeView.ingredients.map { it.amountType }.forEach { amountString ->

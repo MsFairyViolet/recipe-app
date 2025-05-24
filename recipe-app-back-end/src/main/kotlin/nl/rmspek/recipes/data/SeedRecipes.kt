@@ -20,14 +20,14 @@ class SeedRecipes(
     fun loadDevRecipes() = ApplicationRunner {
         if(recipeRepository.count() > 1 || ingredientRepository.count() > 1) return@ApplicationRunner
 
-        val tomBlok = ingredientRepository.save(Ingredient("tomatenblokjes"))
-        val tomPuree = ingredientRepository.save(Ingredient("tomatenpuree"))
-        val gehakt = ingredientRepository.save(Ingredient("gehakt"))
-        val cousCous = ingredientRepository.save(Ingredient("cous cous"))
-        val bosui = ingredientRepository.save(Ingredient("bosui"))
-        val paprika = ingredientRepository.save(Ingredient("paprika"))
-        val courgette = ingredientRepository.save(Ingredient("courgette"))
-        val bouillon = ingredientRepository.save(Ingredient("bouillon"))
+        val tomBlok = ingredientRepository.save(Ingredient("Tomatenblokjes"))
+        val tomPuree = ingredientRepository.save(Ingredient("Tomatenpuree"))
+        val gehakt = ingredientRepository.save(Ingredient("Gehakt"))
+        val cousCous = ingredientRepository.save(Ingredient("Cous cous"))
+        val bosui = ingredientRepository.save(Ingredient("Bosui"))
+        val paprika = ingredientRepository.save(Ingredient("Paprika"))
+        val courgette = ingredientRepository.save(Ingredient("Courgette"))
+        val bouillon = ingredientRepository.save(Ingredient("Bouillon"))
         val ei = ingredientRepository.save(Ingredient("Ei"))
         val harissa = ingredientRepository.save(Ingredient("Harissa"))
         val yoghurt = ingredientRepository.save(Ingredient("Griekse yoghurt"))
@@ -77,7 +77,7 @@ class SeedRecipes(
             "Midden-oosterse gehaktballetjes in tomatensaus met couscous en tzatziki",
             945,
             2,
-            "Midden-Oosters",
+            Cuisine.MID_EASTERN,
             "Couscous : water = 1 : 1",
             "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas"
         ))
@@ -101,7 +101,7 @@ class SeedRecipes(
             "Gestoofde eieren in pittige tomatensaus met couscous.",
             870,
             2,
-            "Midden-Oosters",
+            Cuisine.MID_EASTERN,
             "Couscous : water = 1 : 1",
             "https://www.ah.nl/allerhande/recept/R-R1196837/shakshuka"
         ))
@@ -125,7 +125,7 @@ class SeedRecipes(
             "Gebakken ossenhaas met oven aardappelen en snijbonen",
             833,
             2,
-            "Westers",
+            Cuisine.WESTERN,
             "",
             ""
         ))
@@ -142,7 +142,7 @@ class SeedRecipes(
             "Pasta met groenten en Parmezaanse kaas",
             878,
             2,
-            "Italiaans",
+            Cuisine.ITALIAN,
             "Gezonde pasta met groenten",
             "https://example.com/orechiette-vegetables"
         ))
@@ -163,7 +163,7 @@ class SeedRecipes(
             "Japanse hartige pannenkoek met groenten en saus",
             1154,
             2,
-            "Japans",
+            Cuisine.JAPANESE,
             "Hartige pannenkoek met verse groenten",
             "https://example.com/okonomiyaki"
         ))
@@ -185,7 +185,7 @@ class SeedRecipes(
             "Geurige pandan rijst met kip, kidneybonen en verse groenten",
             987,
             2,
-            "Aziatisch",
+            Cuisine.ASIAN,
             "Rijstgerecht met kip en groenten",
             "https://example.com/pandan-rijst"
         ))
@@ -205,7 +205,7 @@ class SeedRecipes(
             "Klassieke Italiaanse lasagne met gehaktsaus en bechamel",
             1200,
             2,
-            "Italiaans",
+            Cuisine.ITALIAN,
             "Ovengebakken pasta met romige saus",
             "https://example.com/lasagne-bolognese"
         ))
@@ -223,7 +223,7 @@ class SeedRecipes(
             "Thaise noedels met kip, groenten en pinda’s",
             950,
             2,
-            "Thais",
+            Cuisine.THAI,
             "Authentieke Thaise wokschotel",
             "https://example.com/pad-thai"
         ))
@@ -242,7 +242,7 @@ class SeedRecipes(
             "Pittige bonenschotel met gehakt en tomatensaus",
             1100,
             2,
-            "Mexicaans",
+            Cuisine.MEXICAN,
             "Stevige bonenschotel met kruiden",
             "https://example.com/chili-con-carne"
         ))
@@ -256,7 +256,5 @@ class SeedRecipes(
         chili.addIngredient(komijn, BigDecimal(1), AmountType.THEELEPEL)
         chili.addIngredient(rijst, BigDecimal(200), AmountType.GRAM)
         recipeRepository.save(chili)
-
-
     }
 }

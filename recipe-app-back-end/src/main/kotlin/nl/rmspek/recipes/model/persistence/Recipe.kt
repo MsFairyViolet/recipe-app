@@ -10,7 +10,8 @@ class Recipe(
     var description: String,
     var servingCalories: Int,
     var servingCount: Int,
-    var cuisine: String,
+    @Enumerated(EnumType.STRING)
+    var cuisine: Cuisine?,
     var note: String,
     var externalRecipeLink: String,
 ) {

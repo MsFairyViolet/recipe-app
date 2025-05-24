@@ -2,7 +2,9 @@ package nl.rmspek.recipes.controller.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import nl.rmspek.recipes.BaseIntegrationTest
-import nl.rmspek.recipes.model.persistence.*
+import nl.rmspek.recipes.model.persistence.AmountType
+import nl.rmspek.recipes.model.persistence.Ingredient
+import nl.rmspek.recipes.model.persistence.addIngredient
 import nl.rmspek.recipes.model.rest.IngredientView
 import nl.rmspek.recipes.service.persistence.IngredientRepository
 import nl.rmspek.recipes.service.persistence.RecipeRepository
@@ -10,7 +12,6 @@ import nl.rmspek.recipes.util.IterableNumberTypeAgnosticMatcher
 import nl.rmspek.recipes.util.SingleNumberTypeAgnosticMatcher
 import nl.rmspek.recipes.util.defaultRecipe
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
