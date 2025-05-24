@@ -125,7 +125,7 @@ class SeedRecipes(
             "Gebakken ossenhaas met oven aardappelen en snijbonen",
             833,
             2,
-            Cuisine.WESTERN,
+            Cuisine.EUROPEAN,
             "",
             ""
         ))
