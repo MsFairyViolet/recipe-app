@@ -216,7 +216,7 @@ describe("Ingredients Page", () => {
       })
    })
 
-   describe.only("New Ingredient Button", () => {
+   describe("New Ingredient Button", () => {
 
       it("opens new ingredient modal", () => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
@@ -277,6 +277,3 @@ describe("Ingredients Page", () => {
       })
    })
 })
-
-
-//More we need to test on this page?
