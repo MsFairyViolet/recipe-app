@@ -272,16 +272,16 @@ export default function EditRecipe({ recipe, isNew = false }) {
                             "Content-Type": "application/json"
                         }
                     })
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error("Failed to delete recipe")
+                            }
+                            router.push("/recipe")
+                        })
+                        .catch((error) => {
+                            console.error(error)
+                        })
                 }
-            })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to delete recipe")
-                }
-                router.push("/recipe")
-            })
-            .catch((error) => {
-                console.error(error)
             })
     }
 
