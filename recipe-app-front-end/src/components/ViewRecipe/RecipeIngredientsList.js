@@ -8,14 +8,18 @@ export default function RecipeIngredientsList({ ingredients }) {
                 <span className="second-column">Amount</span>
                 <span className="third-column">Type</span>
             </div>
-            {ingredients.map((ingredient, index) => (
-                <div className="row" key={`${ingredient.name}-${index}`}>
-                    <span className="first-column">{ingredient.name}</span>
-                    <span className="second-column">{parseFloat(ingredient.amount)}</span>
-                    <span className="third-column">{ingredient.amountType}</span>
+            {ingredients.length > 0 ? (
+                ingredients.map((ingredient, index) => (
+                    <div className="row" key={`${ingredient.name}-${index}`}>
+                        <span className="first-column">{ingredient.name}</span>
+                        <span className="second-column">{parseFloat(ingredient.amount)}</span>
+                        <span className="third-column">{ingredient.amountType}</span>
                     </div>
-            ))
-            }
+                ))
+            ) : (
+                <p className="warning">No ingredients yet...</p>
+            )}
+
         </div >
 
     )

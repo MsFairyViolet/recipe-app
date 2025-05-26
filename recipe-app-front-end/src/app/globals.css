@@ -495,7 +495,7 @@ select,
 /* Common CSS Rules */
 
 .warning {
-  text-align: center;
+  text-align: left;
   color: gray;
   margin-left: 0.5rem;
 }

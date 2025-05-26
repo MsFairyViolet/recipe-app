@@ -38,7 +38,7 @@ export default function EditRecipeContainer() {
                 {recipe ? (
                     <EditRecipe recipe={recipe} />
                 ) : (
-                    <p className="no-results-message">Loading recipe...</p>
+                    <p className="warning">Loading recipe...</p>
                 )}
         </>
     );

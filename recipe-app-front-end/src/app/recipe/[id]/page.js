@@ -38,7 +38,7 @@ export default function ViewRecipeContainer() {
             {recipe ? (
                 <ViewRecipe recipe={recipe} />
             ) : (
-                <p className="no-results-message">Loading recipe...</p>
+                <p className="warning">Loading recipe...</p>
             )}
         </>
     );
