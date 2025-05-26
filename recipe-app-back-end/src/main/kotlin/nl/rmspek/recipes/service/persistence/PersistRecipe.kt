@@ -15,7 +15,7 @@ fun RecipeRepository.persistRecipe(
     val recipe = if (recipeView.id == null) {
         Recipe()
     } else {
-        findById(recipeView.id).orElseThrow().also { it.name = recipeView.name }
+        findById(recipeView.id).orElseThrow()
     }
 
     recipe.name = recipeView.name
