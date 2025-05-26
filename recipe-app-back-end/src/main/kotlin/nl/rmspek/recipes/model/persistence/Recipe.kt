@@ -5,19 +5,26 @@ import java.math.BigDecimal
 
 @Entity
 @Table(name="recipes")
-class Recipe(
-    @Column(unique = true) var name: String,
-    var description: String,
-    var servingCalories: Int,
-    var servingCount: Int,
-    @Enumerated(EnumType.STRING)
-    var cuisine: Cuisine?,
-    var note: String,
-    var externalRecipeLink: String,
-) {
+class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+
+    @Column(unique = true)
+    var name: String = ""
+
+    var description: String = ""
+
+    var servingCalories: Int = 0
+
+    var servingCount: Int = 0
+
+    @Enumerated(EnumType.STRING)
+    var cuisine: Cuisine? = null
+
+    var note: String = ""
+
+    var externalRecipeLink: String? = null
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     @OrderBy("ordinal")

@@ -13,23 +13,21 @@ fun RecipeRepository.persistRecipe(
     recipeView: RecipeView,
 ): Recipe {
     val recipe = if (recipeView.id == null) {
-        save(
-            Recipe(
-                recipeView.name,
-                recipeView.description,
-                recipeView.servingCalories,
-                recipeView.servingCount,
-                cuisineByTitle(recipeView.cuisine),
-                recipeView.note,
-                recipeView.externalRecipeLink
-            )
-        )
+        Recipe()
     } else {
-        findById(recipeView.id).orElseThrow().also { it.name = recipeView.name }
+        findById(recipeView.id).orElseThrow()
     }
 
-    recipe.ingredients.clear()
+    recipe.name = recipeView.name
+    recipe.description = recipeView.description
+    recipe.servingCalories = recipeView.servingCalories
+    recipe.servingCount = recipeView.servingCount
+    recipe.cuisine = cuisineByTitle(recipeView.cuisine)
+    recipe.note = recipeView.note
+    recipe.externalRecipeLink = recipeView.externalRecipeLink
+    save(recipe)
 
+    recipe.ingredients.clear()
     recipe.ingredients.addAll(
         recipeView.ingredients.mapIndexed { index, recipeIngredientView->
             RecipeIngredient(

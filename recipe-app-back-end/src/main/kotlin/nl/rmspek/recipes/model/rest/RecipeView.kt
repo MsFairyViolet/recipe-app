@@ -10,7 +10,7 @@ data class RecipeView(
     val servingCount: Int,
     val cuisine: String,
     val note: String,
-    val externalRecipeLink: String,
+    val externalRecipeLink: String?,
     val ingredients: MutableList<RecipeIngredientView>
 )
 
