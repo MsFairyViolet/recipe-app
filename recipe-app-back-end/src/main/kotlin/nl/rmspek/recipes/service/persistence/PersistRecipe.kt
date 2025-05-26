@@ -13,8 +13,7 @@ fun RecipeRepository.persistRecipe(
     recipeView: RecipeView,
 ): Recipe {
     val recipe = if (recipeView.id == null) {
-        Recipe(
-        )
+        Recipe()
     } else {
         findById(recipeView.id).orElseThrow().also { it.name = recipeView.name }
     }
