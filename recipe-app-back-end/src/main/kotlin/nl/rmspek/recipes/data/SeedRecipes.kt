@@ -72,15 +72,15 @@ class SeedRecipes(
         val komijn = ingredientRepository.save(Ingredient("Komijn"))
         val rijst = ingredientRepository.save(Ingredient("Rijst"))
 
-        val r1 = recipeRepository.save(Recipe(
-            "Albondigas",
-            "Midden-oosterse gehaktballetjes in tomatensaus met couscous en tzatziki",
-            945,
-            2,
-            Cuisine.MID_EASTERN,
-            "Couscous : water = 1 : 1",
-            "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas"
-        ))
+        val r1 = recipeRepository.save(Recipe().also {
+            it.name = "Albondigas"
+            it.description = "Midden-oosterse gehaktballetjes in tomatensaus met couscous en tzatziki"
+            it.servingCalories = 945
+            it.servingCount = 2
+            it.cuisine = Cuisine.MID_EASTERN
+            it.note = "Couscous : water = 1 : 1"
+            it.externalRecipeLink = "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas"
+        })
         r1.addIngredient(tomBlok, BigDecimal(1), AmountType.STUK)
         r1.addIngredient(tomPuree, BigDecimal(2), AmountType.STUK)
         r1.addIngredient(gehakt, BigDecimal(300), AmountType.GRAM)
@@ -96,15 +96,15 @@ class SeedRecipes(
         r1.addIngredient(yoghurt, BigDecimal(3), AmountType.EETLEPEL)
         recipeRepository.save(r1)
 
-        val r2 = recipeRepository.save(Recipe(
-            "Shaksuka",
-            "Gestoofde eieren in pittige tomatensaus met couscous.",
-            870,
-            2,
-            Cuisine.MID_EASTERN,
-            "Couscous : water = 1 : 1",
-            "https://www.ah.nl/allerhande/recept/R-R1196837/shakshuka"
-        ))
+        val r2 = recipeRepository.save(Recipe().also {
+            it.name = "Shaksuka"
+            it.description = "Gestoofde eieren in pittige tomatensaus met couscous."
+            it.servingCalories = 870
+            it.servingCount = 2
+            it.cuisine = Cuisine.MID_EASTERN
+            it.note = "Couscous : water = 1 : 1"
+            it.externalRecipeLink = "https://www.ah.nl/allerhande/recept/R-R1196837/shakshuka"
+        })
         r2.addIngredient(tomBlok, BigDecimal(1), AmountType.STUK)
         r2.addIngredient(tomPuree, BigDecimal(2), AmountType.STUK)
         r2.addIngredient(cousCous, BigDecimal(1), AmountType.CUP)
@@ -120,15 +120,15 @@ class SeedRecipes(
         r2.addIngredient(yoghurt, BigDecimal(3), AmountType.EETLEPEL)
         recipeRepository.save(r2)
 
-        val r3 = recipeRepository.save(Recipe(
-            "AGBeef",
-            "Gebakken ossenhaas met oven aardappelen en snijbonen",
-            833,
-            2,
-            Cuisine.EUROPEAN,
-            "",
-            ""
-        ))
+        val r3 = recipeRepository.save(Recipe().also {
+            it.name = "AGBeef"
+            it.description = "Gebakken ossenhaas met oven aardappelen en snijbonen"
+            it.servingCalories = 833
+            it.servingCount = 2
+            it.cuisine = Cuisine.EUROPEAN
+            it.note = ""
+            it.externalRecipeLink = ""
+        })
         r3.addIngredient(aardappel, BigDecimal(700), AmountType.GRAM)
         r3.addIngredient(knoflooksaus, BigDecimal(2), AmountType.STUK)
         r3.addIngredient(olie, BigDecimal(5), AmountType.GRAM)
@@ -137,15 +137,15 @@ class SeedRecipes(
         r3.addIngredient(snijbonen, BigDecimal(700), AmountType.GRAM)
         recipeRepository.save(r3)
 
-        val r4 = recipeRepository.save(Recipe(
-            "Pasta e Ceci",
-            "Pasta met groenten en Parmezaanse kaas",
-            878,
-            2,
-            Cuisine.ITALIAN,
-            "Gezonde pasta met groenten",
-            "https://example.com/orechiette-vegetables"
-        ))
+        val r4 = recipeRepository.save(Recipe().also {
+            it.name = "Pasta e Ceci"
+            it.description = "Pasta met groenten en Parmezaanse kaas"
+            it.servingCalories = 878
+            it.servingCount = 2
+            it.cuisine = Cuisine.ITALIAN
+            it.note = "Gezonde pasta met groenten"
+            it.externalRecipeLink = "https://example.com/orechiette-vegetables"
+        })
         r4.addIngredient(orech, BigDecimal(200), AmountType.GRAM)
         r4.addIngredient(paprika, BigDecimal(1), AmountType.STUK)
         r4.addIngredient(wortel, BigDecimal(250), AmountType.GRAM)
@@ -158,15 +158,15 @@ class SeedRecipes(
         r4.addIngredient(pkaas, BigDecimal(70), AmountType.GRAM)
         recipeRepository.save(r4)
 
-        val okonomiyaki = recipeRepository.save(Recipe(
-            "Okonomiyaki",
-            "Japanse hartige pannenkoek met groenten en saus",
-            1154,
-            2,
-            Cuisine.JAPANESE,
-            "Hartige pannenkoek met verse groenten",
-            "https://example.com/okonomiyaki"
-        ))
+        val okonomiyaki = recipeRepository.save(Recipe().also {
+            it.name = "Okonomiyaki"
+            it.description = "Japanse hartige pannenkoek met groenten en saus"
+            it.servingCalories = 1154
+            it.servingCount = 2
+            it.cuisine = Cuisine.JAPANESE
+            it.note = "Hartige pannenkoek met verse groenten"
+            it.externalRecipeLink = "https://example.com/okonomiyaki"
+        })
         okonomiyaki.addIngredient(bosui, BigDecimal(1), AmountType.STUK)
         okonomiyaki.addIngredient(spitskool, BigDecimal(120), AmountType.GRAM)
         okonomiyaki.addIngredient(oesterzwam, BigDecimal(150), AmountType.GRAM)
@@ -180,15 +180,15 @@ class SeedRecipes(
         okonomiyaki.addIngredient(chinkool, BigDecimal(190), AmountType.GRAM)
         recipeRepository.save(okonomiyaki)
 
-        val jerkChicken = recipeRepository.save(Recipe(
-            "Jerk Chicken",
-            "Geurige pandan rijst met kip, kidneybonen en verse groenten",
-            987,
-            2,
-            Cuisine.ASIAN,
-            "Rijstgerecht met kip en groenten",
-            "https://example.com/pandan-rijst"
-        ))
+        val jerkChicken = recipeRepository.save(Recipe().also {
+            it.name = "Jerk Chicken"
+            it.description = "Geurige pandan rijst met kip, kidneybonen en verse groenten"
+            it.servingCalories = 987
+            it.servingCount = 2
+            it.cuisine = Cuisine.ASIAN
+            it.note = "Rijstgerecht met kip en groenten"
+            it.externalRecipeLink = "https://example.com/pandan-rijst"
+        })
         jerkChicken.addIngredient(pandanRijst, BigDecimal(1), AmountType.CUP)
         jerkChicken.addIngredient(kidneybonen, BigDecimal(125), AmountType.GRAM)
         jerkChicken.addIngredient(spitskool, BigDecimal(120), AmountType.GRAM)
@@ -200,15 +200,15 @@ class SeedRecipes(
         jerkChicken.addIngredient(mais, BigDecimal(140), AmountType.GRAM)
         recipeRepository.save(jerkChicken)
 
-        val lasagne = recipeRepository.save(Recipe(
-            "Lasagne Bolognese",
-            "Klassieke Italiaanse lasagne met gehaktsaus en bechamel",
-            1200,
-            2,
-            Cuisine.ITALIAN,
-            "Ovengebakken pasta met romige saus",
-            "https://example.com/lasagne-bolognese"
-        ))
+        val lasagne = recipeRepository.save(Recipe().also {
+            it.name = "Lasagne Bolognese"
+            it.description = "Klassieke Italiaanse lasagne met gehaktsaus en bechamel"
+            it.servingCalories = 1200
+            it.servingCount = 2
+            it.cuisine = Cuisine.ITALIAN
+            it.note = "Ovengebakken pasta met romige saus"
+            it.externalRecipeLink = "https://example.com/lasagne-bolognese"
+        })
         lasagne.addIngredient(lasagnebladen, BigDecimal(250), AmountType.GRAM)
         lasagne.addIngredient(gehakt, BigDecimal(300), AmountType.GRAM)
         lasagne.addIngredient(tomBlok, BigDecimal(400), AmountType.GRAM)
@@ -218,15 +218,15 @@ class SeedRecipes(
         lasagne.addIngredient(pkaas, BigDecimal(50), AmountType.GRAM)
         recipeRepository.save(lasagne)
 
-        val padThai = recipeRepository.save(Recipe(
-            "Pad Thai",
-            "Thaise noedels met kip, groenten en pinda’s",
-            950,
-            2,
-            Cuisine.THAI,
-            "Authentieke Thaise wokschotel",
-            "https://example.com/pad-thai"
-        ))
+        val padThai = recipeRepository.save(Recipe().also{
+            it.name = "Pad Thai"
+            it.description = "Thaise noedels met kip, groenten en pinda’s"
+            it.servingCalories = 950
+            it.servingCount = 2
+            it.cuisine = Cuisine.THAI
+            it.note = "Authentieke Thaise wokschotel"
+            it.externalRecipeLink = "https://example.com/pad-thai"
+        })
         padThai.addIngredient(rijstnoedels, BigDecimal(200), AmountType.GRAM)
         padThai.addIngredient(kipfilet, BigDecimal(250), AmountType.GRAM)
         padThai.addIngredient(tauge, BigDecimal(100), AmountType.GRAM)
@@ -237,15 +237,15 @@ class SeedRecipes(
         padThai.addIngredient(limoen, BigDecimal(1), AmountType.STUK)
         recipeRepository.save(padThai)
 
-        val chili = recipeRepository.save(Recipe(
-            "Chili con Carne",
-            "Pittige bonenschotel met gehakt en tomatensaus",
-            1100,
-            2,
-            Cuisine.MEXICAN,
-            "Stevige bonenschotel met kruiden",
-            "https://example.com/chili-con-carne"
-        ))
+        val chili = recipeRepository.save(Recipe().also {
+            it.name = "Chili con Carne"
+            it.description = "Pittige bonenschotel met gehakt en tomatensaus"
+            it.servingCalories = 1100
+            it.servingCount = 2
+            it.cuisine = Cuisine.MEXICAN
+            it.note = "Stevige bonenschotel met kruiden"
+            it.externalRecipeLink = "https://example.com/chili-con-carne"
+        })
         chili.addIngredient(gehakt, BigDecimal(300), AmountType.GRAM)
         chili.addIngredient(kidneybonen, BigDecimal(250), AmountType.GRAM)
         chili.addIngredient(tomBlok, BigDecimal(400), AmountType.GRAM)
