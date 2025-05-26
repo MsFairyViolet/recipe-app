@@ -318,8 +318,9 @@ input.page-title {
   font-size: 1rem;
 }
 
-.small-details input {
-  min-height: 3rem;
+.small-details input,
+.small-details select {
+  height: 4rem;
   text-align: center;
 }
 

@@ -13,6 +13,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const [error, setError] = useState(null)
     const [globalIngredients, setGlobalIngredients] = useState([])
     const [recipes, setRecipes] = useState([])
+    const [cuisines, setCuisines] = useState([])
     const [formData, setFormData] = useState({
         id: recipe.id,
         name: recipe.name,
@@ -63,9 +64,29 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
+    const fetchCuisines = () => {
+        fetch("/api/cuisine")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch cuisines")
+                }
+                return response.json()
+            })
+            .then((data) => {
+                setCuisines(data)
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.log("Error fetching cuisines: ", error)
+                setError(error.message)
+                setLoading(false)
+            })
+    }
+
     useEffect(() => {
         fetchGlobalIngredients()
         fetchRecipes()
+        fetchCuisines()
     }, [])
 
 
@@ -142,13 +163,13 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
     const handleCreate = () => {
         const recipeExists = recipes.some(
-                (recipe) => recipe.name.toLowerCase() === formData.name.toLowerCase()
-            )
+            (recipe) => recipe.name.toLowerCase() === formData.name.toLowerCase()
+        )
 
-            if (recipeExists) {
-                alert("A recipe with the same name already exists!")
-                return
-            }
+        if (recipeExists) {
+            alert("A recipe with the same name already exists!")
+            return
+        }
 
         fetch("/api/recipe", {
             method: "POST",
@@ -215,7 +236,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
     const handleUpdate = async () => {
         const recipeExists = recipes.some(
-            (recipe) => recipe.id !==formData.id && recipe.name.toLowerCase() === formData.name.toLowerCase()
+            (recipe) => recipe.id !== formData.id && recipe.name.toLowerCase() === formData.name.toLowerCase()
         )
 
         if (recipeExists) {
@@ -278,7 +299,14 @@ export default function EditRecipe({ recipe, isNew = false }) {
                     <div className="small-details">
                         <input name="servingCalories" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
                         <input name="servingCount" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
-                        <input name="cuisine" type="text" placeholder="Cuisine*" value={formData.cuisine} onChange={handleChange}></input>
+                        <select name="cuisine" value={formData.cuisine} onChange={handleChange}>
+                            <option value="" hidden disabled>
+                                Cuisine*
+                            </option>
+                            {cuisines.map((item) => {
+                                return <option key={item.cuisineTitle} value={item.cuisineTitle}>{item.cuisineTitle}</option>
+                            })}
+                        </select>
                     </div>
                 </div>
 
