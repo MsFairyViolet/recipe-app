@@ -14,7 +14,7 @@ export default function ViewRecipeContainer() {
         fetch(`/api/recipe/${id}`)
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("Failed to fetch recipes")
+                    throw new Error("Failed to fetch recipe")
                 }
                 return response.json()
             })
@@ -37,9 +37,14 @@ export default function ViewRecipeContainer() {
         <>
             {recipe ? (
                 <ViewRecipe recipe={recipe} />
-            ) : (
-                <p className="warning">Loading recipe...</p>
-            )}
+            ) :
+                error ? (
+                    <p className="warning error">Failed to fetch recipe</p>
+                ) : (
+                    <p className="warning">Loading recipe...</p>
+                )
+
+            }
         </>
     );
 }

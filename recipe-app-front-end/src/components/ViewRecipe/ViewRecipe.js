@@ -28,9 +28,9 @@ export default function ViewRecipe({ recipe }) {
           </div>
 
           <div className="small-details">
-            <span>{recipe.servingCalories}</span>
-            <span>{recipe.servingCount}</span>
-            <span>{recipe.cuisine}</span>
+            <span data-test="calories">{recipe.servingCalories}</span>
+            <span data-test="serving">{recipe.servingCount}</span>
+            <span data-test="cuisine">{recipe.cuisine}</span>
           </div>
         </div>
 
@@ -48,7 +48,7 @@ export default function ViewRecipe({ recipe }) {
           </div>
         )}
         <div className="button-container">
-          <button className="recipe-button" onClick={handleClick}>Edit</button>
+          <button data-test="edit-button" className="recipe-button" onClick={handleClick}>Edit</button>
         </div>
       </div >
     </>

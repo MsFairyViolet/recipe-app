@@ -10,7 +10,7 @@ export default function RecipeIngredientsList({ ingredients }) {
             </div>
             {ingredients.length > 0 ? (
                 ingredients.map((ingredient, index) => (
-                    <div className="row" key={`${ingredient.name}-${index}`}>
+                    <div data-test={`ingredient-row-${index}`} className="row" key={`${ingredient.name}-${index}`}>
                         <span className="first-column">{ingredient.name}</span>
                         <span className="second-column">{parseFloat(ingredient.amount)}</span>
                         <span className="third-column">{ingredient.amountType}</span>

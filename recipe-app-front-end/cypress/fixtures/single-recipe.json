@@ -1,4 +1,3 @@
-[
    {
       "id": 1,
       "name": "Albondigas",
@@ -16,12 +15,6 @@
             "amountType": "stuk"
          },
          {
-            "id": 2,
-            "name": "tomatenpuree",
-            "amount": "2.00",
-            "amountType": "stuk"
-         },
-         {
             "id": 3,
             "name": "gehakt",
             "amount": "300.00",
@@ -34,59 +27,10 @@
             "amountType": "cup"
          },
          {
-            "id": 5,
-            "name": "bosui",
-            "amount": "1.00",
-            "amountType": "stuk"
-         },
-         {
-            "id": 6,
-            "name": "paprika",
-            "amount": "1.00",
-            "amountType": "stuk"
-         },
-         {
-            "id": 7,
-            "name": "courgette",
-            "amount": "1.00",
-            "amountType": "stuk"
-         },
-         {
-            "id": 8,
-            "name": "bouillon",
-            "amount": "1.00",
-            "amountType": "stuk"
-         },
-         {
-            "id": 10,
-            "name": "Harissa",
-            "amount": "1.00",
-            "amountType": "stuk"
-         },
-         {
-            "id": 11,
-            "name": "Griekse yoghurt",
-            "amount": "3.00",
-            "amountType": "tbsp"
-         },
-         {
             "id": 12,
             "name": "Komkommer",
             "amount": "0.50",
             "amountType": "stuk"
-         },
-         {
-            "id": 13,
-            "name": "Knoflooksaus",
-            "amount": "0.50",
-            "amountType": "portie"
-         },
-         {
-            "id": 14,
-            "name": "Ui",
-            "amount": "1.00",
-            "amountType": "stuk"
          }
-      ]
+            ]
    }
-]
