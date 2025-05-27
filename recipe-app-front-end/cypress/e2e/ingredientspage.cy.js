@@ -276,4 +276,11 @@ describe("Ingredients Page", () => {
          cy.get('@postSpy').should("not.have.been.called")
       })
    })
+
+   describe("Nav Bar", () => {
+    it("has a correct active Nav Bar element", () => {
+      cy.dataTest("nav-link-recipes").contains("Recipes").should("not.have.class", "active")
+      cy.dataTest("nav-link-ingredients").contains("Ingredients").should("have.class", "active")
+    })
+  })
 })
