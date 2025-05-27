@@ -14,6 +14,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const [globalIngredients, setGlobalIngredients] = useState([])
     const [recipes, setRecipes] = useState([])
     const [cuisines, setCuisines] = useState([])
+    const [amountTypes, setAmountTypes] = useState([])
     const [formData, setFormData] = useState({
         id: recipe.id,
         name: recipe.name,
@@ -83,12 +84,31 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
+       const fetchAmountTypes = () => {
+        fetch("/api/amounttype")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch amount types")
+                }
+                return response.json()
+            })
+            .then((data) => {
+                setAmountTypes(data)
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.log("Error fetching amount types: ", error)
+                setError(error.message)
+                setLoading(false)
+            })
+    }
+
     useEffect(() => {
         fetchGlobalIngredients()
         fetchRecipes()
         fetchCuisines()
+        fetchAmountTypes()
     }, [])
-
 
     useEffect(() => {
         document.title = "Edit " + recipe.name
@@ -312,7 +332,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                 <div>
                     <h4>Ingredients:</h4>
-                    <EditRecipeIngriedientList ingredients={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} globalIngredients={globalIngredients} fetchGlobalIngredients={fetchGlobalIngredients} />
+                    <EditRecipeIngriedientList ingredients={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} globalIngredients={globalIngredients} fetchGlobalIngredients={fetchGlobalIngredients} amountTypes={amountTypes}/>
                 </div>
 
                 <div>

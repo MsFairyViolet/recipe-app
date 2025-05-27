@@ -2,9 +2,7 @@ import { useState } from "react"
 import { useConfirm } from "@components/common/ConfirmProvider"
 
 
-export default function EditRecipeIngredientsList({ ingredients, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, globalIngredients, fetchGlobalIngredients }) {
-
-    const amountTypeOptions = ["stuk", "portie", "gram", "cup", "ml", "tsp", "tbsp"]
+export default function EditRecipeIngredientsList({ ingredients, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, globalIngredients, fetchGlobalIngredients, amountTypes }) {
 
     const [query, setQuery] = useState("")
     const [focusedIndex, setFocusedIndex] = useState(null)
@@ -127,8 +125,8 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                     </div>
                     <input className="second-column ingredient-input" type="number" value={parseFloat(ingredient.amount)} onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}></input>
                     <select className="third-column ingredient-input" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
-                        {amountTypeOptions.map((type) => (
-                            <option key={type} value={type}>{type}</option>
+                        {amountTypes.map((type) => (
+                            <option key={type.amountType} value={type.amountType}>{type.amountType}</option>
                         ))}
                     </select>
                     <button className="fourth-column" onClick={() => handleIngredientDelete(index)}>x</button>
