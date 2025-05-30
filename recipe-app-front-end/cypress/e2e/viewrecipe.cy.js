@@ -3,7 +3,7 @@ describe('View Recipe Page', () => {
       cy.visit("http://localhost:3000/recipe/1")
    })
 
-   it('it displays all the correct detail information for full Albondigas', () => {
+   it('displays all the correct detail information for full Albondigas', () => {
       cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' })
       cy.title().should("include", "Albondigas")
       cy.get(".page-title").contains("Albondigas")
@@ -15,7 +15,7 @@ describe('View Recipe Page', () => {
       cy.get(".note-details").contains("Couscous : water = 1 : 1")
    })
 
-   it('it hides empty information boxes for simple Albondigas', () => {
+   it('hides empty information boxes for simple Albondigas', () => {
       cy.intercept('GET', '/api/recipe/1', { fixture: 'single-simple-recipe.json' })
       cy.get(".description-details").should("not.exist")
       cy.get(".url-details").should("not.exist")
