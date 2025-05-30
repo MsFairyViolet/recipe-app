@@ -82,9 +82,9 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
             </div>
 
             {ingredients.map((ingredient, index) => (
-                <div className="row" key={ingredient.id}>
+                <div data-test={`ingredient-edit-row-${index}`} className="row" key={ingredient.id}>
                     <div className="first-column autocomplete-container">
-                        <input className="autocomplete-input ingredient-input"
+                        <input data-test="ingredient-name" className="autocomplete-input ingredient-input"
                             type="text"
                             value={ingredient.name}
                             onChange={(e) => {
@@ -123,8 +123,8 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                             </ul>
                         )}
                     </div>
-                    <input className="second-column ingredient-input" type="number" value={parseFloat(ingredient.amount)} onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}></input>
-                    <select className="third-column ingredient-input" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
+                    <input data-test="ingredient-amount" className="second-column ingredient-input" type="number" value={parseFloat(ingredient.amount)} onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}></input>
+                    <select data-test="amount-type" className="third-column ingredient-input" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
                         {amountTypes.map((type) => (
                             <option key={type.amountType} value={type.amountType}>{type.amountType}</option>
                         ))}

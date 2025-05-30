@@ -84,7 +84,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
-       const fetchAmountTypes = () => {
+    const fetchAmountTypes = () => {
         fetch("/api/amounttype")
             .then((response) => {
                 if (!response.ok) {
@@ -181,37 +181,6 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
-    const handleCreate = () => {
-        const recipeExists = recipes.some(
-            (recipe) => recipe.name.toLowerCase() === formData.name.toLowerCase()
-        )
-
-        if (recipeExists) {
-            alert("A recipe with the same name already exists!")
-            return
-        }
-
-        fetch("/api/recipe", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to create recipe")
-                }
-                return response.json()
-            })
-            .then((savedRecipe) => {
-                router.push(`/recipe/${savedRecipe.id}`)
-            })
-            .catch((error) => {
-                console.error(error)
-            })
-    }
-
     const validateFormData = () => {
         const { name, servingCalories, servingCount, cuisine } = formData
         return name && servingCalories && servingCount && cuisine
@@ -242,7 +211,6 @@ export default function EditRecipe({ recipe, isNew = false }) {
         }
 
         if (!validateIngredients()) {
-            console.log("Please fill in all ingredient fields.")
             alert("Please fill in all ingredient fields.")
             return
         }
@@ -252,6 +220,37 @@ export default function EditRecipe({ recipe, isNew = false }) {
         } else {
             handleUpdate()
         }
+    }
+
+    const handleCreate = () => {
+        const recipeExists = recipes.some(
+            (recipe) => recipe.name.toLowerCase() === formData.name.toLowerCase()
+        )
+
+        if (recipeExists) {
+            alert("A recipe with the same name already exists!")
+            return
+        }
+
+        fetch("/api/recipe", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to create recipe")
+                }
+                return response.json()
+            })
+            .then((savedRecipe) => {
+                router.push(`/recipe/${savedRecipe.id}`)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
     }
 
     const handleUpdate = async () => {

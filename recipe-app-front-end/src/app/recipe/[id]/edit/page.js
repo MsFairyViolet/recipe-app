@@ -14,7 +14,7 @@ export default function EditRecipeContainer() {
         fetch(`/api/recipe/${id}`)
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("Failed to fetch recipes")
+                    throw new Error(`Failed to fetch recipe ${id}`)
                 }
                 return response.json()
             })
@@ -23,7 +23,7 @@ export default function EditRecipeContainer() {
                 setLoading(false)
             })
             .catch((error) => {
-                console.log("Error fetching recipes: ", error)
+                console.log(`Error fetching recipe ${id}: `, error)
                 setError(error.message)
                 setLoading(false)
             })
