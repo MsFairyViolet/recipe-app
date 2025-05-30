@@ -43,6 +43,8 @@ describe('Edit Recipe Page', () => {
          })
 
          //Fetch Global Ingredients, loading?, failed
+
+         //Todo: make foreach loop on api endpoints, array with objects, (alias, url, fixture)
          it.only('gives a warning when fetching ingredients is loading', () => {
             cy.intercept('GET', '/api/ingredient', (req) => {
                req.reply((res) => {
@@ -51,32 +53,16 @@ describe('Edit Recipe Page', () => {
                })
             }).as('getIngredients')
 
-            cy.intercept('GET', '/api/recipe', (req) => {
-               req.reply((res) => {
-                  res.delay = 1000
-                  res.send({ fixture: 'all-recipe.json' })
-               })
-            }).as('getRecipes')
-
-            cy.intercept('GET', '/api/cuisine', (req) => {
-               req.reply((res) => {
-                  res.delay = 1000
-                  res.send({ fixture: 'all-cuisines.json' })
-               })
-            }).as('getCuisines')
-
-            cy.intercept('GET', '/api/amounttype', (req) => {
-               req.reply((res) => {
-                  res.delay = 1000
-                  res.send({ fixture: 'all-amounttypes.json' })
-               })
-            }).as('getAmountTypes')
+            //switch out these with endpoints.filter(exclude whatever the alias is)
+            cy.intercept('GET', '/api/recipe', { fixture: 'all-recipes.json' })
+            cy.intercept('GET', '/api/cuisine', { fixture: 'all-cuisines.json' })
+            cy.intercept('GET', '/api/amounttype', { fixture: 'all-amounttypes.json' })
 
             cy.visit('http://localhost:3000/recipe/1/edit')
 
             cy.contains('Loading...').should('be.visible')
 
-            cy.wait(['@getIngredients', '@getRecipe', '@getCuisines', '@getAmountTypes'])
+            cy.wait('@getIngredients')
             cy.contains('Loading...').should('not.exist')
          })
 

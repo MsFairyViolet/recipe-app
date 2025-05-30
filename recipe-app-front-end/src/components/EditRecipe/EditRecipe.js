@@ -348,7 +348,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                     </div >
                 </div>
             ) : error ? (
-                <p className="warning error">Failed: {error}</p>
+                <p className="warning error">Failed!</p>
             ) : (
                 <p className="warning">Loading...</p>
             )
