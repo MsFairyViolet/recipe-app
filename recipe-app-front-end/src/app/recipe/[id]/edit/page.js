@@ -35,11 +35,13 @@ export default function EditRecipeContainer() {
 
     return (
         <>
-                {recipe ? (
-                    <EditRecipe recipe={recipe} />
-                ) : (
-                    <p className="warning">Loading recipe...</p>
-                )}
+            {recipe ? (
+                <EditRecipe recipe={recipe} />
+            ) : error ? (
+                <p className="warning error">Failed to fetch recipe {id}</p>
+            ) : (
+                <p className="warning">Loading recipe {id}...</p>
+            )}
         </>
     );
 }

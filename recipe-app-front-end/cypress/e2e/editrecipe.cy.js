@@ -17,29 +17,83 @@ describe('Edit Recipe Page', () => {
             cy.dataTest("ingredient-name").should("have.value", "tomatenblokjes")
             cy.dataTest("ingredient-amount").should("have.value", "1")
             cy.dataTest("amount-type").should("have.value", "stuk")
-            })
+         })
       })
 
-      //Fetch this recipe information, loading, failed
-      it('gives a warning when fetching recipe is loading', () => {
-         cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
-         cy.visit('http://localhost:3000/recipe/1/edit')
-         cy.wait("@getRecipe")
+      describe('API calls on Edit Page', () => {
+
+         //Fetch this recipe information, loading, failed
+         it('gives a warning when fetching recipe is loading', () => {
+            cy.intercept('GET', '/api/recipe/1', (req) => {
+               req.reply((res) => {
+                  res.delay = 1000
+                  res.send({ fixture: 'single-recipe.json' })
+               })
+            }).as('getRecipe')
+            cy.visit('http://localhost:3000/recipe/1/edit')
+            cy.contains("Loading recipe 1...").should("be.visible")
+            cy.wait('@getRecipe')
+            cy.contains("Loading recipe 1...").should("not.exist")
+         })
+
+         it('gives a error when fetching recipe failed', () => {
+            cy.intercept('GET', '/api/recipe/1', { statusCode: 500, body: {} }).as("getRecipe")
+            cy.visit('http://localhost:3000/recipe/1/edit')
+            cy.wait("@getRecipe")
+         })
+
+         //Fetch Global Ingredients, loading?, failed
+         it.only('gives a warning when fetching ingredients is loading', () => {
+            cy.intercept('GET', '/api/ingredient', (req) => {
+               req.reply((res) => {
+                  res.delay = 1000
+                  res.send({ fixture: 'all-ingredients.json' })
+               })
+            }).as('getIngredients')
+
+            cy.intercept('GET', '/api/recipe', (req) => {
+               req.reply((res) => {
+                  res.delay = 1000
+                  res.send({ fixture: 'all-recipe.json' })
+               })
+            }).as('getRecipes')
+
+            cy.intercept('GET', '/api/cuisine', (req) => {
+               req.reply((res) => {
+                  res.delay = 1000
+                  res.send({ fixture: 'all-cuisines.json' })
+               })
+            }).as('getCuisines')
+
+            cy.intercept('GET', '/api/amounttype', (req) => {
+               req.reply((res) => {
+                  res.delay = 1000
+                  res.send({ fixture: 'all-amounttypes.json' })
+               })
+            }).as('getAmountTypes')
+
+            cy.visit('http://localhost:3000/recipe/1/edit')
+
+            cy.contains('Loading...').should('be.visible')
+
+            cy.wait(['@getIngredients', '@getRecipe', '@getCuisines', '@getAmountTypes'])
+            cy.contains('Loading...').should('not.exist')
+         })
+
+         it('gives a error when fetching recipe failed', () => {
+            cy.intercept('GET', '/api/ingredient', { statusCode: 500, body: {} }).as("getIngredients")
+            cy.visit('http://localhost:3000/recipe/1/edit')
+            cy.wait("@getIngredients")
+         })
+
+         //Fetch All recipes, loading?, failed
+
+         //Fetch cuisines, failed
+         //Fetch AmountTypes, failed
+
+         //If 2 fetches fail at the same time, still errors?
+
       })
-      it('gives a error when fetching recipe failed', () => {
-         cy.intercept('GET', '/api/recipe/1', { statusCode: 500, body: {}}).as("getRecipe")
-         cy.visit('http://localhost:3000/recipe/1/edit')
-         cy.wait("@getRecipe")
-      })
-
-      //Fetch Global Ingredients, loading?, failed
-
-      //Fetch All recipes, loading?, failed
-
-      //Fetch cuisines, failed
-      //Fetch AmountTypes, failed
-
-      //If 2 fetches fail at the same time, still errors?
 
       //Document title
       //Prefilled information correct?

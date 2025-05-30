@@ -305,45 +305,54 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     return (
-        <div className="edit-page" onKeyDown={handleKeyDown}>
-            <input className="page-title" placeholder="Recipe name*" autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
+        <>
+            {globalIngredients && recipes && cuisines && amountTypes ? (
+                <div className="edit-page" onKeyDown={handleKeyDown}>
+                    <input className="page-title" placeholder="Recipe name*" autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
 
-            <div className="recipe-card">
-                <div className="top-details">
-                    <div className="big-details">
-                        <textarea className="description-details" placeholder="Add a description" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
-                        <textarea className="url-details" type="text" placeholder="Add a reference link" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
-                    </div>
+                    <div className="recipe-card">
+                        <div className="top-details">
+                            <div className="big-details">
+                                <textarea className="description-details" placeholder="Add a description" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
+                                <textarea className="url-details" type="text" placeholder="Add a reference link" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
+                            </div>
 
-                    <div className="small-details">
-                        <input name="servingCalories" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
-                        <input name="servingCount" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
-                        <select name="cuisine" value={formData.cuisine} onChange={handleChange}>
-                            <option value="" hidden disabled>
-                                Cuisine*
-                            </option>
-                            {cuisines.map((item) => {
-                                return <option key={item.cuisineTitle} value={item.cuisineTitle}>{item.cuisineTitle}</option>
-                            })}
-                        </select>
-                    </div>
-                </div>
+                            <div className="small-details">
+                                <input name="servingCalories" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
+                                <input name="servingCount" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
+                                <select name="cuisine" value={formData.cuisine} onChange={handleChange}>
+                                    <option value="" hidden disabled>
+                                        Cuisine*
+                                    </option>
+                                    {cuisines.map((item) => {
+                                        return <option key={item.cuisineTitle} value={item.cuisineTitle}>{item.cuisineTitle}</option>
+                                    })}
+                                </select>
+                            </div>
+                        </div>
 
-                <div>
-                    <h4>Ingredients:</h4>
-                    <EditRecipeIngriedientList ingredients={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} globalIngredients={globalIngredients} fetchGlobalIngredients={fetchGlobalIngredients} amountTypes={amountTypes}/>
-                </div>
+                        <div>
+                            <h4>Ingredients:</h4>
+                            <EditRecipeIngriedientList ingredients={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} globalIngredients={globalIngredients} fetchGlobalIngredients={fetchGlobalIngredients} amountTypes={amountTypes} />
+                        </div>
 
-                <div>
-                    <h4>Notes:</h4>
-                    <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
+                        <div>
+                            <h4>Notes:</h4>
+                            <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
+                        </div>
+                        <div className="button-container">
+                            <button className="recipe-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
+                            <button className="recipe-button" onClick={handleCancel}>Cancel</button>
+                            <button className="recipe-button" onClick={handleSave}>Save</button>
+                        </div>
+                    </div >
                 </div>
-                <div className="button-container">
-                    <button className="recipe-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
-                    <button className="recipe-button" onClick={handleCancel}>Cancel</button>
-                    <button className="recipe-button" onClick={handleSave}>Save</button>
-                </div>
-            </div >
-        </div>
+            ) : error ? (
+                <p className="warning error">Failed: {error}</p>
+            ) : (
+                <p className="warning">Loading...</p>
+            )
+            }
+        </>
     )
 }
