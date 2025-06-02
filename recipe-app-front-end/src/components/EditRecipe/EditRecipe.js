@@ -11,10 +11,10 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const confirm = useConfirm()
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const [globalIngredients, setGlobalIngredients] = useState([])
-    const [recipes, setRecipes] = useState([])
-    const [cuisines, setCuisines] = useState([])
-    const [amountTypes, setAmountTypes] = useState([])
+    const [globalIngredients, setGlobalIngredients] = useState(null)
+    const [recipes, setRecipes] = useState(null)
+    const [cuisines, setCuisines] = useState(null)
+    const [amountTypes, setAmountTypes] = useState(null)
     const [formData, setFormData] = useState({
         id: recipe.id,
         name: recipe.name,

@@ -1,5 +1,69 @@
 describe('Edit Recipe Page', () => {
 
+   describe.only('API calls on Edit Page', () => {
+      it('gives a warning when fetching this recipe is loading', () => {
+         cy.intercept('GET', '/api/recipe/1', (req) => {
+            req.reply((res) => {
+               res.delay = 1000
+               res.send({ fixture: 'single-recipe.json' })
+            })
+         }).as('getRecipe')
+         cy.visit('http://localhost:3000/recipe/1/edit')
+         cy.contains("Loading recipe...").should("be.visible")
+         cy.wait('@getRecipe')
+         cy.contains("Loading recipe...").should("not.exist")
+      })
+
+      it('gives a error when fetching this recipe failed', () => {
+         cy.intercept('GET', '/api/recipe/1', { statusCode: 500, body: {} }).as("getRecipe")
+         cy.visit('http://localhost:3000/recipe/1/edit')
+         cy.wait("@getRecipe")
+      })
+
+      const apiEndPoints = [
+         { alias: "Ingredients", url: "/api/ingredient", fixture: "all-ingredients.json" },
+         { alias: "Recipe", url: "/api/recipe", fixture: "all-recipes.json" },
+         { alias: "Cuisines", url: "/api/cuisine", fixture: "all-ingredients.json" },
+         { alias: "Amounttype", url: "/api/amounttype", fixture: "all-amounttypes.json" },
+      ]
+
+      apiEndPoints.forEach((api) => {
+         it(`gives a warning when fetching ${api.alias} is loading`, () => {
+            cy.intercept('GET', `${api.url}`, (req) => {
+               req.reply((res) => {
+                  res.delay = 1000
+                  res.send({ fixture: `${api.fixture}` })
+               })
+            }).as(`get${api.alias}`)
+
+            apiEndPoints.filter((endpoint) => endpoint.alias !== api.alias).forEach(({ url, fixture }) => {
+               cy.intercept('GET', url, { fixture })
+            })
+
+            cy.visit('http://localhost:3000/recipe/1/edit')
+
+            cy.contains('Loading...').should('be.visible')
+
+            cy.wait(`@get${api.alias}`)
+            cy.contains('Loading...').should('not.exist')
+         })
+      })
+
+      apiEndPoints.forEach((api) => {
+         it(`gives a error when fetching ${api.alias} failed`, () => {
+            cy.intercept('GET', `${api.url}`, { statusCode: 500, body: {} }).as(`get${api.alias}`)
+
+            apiEndPoints.filter((endpoint) => endpoint.alias !== api.alias).forEach(({ url, fixture }) => {
+               cy.intercept('GET', url, { fixture })
+            })
+
+            cy.visit('http://localhost:3000/recipe/1/edit')
+
+            cy.get(".error").contains("Failed!")
+         })
+      })
+   })
+
    describe('Recipe information', () => {
 
       it('displays all the correct detail information for unedited Albondigas', () => {
@@ -20,66 +84,7 @@ describe('Edit Recipe Page', () => {
          })
       })
 
-      describe('API calls on Edit Page', () => {
 
-         //Fetch this recipe information, loading, failed
-         it('gives a warning when fetching recipe is loading', () => {
-            cy.intercept('GET', '/api/recipe/1', (req) => {
-               req.reply((res) => {
-                  res.delay = 1000
-                  res.send({ fixture: 'single-recipe.json' })
-               })
-            }).as('getRecipe')
-            cy.visit('http://localhost:3000/recipe/1/edit')
-            cy.contains("Loading recipe 1...").should("be.visible")
-            cy.wait('@getRecipe')
-            cy.contains("Loading recipe 1...").should("not.exist")
-         })
-
-         it('gives a error when fetching recipe failed', () => {
-            cy.intercept('GET', '/api/recipe/1', { statusCode: 500, body: {} }).as("getRecipe")
-            cy.visit('http://localhost:3000/recipe/1/edit')
-            cy.wait("@getRecipe")
-         })
-
-         //Fetch Global Ingredients, loading?, failed
-
-         //Todo: make foreach loop on api endpoints, array with objects, (alias, url, fixture)
-         it.only('gives a warning when fetching ingredients is loading', () => {
-            cy.intercept('GET', '/api/ingredient', (req) => {
-               req.reply((res) => {
-                  res.delay = 1000
-                  res.send({ fixture: 'all-ingredients.json' })
-               })
-            }).as('getIngredients')
-
-            //switch out these with endpoints.filter(exclude whatever the alias is)
-            cy.intercept('GET', '/api/recipe', { fixture: 'all-recipes.json' })
-            cy.intercept('GET', '/api/cuisine', { fixture: 'all-cuisines.json' })
-            cy.intercept('GET', '/api/amounttype', { fixture: 'all-amounttypes.json' })
-
-            cy.visit('http://localhost:3000/recipe/1/edit')
-
-            cy.contains('Loading...').should('be.visible')
-
-            cy.wait('@getIngredients')
-            cy.contains('Loading...').should('not.exist')
-         })
-
-         it('gives a error when fetching recipe failed', () => {
-            cy.intercept('GET', '/api/ingredient', { statusCode: 500, body: {} }).as("getIngredients")
-            cy.visit('http://localhost:3000/recipe/1/edit')
-            cy.wait("@getIngredients")
-         })
-
-         //Fetch All recipes, loading?, failed
-
-         //Fetch cuisines, failed
-         //Fetch AmountTypes, failed
-
-         //If 2 fetches fail at the same time, still errors?
-
-      })
 
       //Document title
       //Prefilled information correct?
@@ -103,44 +108,45 @@ describe('Edit Recipe Page', () => {
       //is json.stringify(formdata) correct? (numbers for numbers etc)
 
       //Enter works on input and text area
+
+
+      describe('Ingredients', () => {
+         //Correct ingredients
+
+         //Add Ingredient button
+         //Create empty row with default information
+
+         //Handle Ingredient Change, updates field when typing
+
+         //Delete ingredient from recipe, correct row gets removed
+
+         //Delete all ingredients from recipe
+         //Confirm popup
+         //Cancel, no change
+         //Delete, did list change?
+
+         //Dropdown shows when clicking/focus ingredient name
+         //Filter when start typing (1 result, 2 results, 0 results, case insensitive)
+         //"Add {queryname} +" on that button
+         //That button is hidden with exact match
+
+         //Add + opens > new global ingredient
+         //Confirm popup, correct info?
+         //Cancel, no call
+         //Confirm
+         //Alert already exist (case insensitive)
+         //API call made, failed
+         //reload globalingredients, api call made
+         //Add new ingredient to this recipe list
+
+
+
+         //If you click away from dropdown, does it dissappear?
+
+      })
+
+
+
+
    })
-
-   describe('Ingredients', () => {
-      //Correct ingredients
-
-      //Add Ingredient button
-      //Create empty row with default information
-
-      //Handle Ingredient Change, updates field when typing
-
-      //Delete ingredient from recipe, correct row gets removed
-
-      //Delete all ingredients from recipe
-      //Confirm popup
-      //Cancel, no change
-      //Delete, did list change?
-
-      //Dropdown shows when clicking/focus ingredient name
-      //Filter when start typing (1 result, 2 results, 0 results, case insensitive)
-      //"Add {queryname} +" on that button
-      //That button is hidden with exact match
-
-      //Add + opens > new global ingredient
-      //Confirm popup, correct info?
-      //Cancel, no call
-      //Confirm
-      //Alert already exist (case insensitive)
-      //API call made, failed
-      //reload globalingredients, api call made
-      //Add new ingredient to this recipe list
-
-
-
-      //If you click away from dropdown, does it dissappear?
-
-   })
-
-
-
-
 })
