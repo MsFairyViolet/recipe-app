@@ -1,6 +1,6 @@
 describe('Edit Recipe Page', () => {
 
-   describe.only('API calls on Edit Page', () => {
+   describe('API calls on Edit Page', () => {
       it('gives a warning when fetching this recipe is loading', () => {
          cy.intercept('GET', '/api/recipe/1', (req) => {
             req.reply((res) => {
@@ -71,48 +71,32 @@ describe('Edit Recipe Page', () => {
          cy.visit('http://localhost:3000/recipe/1/edit')
          cy.wait("@getRecipe")
 
+         cy.title().should("include", "Edit Albondigas")
          cy.get(".page-title").should("have.value", "Albondigas")
          cy.get(".description-details").should("have.value", "Midden-oosterse gehaktballetjes in tomatensaus met couscous en tzatziki")
          cy.get(".url-details").should("have.value", "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas")
          cy.get('input[name="servingCalories"').should("have.value", "945")
          cy.get('input[name="servingCount"').should("have.value", "2")
          cy.get('select[name="cuisine"').should("have.value", "Midden-Oosters")
-         cy.dataTest("ingredient-edit-row-0").within(() => {
-            cy.dataTest("ingredient-name").should("have.value", "tomatenblokjes")
-            cy.dataTest("ingredient-amount").should("have.value", "1")
-            cy.dataTest("amount-type").should("have.value", "stuk")
-         })
+         cy.get('.note-details').should("have.value", "Couscous : water = 1 : 1")
       })
-
-
-
-      //Document title
-      //Prefilled information correct?
-
-      //Handlechange on input fields, number saved as number?
-
-      //Delete button
-      //Confirm popup
-      //cancel, no call made
-      //confirm, call made, failed
-      //redirect to main page
-
-      //Cancel button, redirect to unedited edit page recipe, and no call
-
-      //Save button
-      //Alert required fields
-      //Alert all fields ingredients
-      //Alert Recipe Exists
-      //Patch API made, failed
-      //Redirect to recipe page
-      //is json.stringify(formdata) correct? (numbers for numbers etc)
 
       //Enter works on input and text area
 
 
       describe('Ingredients', () => {
          //Correct ingredients
+         it('displays all the correct ingredients for unedited Albondigas', () => {
+            cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
+            cy.visit('http://localhost:3000/recipe/1/edit')
+            cy.wait("@getRecipe")
 
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").should("have.value", "tomatenblokjes")
+               cy.dataTest("ingredient-amount").should("have.value", "1")
+               cy.dataTest("amount-type").should("have.value", "stuk")
+            })
+         })
          //Add Ingredient button
          //Create empty row with default information
 
@@ -145,8 +129,172 @@ describe('Edit Recipe Page', () => {
 
       })
 
+   })
 
+   describe("Button functionality", () => {
 
+      describe("Delete button", () => {
+         beforeEach(() => {
+            cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
+            cy.visit('http://localhost:3000/recipe/1/edit')
+            cy.wait("@getRecipe")
+            cy.dataTest("recipe-delete-button").contains("Delete").click()
+         })
 
+         it('opens a confirmation popup when clicking Delete', () => {
+            cy.get(".overlay-content").should("exist")
+            cy.dataTest("overlay-message").should("contain", "Do you want to delete the recipe for Albondigas?")
+         })
+
+         it('closes the popup and makes no call if user cancels', () => {
+            const patchSpy = cy.spy().as('patchSpy')
+            cy.intercept('DELETE', "/api/recipe/**", patchSpy)
+            cy.dataTest("cancel-button").contains("Cancel").click()
+            cy.get(".overlay-content").should("not.exist")
+            cy.get('@patchSpy').should("not.have.been.called")
+         })
+
+         it('makes a DELETE call if the user confirms', () => {
+            const patchSpy = cy.spy().as('patchSpy')
+            cy.intercept('DELETE', "/api/recipe/**", patchSpy)
+            cy.dataTest("confirm-button").contains("Confirm").click()
+            cy.get(".overlay-content").should("not.exist")
+            cy.get('@patchSpy').should("have.been.called")
+         })
+
+         it('shows an error if the DELETE fails', () => {
+            cy.intercept('DELETE', '/api/recipe/**', { statusCode: 500, body: {} })
+            cy.dataTest("confirm-button").click()
+            cy.on('window:alert', (alert) => {
+               expect(alert).to.equal("There was an error deleting the recipe.")
+            })
+         })
+
+         it('redirects to the main page if the DELETE succeeds', () => {
+            cy.intercept('DELETE', '/api/recipe/**', { statusCode: 200, body: {} }).as("deleteRecipe")
+            cy.dataTest("confirm-button").click()
+            cy.wait("@deleteRecipe")
+            cy.location("pathname").should("equal", "/recipe")
+         })
+      })
+
+      describe("Cancel button", () => {
+         it('undoes the edit, redirects and makes no call if user cancels', () => {
+            cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
+            cy.visit('http://localhost:3000/recipe/1/edit')
+            cy.wait("@getRecipe")
+
+            const patchSpy = cy.spy().as('patchSpy')
+            cy.intercept('PATCH', "/api/recipe/**", patchSpy)
+            cy.dataTest("edit-cancel-button").click()
+            cy.get('@patchSpy').should("not.have.been.called")
+            cy.location("pathname").should("equal", "/recipe/1")
+         })
+      })
+
+      describe.only("Save button", () => {
+
+         beforeEach(() => {
+            cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
+            cy.visit('http://localhost:3000/recipe/1/edit')
+            cy.wait("@getRecipe")
+         })
+
+         //Save button
+         it('sends a patch request when saving recipe', () => {
+             cy.intercept('PATCH', '/api/recipe/1').as('patchRecipe')
+            cy.get(".page-title").clear().type("Albondigas!")
+
+            cy.dataTest('recipe-save-button').contains("Save").click()
+            cy.wait('@patchRecipe').its('request.body').should('deep.include', {
+               "id": 1,
+               "name": "Albondigas!",
+               "description": "Midden-oosterse gehaktballetjes in tomatensaus met couscous en tzatziki",
+               "servingCalories": 945,
+               "servingCount": 2,
+               "cuisine": "Midden-Oosters",
+               "note": "Couscous : water = 1 : 1",
+               "externalRecipeLink": "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas",
+               "ingredients": [
+                  {
+                     "id": 1,
+                     "name": "tomatenblokjes",
+                     "amount": "1.00",
+                     "amountType": "stuk"
+                  },
+                  {
+                     "id": 3,
+                     "name": "gehakt",
+                     "amount": "300.00",
+                     "amountType": "gram"
+                  },
+                  {
+                     "id": 4,
+                     "name": "cous cous",
+                     "amount": "0.75",
+                     "amountType": "cup"
+                  },
+                  {
+                     "id": 12,
+                     "name": "Komkommer",
+                     "amount": "0.50",
+                     "amountType": "stuk"
+                  }
+               ]
+            })
+
+            cy.location('pathname').should('equal', '/recipe/1')
+         })
+
+         it('alerts for missing required fields when saving recipe', () => {
+            const patchSpy = cy.spy().as('patchSpy')
+            cy.intercept('PATCH', '/api/recipe/1', patchSpy)
+
+            cy.get(".page-title").clear()
+            cy.dataTest('recipe-save-button').click()
+            cy.on('window:alert', (alert) => {
+               expect(alert).to.equal("Please fill in the required fields.")
+            })
+            cy.get('@patchSpy').should("not.have.been.called")
+         })
+
+         it('alerts for missing ingredient fields when saving recipe', () => {
+            const patchSpy = cy.spy().as('patchSpy')
+            cy.intercept('PATCH', '/api/recipe/1', patchSpy)
+
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").clear()
+               cy.dataTest("ingredient-amount").clear()
+            })
+
+            cy.dataTest('recipe-save-button').click()
+            cy.on('window:alert', (alert) => {
+               expect(alert).to.equal("Please fill in all ingredient fields.")
+            })
+            cy.get('@patchSpy').should("not.have.been.called")
+         })
+
+         it('alerts recipe with the same name exists when saving recipe', () => {
+            const patchSpy = cy.spy().as('patchSpy')
+            cy.intercept('PATCH', '/api/recipe/1', patchSpy)
+
+            cy.get(".page-title").clear().type("Pad Thai")
+            cy.dataTest('recipe-save-button').click()
+            cy.on('window:alert', (alert) => {
+               expect(alert).to.equal("A recipe with the same name already exists!")
+            })
+            cy.get('@patchSpy').should("not.have.been.called")
+         })
+
+         it('shows an alert if the PATCH fails', () => {
+            cy.intercept('PATCH', '/api/recipe/1', { statusCode: 500, body: {} }).as('patchRecipe')
+
+            cy.dataTest("recipe-save-button").click()
+            cy.on('window:alert', (alert) => {
+               expect(alert).to.equal("Failed to update recipe.")
+            })
+            cy.wait('@patchRecipe')
+         })
+      })
    })
 })

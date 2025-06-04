@@ -193,7 +193,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const handleKeyDown = (event) => {
-        if (event.target.closest(".ingredient-input") || event.target.tagName === "TEXTAREA") {
+        if (event.target.closest(".ingredient-input") || event.target.tagName === "textarea") {
             if (event.key === "Enter") {
                 event.preventDefault()
             }
@@ -272,12 +272,13 @@ export default function EditRecipe({ recipe, isNew = false }) {
         })
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("Failed to update recipe")
+                    throw new Error("Failed to update recipe.")
                 }
                 router.push(`/recipe/${recipe.id}`)
             })
             .catch((error) => {
                 console.error(error)
+                alert("Failed to update recipe.")
             })
     }
 
@@ -299,6 +300,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         })
                         .catch((error) => {
                             console.error(error)
+                            alert("There was an error deleting the recipe.")
                         })
                 }
             })
@@ -341,9 +343,9 @@ export default function EditRecipe({ recipe, isNew = false }) {
                             <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
                         </div>
                         <div className="button-container">
-                            <button className="recipe-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
-                            <button className="recipe-button" onClick={handleCancel}>Cancel</button>
-                            <button className="recipe-button" onClick={handleSave}>Save</button>
+                            <button data-test="recipe-delete-button" className="recipe-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
+                            <button data-test="edit-cancel-button" className="recipe-button" onClick={handleCancel}>Cancel</button>
+                            <button data-test="recipe-save-button" className="recipe-button" onClick={handleSave}>Save</button>
                         </div>
                     </div >
                 </div>
