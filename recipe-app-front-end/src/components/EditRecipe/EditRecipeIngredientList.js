@@ -98,7 +98,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                         {focusedIndex === index && (
                             <ul className="autocomplete-dropdown ingredient-input">
                                 {filteredGlobalIngredients.map((option) => (
-                                    <li key={option.id}
+                                    <li data-test="autocomplete-option" key={option.id}
                                         onMouseDown={(e) => {
                                             e.preventDefault()
                                             handleIngredientChange(index, "name", option.name)
@@ -129,7 +129,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                             <option key={type.amountType} value={type.amountType}>{type.amountType}</option>
                         ))}
                     </select>
-                    <button className="fourth-column" onClick={() => handleIngredientDelete(index)}>x</button>
+                    <button data-test="ingredient-delete-button" className="fourth-column" onClick={() => handleIngredientDelete(index)}>x</button>
                 </div>
             ))
             }

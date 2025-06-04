@@ -84,32 +84,73 @@ describe('Edit Recipe Page', () => {
       //Enter works on input and text area
 
 
-      describe('Ingredients', () => {
-         //Correct ingredients
-         it('displays all the correct ingredients for unedited Albondigas', () => {
+      describe.only('Ingredients', () => {
+
+         beforeEach(() => {
             cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
             cy.visit('http://localhost:3000/recipe/1/edit')
             cy.wait("@getRecipe")
+         })
 
+         it('displays all the correct ingredients for unedited Albondigas', () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").should("have.value", "tomatenblokjes")
                cy.dataTest("ingredient-amount").should("have.value", "1")
                cy.dataTest("amount-type").should("have.value", "stuk")
             })
          })
-         //Add Ingredient button
-         //Create empty row with default information
 
-         //Handle Ingredient Change, updates field when typing
+         it('adds a new empty ingredients row', () => {
+            cy.get(".add-ingredient-button").contains("Add ingredient").click()
+            cy.dataTest("ingredient-edit-row-4").within(() => {
+               cy.dataTest("ingredient-name").should("be.empty")
+               cy.dataTest("ingredient-amount").should("be.empty")
+               cy.dataTest("amount-type").should("have.value", "stuk")
+            })
+         })
 
-         //Delete ingredient from recipe, correct row gets removed
+         it('updates ingredient field when typing', () => {
+            cy.dataTest("ingredient-edit-row-3").within(() =>
+               cy.dataTest("ingredient-amount").clear().type(4).should("have.value", 4))
+         })
 
-         //Delete all ingredients from recipe
-         //Confirm popup
-         //Cancel, no change
-         //Delete, did list change?
+         it('deletes ingredient row when clicking row-delete-button', () => {
+            cy.dataTest("ingredient-edit-row-3").within(() =>
+               cy.dataTest("ingredient-delete-button").contains("x").click().should("not.exist"))
+         })
 
-         //Dropdown shows when clicking/focus ingredient name
+         it('deletes all ingredients when confirming delete-all-ingredients modal', () => {
+            cy.get(".delete-all-ingredients-button").contains("Delete all ingredients").click()
+            cy.get(".overlay-content").should("contain", "Do you want to delete all ingredients for Albondigas?")
+            cy.dataTest("confirm-button").should("contain", "Confirm").click()
+            cy.dataTest("ingredient-edit-row", "^=").should("not.exist")
+         })
+
+         it('abort deletes all ingredients when canceling delete-all-ingredients modal', () => {
+            cy.get(".delete-all-ingredients-button").contains("Delete all ingredients").click()
+            cy.get(".overlay-content").should("exist")
+            cy.dataTest("cancel-button").should("contain", "Cancel").click()
+            cy.dataTest("ingredient-edit-row-0").should("exist")
+         })
+
+         it.only('changes ingredient when clicking in dropdown when editing ingredient name', () => {
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").click()
+               cy.get(".autocomplete-dropdown").should("exist").within(() => {
+                  cy.dataTest("autocomplete-option").contains("Aardappel").click()
+               })
+               cy.dataTest("ingredient-name").should("have.value", "Aardappel")
+            })
+         })
+
+         it.only("auto-complete dropdown dissappears when focussing outside of the element", () => {
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").click()
+            })
+            cy.get(".page-title").click()
+            cy.get(".autocomplete-dropdown").should("not.exist")
+         })
+
          //Filter when start typing (1 result, 2 results, 0 results, case insensitive)
          //"Add {queryname} +" on that button
          //That button is hidden with exact match
@@ -124,8 +165,6 @@ describe('Edit Recipe Page', () => {
          //Add new ingredient to this recipe list
 
 
-
-         //If you click away from dropdown, does it dissappear?
 
       })
 
@@ -192,7 +231,7 @@ describe('Edit Recipe Page', () => {
          })
       })
 
-      describe.only("Save button", () => {
+      describe("Save button", () => {
 
          beforeEach(() => {
             cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
@@ -202,7 +241,7 @@ describe('Edit Recipe Page', () => {
 
          //Save button
          it('sends a patch request when saving recipe', () => {
-             cy.intercept('PATCH', '/api/recipe/1').as('patchRecipe')
+            cy.intercept('PATCH', '/api/recipe/1').as('patchRecipe')
             cy.get(".page-title").clear().type("Albondigas!")
 
             cy.dataTest('recipe-save-button').contains("Save").click()
