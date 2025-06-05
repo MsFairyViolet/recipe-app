@@ -111,7 +111,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                                 {!globalIngredients.some(
                                     (item) => item.name.toLowerCase() === query.toLowerCase()
                                 ) && (
-                                        <li className="add-new-ingredient" onClick={(e) => {
+                                        <li data-test="add-ingredient-option" className="add-new-ingredient" onClick={(e) => {
                                             e.preventDefault()
                                             handleQueryIngredientAdd(query, index)
                                             setFocusedIndex(null)

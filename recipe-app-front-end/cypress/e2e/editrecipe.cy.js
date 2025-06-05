@@ -133,7 +133,7 @@ describe('Edit Recipe Page', () => {
             cy.dataTest("ingredient-edit-row-0").should("exist")
          })
 
-         it.only('changes ingredient when clicking in dropdown when editing ingredient name', () => {
+         it('changes ingredient when clicking in dropdown when editing ingredient name', () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").click()
                cy.get(".autocomplete-dropdown").should("exist").within(() => {
@@ -143,7 +143,7 @@ describe('Edit Recipe Page', () => {
             })
          })
 
-         it.only("auto-complete dropdown dissappears when focussing outside of the element", () => {
+         it("auto-complete dropdown dissappears when focussing outside of the element", () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").click()
             })
@@ -152,6 +152,18 @@ describe('Edit Recipe Page', () => {
          })
 
          //Filter when start typing (1 result, 2 results, 0 results, case insensitive)
+         it.only("filters the autocomplete list to 1 existing result when typing in ingredient name field (case-insensitive)", () => {
+            const query = ["boter", "BOTER"]
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+            query.forEach((query) => {
+                  cy.dataTest("ingredient-name").click()
+                  cy.dataTest("ingredient-name").clear().type(`${query}`)
+               })
+               cy.dataTest("autocomplete-option").should("contain", "Boter")
+               cy.dataTest("add-ingredient-option").should("not.exist")
+            })
+         })
+         
          //"Add {queryname} +" on that button
          //That button is hidden with exact match
 
@@ -240,48 +252,51 @@ describe('Edit Recipe Page', () => {
          })
 
          //Save button
-         it('sends a patch request when saving recipe', () => {
+         it('sends a patch request with correct edits when saving recipe', () => {
             cy.intercept('PATCH', '/api/recipe/1').as('patchRecipe')
-            cy.get(".page-title").clear().type("Albondigas!")
 
-            cy.dataTest('recipe-save-button').contains("Save").click()
-            cy.wait('@patchRecipe').its('request.body').should('deep.include', {
-               "id": 1,
-               "name": "Albondigas!",
-               "description": "Midden-oosterse gehaktballetjes in tomatensaus met couscous en tzatziki",
-               "servingCalories": 945,
-               "servingCount": 2,
-               "cuisine": "Midden-Oosters",
-               "note": "Couscous : water = 1 : 1",
-               "externalRecipeLink": "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas",
-               "ingredients": [
-                  {
-                     "id": 1,
-                     "name": "tomatenblokjes",
-                     "amount": "1.00",
-                     "amountType": "stuk"
-                  },
-                  {
-                     "id": 3,
-                     "name": "gehakt",
-                     "amount": "300.00",
-                     "amountType": "gram"
-                  },
-                  {
-                     "id": 4,
-                     "name": "cous cous",
-                     "amount": "0.75",
-                     "amountType": "cup"
-                  },
-                  {
-                     "id": 12,
-                     "name": "Komkommer",
-                     "amount": "0.50",
-                     "amountType": "stuk"
-                  }
-               ]
+            //Edits
+            cy.get(".page-title").clear().type("Albondigas!")
+            cy.get('select[name="cuisine"').select("Japans")
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").click()
+               cy.get(".autocomplete-dropdown").should("exist").within(() => {
+                  cy.dataTest("autocomplete-option").contains("Aardappel").click()
+               })
+               cy.dataTest("ingredient-amount").type("5")
+               cy.dataTest("amount-type").select("portie")
+            })
+            cy.get(".note-details").clear()
+
+            const rows = ["3", "2", "1"]
+            rows.forEach((row) => {
+               cy.dataTest(`ingredient-edit-row-${row}`).within(() => {
+                  cy.dataTest("ingredient-delete-button").click()
+               })
             })
 
+            cy.dataTest('recipe-save-button').contains("Save").click()
+            cy.wait('@patchRecipe').then((interception) => {
+               expect(interception.request.body).to.deep.include, {
+                  "id": 1,
+                  "name": "Albondigas!",
+                  "description": "Midden-oosterse gehaktballetjes in tomatensaus met couscous en tzatziki",
+                  "servingCalories": 945,
+                  "servingCount": 2,
+                  "note": "",
+                  "cuisine": "Japans",
+                  "externalRecipeLink": "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas",
+               }
+               expect(interception.request.body.ingredients).to.deep.include, {
+                  "ingredients": [
+                     {
+                        "id": 15,
+                        "name": "Aardappel",
+                        "amount": "15.00",
+                        "amountType": "portie"
+                     }]
+               }
+            })
             cy.location('pathname').should('equal', '/recipe/1')
          })
 
