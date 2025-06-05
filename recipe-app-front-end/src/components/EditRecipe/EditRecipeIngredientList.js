@@ -39,7 +39,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
 
                 if (ingredientExists) {
                     alert("That ingredient already exists! Please modify the name and try again.")
-                    return;
+                    return
                 }
 
                 fetch(`/api/ingredient`, {

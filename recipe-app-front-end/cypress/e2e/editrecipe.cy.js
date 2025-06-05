@@ -151,7 +151,6 @@ describe('Edit Recipe Page', () => {
             cy.get(".autocomplete-dropdown").should("not.exist")
          })
 
-         //Filter when start typing (1 result, 2 results, 0 results, case insensitive)
          it("filters the autocomplete list to 1 existing result when typing in ingredient name field (case-insensitive)", () => {
             const query = ["boter", "BOTER"]
             cy.dataTest("ingredient-edit-row-0").within(() => {
@@ -174,9 +173,10 @@ describe('Edit Recipe Page', () => {
             cy.dataTest("add-ingredient-option").should("not.exist")
          })
 
-          it.only("adds a 'add new global ingredient' when no matches when typing in ingredient name field", () => {
-            cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
-            cy.intercept('POST', '/api/ingredient', { statusCode: 200, body: {id: 53, name: "zzzz"}}).as('postIngredient')
+         it("adds a 'add new global ingredient' when no matches when typing in ingredient name field", () => {
+            const getSpy = cy.spy().as('getSpy')
+            cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' }).as("getIngredients")
+            cy.intercept('POST', '/api/ingredient', { statusCode: 200, body: { id: 53, name: "zzzz" } }).as('postIngredient')
 
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").click()
@@ -187,28 +187,98 @@ describe('Edit Recipe Page', () => {
             cy.dataTest("add-ingredient-option").click()
             cy.get(".overlay-content").should("contain", "Add new global ingredient zzzz?")
             cy.dataTest("confirm-button").contains("Confirm").click()
-           
+
             cy.wait('@postIngredient')
-            cy.get('@postIngredient').its('request.body').should('include', {name: "zzzz"} )
+            cy.get('@postIngredient').its('request.body').should('include', { name: "zzzz" })
 
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").should("have.value", "zzzz")
             })
+
+            cy.wait("@getIngredients").its('response.statusCode').should('eq', 200)
          })
 
-         //Check if the new ingredients get the correct ID when saving the recipe
+         it("cancels a 'add new global ingredient' after modal", () => {
+            cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
+            const postSpy = cy.spy().as('postSpy')
+            cy.intercept('POST', '/api/ingredient', postSpy)
 
-         
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").click()
+               cy.dataTest("ingredient-name").clear().type(`zzzz`)
+            })
+            cy.dataTest("add-ingredient-option").click()
+            cy.dataTest("cancel-button").contains("Cancel").click()
 
-      //Add + opens > new global ingredient
-      //Confirm popup, correct info?
-      //Cancel, no call
-      //Confirm
-      //Alert already exist (case insensitive)
-      //API call made, failed
-      //reload globalingredients, api call made
-      //Add new ingredient to this recipe list
+            cy.get("@postSpy").should("not.have.been.called")
+         })
 
+         const newIngredient = ["Aardappel", "AARDAPPEL"]
+         newIngredient.forEach((name) => {
+            it(`warns when 'add new global ingredient' when ${name} already exists`, () => {
+               cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
+               const postSpy = cy.spy().as('postSpy')
+               cy.intercept('POST', '/api/ingredient', postSpy)
+
+               cy.dataTest("ingredient-edit-row-0").within(() => {
+                  cy.dataTest("ingredient-name").click()
+                  cy.dataTest("ingredient-name").clear().type(`zzzz`)
+               })
+
+               cy.dataTest("add-ingredient-option").click()
+               cy.dataTest("overlay-input").clear().type(`${name}`)
+               cy.dataTest("confirm-button").contains("Confirm").click()
+
+               cy.on('window:alert', (alert) => {
+                  expect(alert).to.equal("That ingredient already exists! Please modify the name and try again.")
+               })
+               cy.get("@postSpy").should("not.have.been.called")
+            })
+         })
+
+         it("alerts when adding a new ingredient fails on the API", () => {
+            cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
+            cy.intercept('POST', '/api/ingredient', { statusCode: 500, body: {} }).as('postIngredient')
+
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").click()
+               cy.dataTest("ingredient-name").clear().type(`zzzz`)
+            })
+            cy.dataTest("add-ingredient-option").click()
+            cy.dataTest("confirm-button").click()
+
+            cy.wait('@postIngredient')
+            cy.on('window:alert', (alert) => {
+               expect(alert).to.equal("There was an error adding the ingredient.")
+            })
+         })
+
+         it.only("saves recipe with new global ingredient having correct ID", () => {
+            cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' }).as('getIngredients')
+
+            cy.intercept('POST', '/api/ingredient', {
+               statusCode: 200,
+               body: { id: 53, name: "zzzz" }
+            }).as('postIngredient')
+
+            cy.intercept('PATCH', '/api/recipe/1').as('patchRecipe')
+
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").click()
+               cy.dataTest("ingredient-name").clear().type("zzzz")
+            })
+            cy.dataTest("add-ingredient-option").click()
+            cy.dataTest("confirm-button").click()
+
+            cy.wait('@postIngredient').its('request.body').should('deep.include', { name: "zzzz" })
+
+            cy.dataTest('recipe-save-button').click()
+
+            cy.wait('@patchRecipe').its('request.body').then((body) => {
+               const found = body.ingredients.find(i => i.id === 53 && i.name === "zzzz")
+               expect(found).to.exist
+            })
+         })
       })
 
       describe("Button functionality", () => {
