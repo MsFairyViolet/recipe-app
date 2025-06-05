@@ -69,8 +69,8 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                         console.error("Error adding ingredient:", error)
                         alert("There was an error adding the ingredient.")
                     })
-            });
-    };
+            })
+    }
 
     return (
         <div className="edit-page ingredients-list">
