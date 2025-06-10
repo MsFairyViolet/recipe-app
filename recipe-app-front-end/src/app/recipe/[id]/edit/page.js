@@ -14,7 +14,7 @@ export default function EditRecipeContainer() {
         fetch(`/api/recipe/${id}`)
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch recipe ${id}`)
+                    throw new Error(`Failed to fetch recipe.`)
                 }
                 return response.json()
             })
@@ -23,7 +23,7 @@ export default function EditRecipeContainer() {
                 setLoading(false)
             })
             .catch((error) => {
-                console.log(`Error fetching recipe ${id}: `, error)
+                console.log(`Error fetching recipe.`)
                 setError(error.message)
                 setLoading(false)
             })
@@ -38,7 +38,7 @@ export default function EditRecipeContainer() {
             {recipe ? (
                 <EditRecipe recipe={recipe} />
             ) : error ? (
-                <p className="warning error">Failed to fetch recipe</p>
+                <p className="warning error">Failed to fetch recipe.</p>
             ) : (
                 <p className="warning">Loading recipe...</p>
             )}

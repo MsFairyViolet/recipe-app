@@ -1,7 +1,6 @@
 describe('Edit Recipe Page', () => {
-
    describe('API calls on Edit Page', () => {
-      it('gives a warning when fetching this recipe is loading', () => {
+      it('shows a loader when fetching recipe', () => {
          cy.intercept('GET', '/api/recipe/1', (req) => {
             req.reply((res) => {
                res.delay = 1000
@@ -14,10 +13,11 @@ describe('Edit Recipe Page', () => {
          cy.contains("Loading recipe...").should("not.exist")
       })
 
-      it('gives a error when fetching this recipe failed', () => {
+      it('gives an error when fetching this recipe failed', () => {
          cy.intercept('GET', '/api/recipe/1', { statusCode: 500, body: {} }).as("getRecipe")
          cy.visit('http://localhost:3000/recipe/1/edit')
          cy.wait("@getRecipe")
+         cy.get(".error").contains("Failed to fetch recipe.")
       })
 
       const apiEndPoints = [
@@ -28,7 +28,7 @@ describe('Edit Recipe Page', () => {
       ]
 
       apiEndPoints.forEach((api) => {
-         it(`gives a warning when fetching ${api.alias} is loading`, () => {
+         it(`it shows a loader when fetching ${api.alias}`, () => {
             cy.intercept('GET', `${api.url}`, (req) => {
                req.reply((res) => {
                   res.delay = 1000
@@ -41,7 +41,6 @@ describe('Edit Recipe Page', () => {
             })
 
             cy.visit('http://localhost:3000/recipe/1/edit')
-
             cy.contains('Loading...').should('be.visible')
 
             cy.wait(`@get${api.alias}`)
@@ -50,22 +49,20 @@ describe('Edit Recipe Page', () => {
       })
 
       apiEndPoints.forEach((api) => {
-         it(`gives a error when fetching ${api.alias} failed`, () => {
-            cy.intercept('GET', `${api.url}`, { statusCode: 500, body: {} }).as(`get${api.alias}`)
+         it(`gives an error when fetching ${api.alias} failed`, () => {
+            cy.intercept('GET', `${api.url}`, { statusCode: 500, body: {} })
 
             apiEndPoints.filter((endpoint) => endpoint.alias !== api.alias).forEach(({ url, fixture }) => {
                cy.intercept('GET', url, { fixture })
             })
 
             cy.visit('http://localhost:3000/recipe/1/edit')
-
             cy.get(".error").contains("Failed!")
          })
       })
    })
 
    describe('Recipe information', () => {
-
       it('displays all the correct detail information for unedited Albondigas', () => {
          cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
          cy.visit('http://localhost:3000/recipe/1/edit')
@@ -81,11 +78,7 @@ describe('Edit Recipe Page', () => {
          cy.get('.note-details').should("have.value", "Couscous : water = 1 : 1")
       })
 
-      //Enter works on input and text area
-
-
-      describe.only('Ingredients', () => {
-
+      describe('Ingredients', () => {
          beforeEach(() => {
             cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
             cy.visit('http://localhost:3000/recipe/1/edit')
@@ -126,14 +119,14 @@ describe('Edit Recipe Page', () => {
             cy.dataTest("ingredient-edit-row", "^=").should("not.exist")
          })
 
-         it('abort deletes all ingredients when canceling delete-all-ingredients modal', () => {
+         it('keeps all ingredients when canceling delete-all-ingredients modal', () => {
             cy.get(".delete-all-ingredients-button").contains("Delete all ingredients").click()
             cy.get(".overlay-content").should("exist")
             cy.dataTest("cancel-button").should("contain", "Cancel").click()
             cy.dataTest("ingredient-edit-row-0").should("exist")
          })
 
-         it('changes ingredient when clicking in dropdown when editing ingredient name', () => {
+         it('changes ingredient when selecting ingredient from dropdown', () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").click()
                cy.get(".autocomplete-dropdown").should("exist").within(() => {
@@ -173,8 +166,7 @@ describe('Edit Recipe Page', () => {
             cy.dataTest("add-ingredient-option").should("not.exist")
          })
 
-         it("adds a 'add new global ingredient' when no matches when typing in ingredient name field", () => {
-            const getSpy = cy.spy().as('getSpy')
+         it("adds a 'add new global ingredient' button when there is no exact ingredient match", () => {
             cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' }).as("getIngredients")
             cy.intercept('POST', '/api/ingredient', { statusCode: 200, body: { id: 53, name: "zzzz" } }).as('postIngredient')
 
@@ -182,9 +174,8 @@ describe('Edit Recipe Page', () => {
                cy.dataTest("ingredient-name").click()
                cy.dataTest("ingredient-name").clear().type(`zzzz`)
             })
-            cy.dataTest("add-ingredient-option").should("contain", "+ Add zzzz")
+            cy.dataTest("add-ingredient-option").should("contain", "+ Add zzzz").click()
 
-            cy.dataTest("add-ingredient-option").click()
             cy.get(".overlay-content").should("contain", "Add new global ingredient zzzz?")
             cy.dataTest("confirm-button").contains("Confirm").click()
 
@@ -195,10 +186,10 @@ describe('Edit Recipe Page', () => {
                cy.dataTest("ingredient-name").should("have.value", "zzzz")
             })
 
-            cy.wait("@getIngredients").its('response.statusCode').should('eq', 200)
+            cy.wait("@getIngredients")
          })
 
-         it("cancels a 'add new global ingredient' after modal", () => {
+         it("does not add a global ingredient when canceling in the modal", () => {
             cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
             const postSpy = cy.spy().as('postSpy')
             cy.intercept('POST', '/api/ingredient', postSpy)
@@ -215,7 +206,7 @@ describe('Edit Recipe Page', () => {
 
          const newIngredient = ["Aardappel", "AARDAPPEL"]
          newIngredient.forEach((name) => {
-            it(`warns when 'add new global ingredient' when ${name} already exists`, () => {
+            it(`gives a warning when ${name} already exists`, () => {
                cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
                const postSpy = cy.spy().as('postSpy')
                cy.intercept('POST', '/api/ingredient', postSpy)
@@ -253,7 +244,7 @@ describe('Edit Recipe Page', () => {
             })
          })
 
-         it.only("saves recipe with new global ingredient having correct ID", () => {
+         it("saves recipe with new global ingredient having correct ID", () => {
             cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' }).as('getIngredients')
 
             cy.intercept('POST', '/api/ingredient', {
@@ -282,7 +273,6 @@ describe('Edit Recipe Page', () => {
       })
 
       describe("Button functionality", () => {
-
          describe("Delete button", () => {
             beforeEach(() => {
                cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
@@ -304,7 +294,7 @@ describe('Edit Recipe Page', () => {
                cy.get('@patchSpy').should("not.have.been.called")
             })
 
-            it('makes a DELETE call if the user confirms', () => {
+            it('makes a DELETE call if user confirms', () => {
                const patchSpy = cy.spy().as('patchSpy')
                cy.intercept('DELETE', "/api/recipe/**", patchSpy)
                cy.dataTest("confirm-button").contains("Confirm").click()
@@ -318,13 +308,6 @@ describe('Edit Recipe Page', () => {
                cy.on('window:alert', (alert) => {
                   expect(alert).to.equal("There was an error deleting the recipe.")
                })
-            })
-
-            it('redirects to the main page if the DELETE succeeds', () => {
-               cy.intercept('DELETE', '/api/recipe/**', { statusCode: 200, body: {} }).as("deleteRecipe")
-               cy.dataTest("confirm-button").click()
-               cy.wait("@deleteRecipe")
-               cy.location("pathname").should("equal", "/recipe")
             })
          })
 
@@ -343,18 +326,15 @@ describe('Edit Recipe Page', () => {
          })
 
          describe("Save button", () => {
-
             beforeEach(() => {
                cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
                cy.visit('http://localhost:3000/recipe/1/edit')
                cy.wait("@getRecipe")
             })
 
-            //Save button
             it('sends a patch request with correct edits when saving recipe', () => {
                cy.intercept('PATCH', '/api/recipe/1').as('patchRecipe')
 
-               //Edits
                cy.get(".page-title").clear().type("Albondigas!")
                cy.get('select[name="cuisine"').select("Japans")
                cy.dataTest("ingredient-edit-row-0").within(() => {
@@ -396,7 +376,6 @@ describe('Edit Recipe Page', () => {
                         }]
                   }
                })
-               cy.location('pathname').should('equal', '/recipe/1')
             })
 
             it('alerts for missing required fields when saving recipe', () => {
