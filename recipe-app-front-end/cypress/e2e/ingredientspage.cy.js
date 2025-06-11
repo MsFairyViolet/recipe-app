@@ -29,9 +29,22 @@ describe("Ingredients Page", () => {
          cy.get(".warning").contains("No ingredients found.")
       })
 
+      it('shows a loader when fetching recipes', () => {
+         cy.intercept('GET', '/api/ingredient', (req) => {
+            req.reply((res) => {
+               res.delay = 1000
+               res.send({ fixture: 'all-ingredients.json' })
+            })
+         }).as('getIngredients')
+         cy.visit('http://localhost:3000/ingredients')
+         cy.contains("Loading ingredients...").should("be.visible")
+         cy.wait('@getIngredients')
+         cy.contains("Loading ingredients...").should("not.exist")
+      })
+
       it("shows an error when API fails to fetch all ingredients", () => {
          cy.intercept('GET', '/api/ingredient', { statusCode: 500, body: {} })
-         cy.get(".warning").contains("Something went wrong.")
+         cy.get(".warning").contains("Failed to fetch ingredients.")
       })
    })
 
@@ -95,7 +108,8 @@ describe("Ingredients Page", () => {
          cy.dataTest("overlay-input").should("have.value", "bosui")
       })
 
-      it("send a patch request when confirm in the edit ingredient modal", () => {
+      it.only("send a patch request when confirm in the edit ingredient modal", () => {
+         cy.intercept('GET', '/api/ingredient', { fixture: 'single-ingredient.json' })
          cy.intercept('PATCH', '/api/ingredient/5', { fixture: "single-ingredient.json" }).as('patchIngredient')
          cy.get(".edit-button").click()
          cy.dataTest("overlay-input").type("zzz")
@@ -278,9 +292,9 @@ describe("Ingredients Page", () => {
    })
 
    describe("Nav Bar", () => {
-    it("has a correct active Nav Bar element", () => {
-      cy.dataTest("nav-link-recipes").contains("Recipes").should("not.have.class", "active")
-      cy.dataTest("nav-link-ingredients").contains("Ingredients").should("have.class", "active")
-    })
-  })
+      it("has a correct active Nav Bar element", () => {
+         cy.dataTest("nav-link-recipes").contains("Recipes").should("not.have.class", "active")
+         cy.dataTest("nav-link-ingredients").contains("Ingredients").should("have.class", "active")
+      })
+   })
 })

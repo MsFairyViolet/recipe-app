@@ -2,7 +2,7 @@ import { useState } from "react"
 import UsedInDisplay from "./UsedInDisplay"
 import UsedInModal from "./UsedInModal"
 
-export default function IngredientsList({ ingredients, searchQuery, error, onIngredientEdit, onIngredientDelete }) {
+export default function IngredientsList({ ingredients, searchQuery, onIngredientEdit, onIngredientDelete }) {
 
    const filteredIngredients = ingredients.filter((ingredient) =>
       ingredient.name.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -27,10 +27,7 @@ export default function IngredientsList({ ingredients, searchQuery, error, onIng
                </div>
             ))
          ) : (
-            error === null ?
-               <span className="warning">No ingredients found.</span>
-               :
-               <span className="warning error">Something went wrong.</span>
+            <span className="warning">No ingredients found.</span>
          )}
 
          {selectedIngredient && (

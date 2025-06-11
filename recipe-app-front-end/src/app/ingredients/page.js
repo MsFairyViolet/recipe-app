@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import IngredientsPage from "@components/IngredientsList/IngredientsPage"
 
 export default function IngredientsListContainer() {
-   const [ingredients, setIngredients] = useState([])
+   const [ingredients, setIngredients] = useState(null)
    const [loading, setLoading] = useState(true)
    const [error, setError] = useState(null)
 
@@ -31,7 +31,15 @@ export default function IngredientsListContainer() {
       fetchIngredients()
    }, [])
 
+   if (loading) {
+      return <p className="warning">Loading ingredients...</p>
+   }
+
+   if (error) {
+      return <p className="warning error">Failed to fetch ingredients.</p>
+   }
+
    return (
-      <IngredientsPage ingredients={ingredients} fetchIngredients={fetchIngredients} error={error}/>
-   );
+      <IngredientsPage ingredients={ingredients} fetchIngredients={fetchIngredients} error={error} />
+   )
 }
