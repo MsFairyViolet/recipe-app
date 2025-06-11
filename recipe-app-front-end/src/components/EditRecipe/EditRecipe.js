@@ -11,10 +11,10 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const confirm = useConfirm()
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const [globalIngredients, setGlobalIngredients] = useState([])
-    const [recipes, setRecipes] = useState([])
-    const [cuisines, setCuisines] = useState([])
-    const [amountTypes, setAmountTypes] = useState([])
+    const [globalIngredients, setGlobalIngredients] = useState(null)
+    const [recipes, setRecipes] = useState(null)
+    const [cuisines, setCuisines] = useState(null)
+    const [amountTypes, setAmountTypes] = useState(null)
     const [formData, setFormData] = useState({
         id: recipe.id,
         name: recipe.name,
@@ -84,7 +84,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
-       const fetchAmountTypes = () => {
+    const fetchAmountTypes = () => {
         fetch("/api/amounttype")
             .then((response) => {
                 if (!response.ok) {
@@ -181,6 +181,47 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
+    const validateFormData = () => {
+        const { name, servingCalories, servingCount, cuisine } = formData
+        return name && servingCalories && servingCount && cuisine
+    }
+
+    const validateIngredients = () => {
+        return formData.ingredients.every(ingredient => {
+            return ingredient.name.trim() !== "" && ingredient.amount.trim() !== ""
+        })
+    }
+
+    const handleKeyDown = (event) => {
+        if (event.target.closest(".ingredient-input") || event.target.tagName === "textarea") {
+            if (event.key === "Enter") {
+                event.preventDefault()
+            }
+            return
+        }
+        if (event.key === "Enter") {
+            handleSave()
+        }
+    }
+
+    const handleSave = () => {
+        if (!validateFormData()) {
+            alert("Please fill in the required fields.")
+            return
+        }
+
+        if (!validateIngredients()) {
+            alert("Please fill in all ingredient fields.")
+            return
+        }
+
+        if (isNew) {
+            handleCreate()
+        } else {
+            handleUpdate()
+        }
+    }
+
     const handleCreate = () => {
         const recipeExists = recipes.some(
             (recipe) => recipe.name.toLowerCase() === formData.name.toLowerCase()
@@ -212,48 +253,6 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
-    const validateFormData = () => {
-        const { name, servingCalories, servingCount, cuisine } = formData
-        return name && servingCalories && servingCount && cuisine
-    }
-
-    const validateIngredients = () => {
-        return formData.ingredients.every(ingredient => {
-            return ingredient.name.trim() !== "" && ingredient.amount.trim() !== ""
-        })
-    }
-
-    const handleKeyDown = (event) => {
-        if (event.target.closest(".ingredient-input") || event.target.tagName === "TEXTAREA") {
-            if (event.key === "Enter") {
-                event.preventDefault()
-            }
-            return
-        }
-        if (event.key === "Enter") {
-            handleSave()
-        }
-    }
-
-    const handleSave = () => {
-        if (!validateFormData()) {
-            alert("Please fill in the required fields.")
-            return
-        }
-
-        if (!validateIngredients()) {
-            console.log("Please fill in all ingredient fields.")
-            alert("Please fill in all ingredient fields.")
-            return
-        }
-
-        if (isNew) {
-            handleCreate()
-        } else {
-            handleUpdate()
-        }
-    }
-
     const handleUpdate = async () => {
         const recipeExists = recipes.some(
             (recipe) => recipe.id !== formData.id && recipe.name.toLowerCase() === formData.name.toLowerCase()
@@ -273,12 +272,13 @@ export default function EditRecipe({ recipe, isNew = false }) {
         })
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("Failed to update recipe")
+                    throw new Error("Failed to update recipe.")
                 }
                 router.push(`/recipe/${recipe.id}`)
             })
             .catch((error) => {
                 console.error(error)
+                alert("Failed to update recipe.")
             })
     }
 
@@ -300,51 +300,61 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         })
                         .catch((error) => {
                             console.error(error)
+                            alert("There was an error deleting the recipe.")
                         })
                 }
             })
     }
 
     return (
-        <div className="edit-page" onKeyDown={handleKeyDown}>
-            <input className="page-title" placeholder="Recipe name*" autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
+        <>
+            {globalIngredients && recipes && cuisines && amountTypes ? (
+                <div className="edit-page" onKeyDown={handleKeyDown}>
+                    <input className="page-title" placeholder="Recipe name*" autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
 
-            <div className="recipe-card">
-                <div className="top-details">
-                    <div className="big-details">
-                        <textarea className="description-details" placeholder="Add a description" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
-                        <textarea className="url-details" type="text" placeholder="Add a reference link" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
-                    </div>
+                    <div className="recipe-card">
+                        <div className="top-details">
+                            <div className="big-details">
+                                <textarea className="description-details" placeholder="Add a description" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
+                                <textarea className="url-details" type="text" placeholder="Add a reference link" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
+                            </div>
 
-                    <div className="small-details">
-                        <input name="servingCalories" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
-                        <input name="servingCount" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
-                        <select name="cuisine" value={formData.cuisine} onChange={handleChange}>
-                            <option value="" hidden disabled>
-                                Cuisine*
-                            </option>
-                            {cuisines.map((item) => {
-                                return <option key={item.cuisineTitle} value={item.cuisineTitle}>{item.cuisineTitle}</option>
-                            })}
-                        </select>
-                    </div>
-                </div>
+                            <div className="small-details">
+                                <input name="servingCalories" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
+                                <input name="servingCount" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
+                                <select name="cuisine" value={formData.cuisine} onChange={handleChange}>
+                                    <option value="" hidden disabled>
+                                        Cuisine*
+                                    </option>
+                                    {cuisines.map((item) => {
+                                        return <option key={item.cuisineTitle} value={item.cuisineTitle}>{item.cuisineTitle}</option>
+                                    })}
+                                </select>
+                            </div>
+                        </div>
 
-                <div>
-                    <h4>Ingredients:</h4>
-                    <EditRecipeIngriedientList ingredients={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} globalIngredients={globalIngredients} fetchGlobalIngredients={fetchGlobalIngredients} amountTypes={amountTypes}/>
-                </div>
+                        <div>
+                            <h4>Ingredients:</h4>
+                            <EditRecipeIngriedientList ingredients={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} globalIngredients={globalIngredients} fetchGlobalIngredients={fetchGlobalIngredients} amountTypes={amountTypes} />
+                        </div>
 
-                <div>
-                    <h4>Notes:</h4>
-                    <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
+                        <div>
+                            <h4>Notes:</h4>
+                            <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
+                        </div>
+                        <div className="button-container">
+                            <button data-test="recipe-delete-button" className="recipe-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
+                            <button data-test="edit-cancel-button" className="recipe-button" onClick={handleCancel}>Cancel</button>
+                            <button data-test="recipe-save-button" className="recipe-button" onClick={handleSave}>Save</button>
+                        </div>
+                    </div >
                 </div>
-                <div className="button-container">
-                    <button className="recipe-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
-                    <button className="recipe-button" onClick={handleCancel}>Cancel</button>
-                    <button className="recipe-button" onClick={handleSave}>Save</button>
-                </div>
-            </div >
-        </div>
+            ) : error ? (
+                <p className="warning error">Failed!</p>
+            ) : (
+                <p className="warning">Loading...</p>
+            )
+            }
+        </>
     )
 }

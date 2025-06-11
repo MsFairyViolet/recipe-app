@@ -1,0 +1,23 @@
+[
+   {
+      "amountType": "stuk"
+   },
+   {
+      "amountType": "portie"
+   },
+   {
+      "amountType": "gram"
+   },
+   {
+      "amountType": "cup"
+   },
+   {
+      "amountType": "ml"
+   },
+   {
+      "amountType": "tsp"
+   },
+   {
+      "amountType": "tbsp"
+   }
+]

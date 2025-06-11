@@ -39,7 +39,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
 
                 if (ingredientExists) {
                     alert("That ingredient already exists! Please modify the name and try again.")
-                    return;
+                    return
                 }
 
                 fetch(`/api/ingredient`, {
@@ -69,8 +69,8 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                         console.error("Error adding ingredient:", error)
                         alert("There was an error adding the ingredient.")
                     })
-            });
-    };
+            })
+    }
 
     return (
         <div className="edit-page ingredients-list">
@@ -82,9 +82,9 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
             </div>
 
             {ingredients.map((ingredient, index) => (
-                <div className="row" key={ingredient.id}>
+                <div data-test={`ingredient-edit-row-${index}`} className="row" key={ingredient.id}>
                     <div className="first-column autocomplete-container">
-                        <input className="autocomplete-input ingredient-input"
+                        <input data-test="ingredient-name" className="autocomplete-input ingredient-input"
                             type="text"
                             value={ingredient.name}
                             onChange={(e) => {
@@ -98,7 +98,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                         {focusedIndex === index && (
                             <ul className="autocomplete-dropdown ingredient-input">
                                 {filteredGlobalIngredients.map((option) => (
-                                    <li key={option.id}
+                                    <li data-test="autocomplete-option" key={option.id}
                                         onMouseDown={(e) => {
                                             e.preventDefault()
                                             handleIngredientChange(index, "name", option.name)
@@ -111,7 +111,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                                 {!globalIngredients.some(
                                     (item) => item.name.toLowerCase() === query.toLowerCase()
                                 ) && (
-                                        <li className="add-new-ingredient" onClick={(e) => {
+                                        <li data-test="add-ingredient-option" className="add-new-ingredient" onClick={(e) => {
                                             e.preventDefault()
                                             handleQueryIngredientAdd(query, index)
                                             setFocusedIndex(null)
@@ -123,13 +123,17 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                             </ul>
                         )}
                     </div>
-                    <input className="second-column ingredient-input" type="number" value={parseFloat(ingredient.amount)} onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}></input>
-                    <select className="third-column ingredient-input" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
+                    <input
+                        data-test="ingredient-amount" className="second-column ingredient-input" type="number"
+                        value={ingredient.amount === "" | isNaN(parseFloat(ingredient.amount)) ? "" : parseFloat(ingredient.amount)}
+                        onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}>
+                    </input>
+                    <select data-test="amount-type" className="third-column ingredient-input" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
                         {amountTypes.map((type) => (
                             <option key={type.amountType} value={type.amountType}>{type.amountType}</option>
                         ))}
                     </select>
-                    <button className="fourth-column" onClick={() => handleIngredientDelete(index)}>x</button>
+                    <button data-test="ingredient-delete-button" className="fourth-column" onClick={() => handleIngredientDelete(index)}>x</button>
                 </div>
             ))
             }
