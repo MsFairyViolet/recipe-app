@@ -110,9 +110,14 @@ export default function EditRecipe({ recipe, isNew = false }) {
         fetchAmountTypes()
     }, [])
 
-    useEffect(() => {
-        document.title = "Edit " + recipe.name
-    }, [recipe.name])
+useEffect(() => {
+    if (isNew) {
+        document.title = "New Recipe";
+    } else {
+        document.title = "Edit " + recipe.name;
+    }
+}, [isNew, recipe.name]);
+
 
     const handleChange = (e) => {
         const { name, value, type } = e.target
