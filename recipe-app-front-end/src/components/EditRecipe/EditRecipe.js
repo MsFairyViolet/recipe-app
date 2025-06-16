@@ -12,7 +12,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [globalIngredients, setGlobalIngredients] = useState(null)
-    const [recipes, setRecipes] = useState(null)
+    const [recipes, setRecipes] = useState([])
     const [cuisines, setCuisines] = useState(null)
     const [amountTypes, setAmountTypes] = useState(null)
     const [formData, setFormData] = useState({
@@ -110,13 +110,13 @@ export default function EditRecipe({ recipe, isNew = false }) {
         fetchAmountTypes()
     }, [])
 
-useEffect(() => {
-    if (isNew) {
-        document.title = "New Recipe";
-    } else {
-        document.title = "Edit " + recipe.name;
-    }
-}, [isNew, recipe.name]);
+    useEffect(() => {
+        if (isNew) {
+            document.title = "New Recipe";
+        } else {
+            document.title = "Edit " + recipe.name;
+        }
+    }, [isNew, recipe.name]);
 
 
     const handleChange = (e) => {
