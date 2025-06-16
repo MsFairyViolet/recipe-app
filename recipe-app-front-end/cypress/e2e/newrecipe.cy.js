@@ -1,5 +1,5 @@
 describe('New Recipe Page', () => {
-    it('has empty fields and placeholders', () => {
+   it('has empty fields and placeholders', () => {
       cy.visit("http://localhost:3000/recipe/new")
       cy.intercept('GET', '/api/recipe', { fixture: 'empty-recipe.json' })
       cy.title().should("eq", "New Recipe")
@@ -20,10 +20,8 @@ describe('New Recipe Page', () => {
    })
 
    it.only('sends a post request with correct data when saving recipe', () => {
-      cy.intercept('POST', '/api/recipe').as('postRecipe')
-      // cy.intercept('POST', '/api/recipe', { statusCode: 200, body: {}}).as('postRecipe')
-      //die statuscode moet voor het stubben, maar wat moet het body dan zijn?
-      cy.intercept('GET', '/api/recipe', { fixture : 'all-recipes.json'})
+      cy.intercept('POST', '/api/recipe', { statusCode: 200, body: { id: 99 } }).as('postRecipe')
+      cy.intercept('GET', '/api/recipe', { fixture: 'all-recipes.json' })
       cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
 
       cy.visit("http://localhost:3000/recipe/new")
@@ -35,28 +33,26 @@ describe('New Recipe Page', () => {
       cy.get('input[name="servingCalories"').type("1000")
       cy.get('input[name="servingCount"').type("1")
 
-      //ingredients in de autodropdown is ook steeds stuk, geeeen idee waarom
-
-      // const ingredientData = [
-      //    { name: "tomatenblokjes", amount: "1.00", type: "stuk" },
-      //    { name: "gehakt", amount: "300", type: "gram" },
-      //    { name: "cous cous", amount: "0.75", type: "cup" },
-      //    { name: "komkommer", amount: "0.5", type: "stuk" }
-      // ]
-      // ingredientData.forEach((ingredient, i) => {
-      //    cy.get(".add-ingredient-button").click()
-      //    cy.dataTest(`ingredient-edit-row-${i}`).within(() => {
-      //       cy.dataTest("ingredient-name").clear().type(ingredient.name)
-      //       cy.get('.autocomplete-dropdown').should("exist")
-      //       cy.dataTest('autocomplete-option').first().click()
-      //       cy.dataTest("ingredient-amount").type(ingredient.amount)
-      //       cy.dataTest("amount-type").select(ingredient.type)
-      //    })
-      // })
+      const ingredientData = [
+         { name: "tomatenblokjes", amount: "1.00", type: "stuk" },
+         { name: "gehakt", amount: "300", type: "gram" },
+         { name: "cous cous", amount: "0.75", type: "cup" },
+         { name: "komkommer", amount: "0.5", type: "stuk" }
+      ]
+      ingredientData.forEach((ingredient, i) => {
+         cy.get(".add-ingredient-button").click()
+         cy.dataTest(`ingredient-edit-row-${i}`).within(() => {
+            cy.dataTest("ingredient-name").type(ingredient.name)
+            cy.get('.autocomplete-dropdown').should("exist")
+            cy.dataTest('autocomplete-option').first().click()
+            cy.dataTest("ingredient-amount").type(ingredient.amount)
+            cy.dataTest("amount-type").select(ingredient.type)
+         })
+      })
 
       cy.dataTest('recipe-save-button').contains("Save").click()
       cy.wait('@postRecipe').then((interception) => {
-         expect(interception.request.body).to.deep.include({
+         expect(interception.request.body).to.deep.include, ({
             "name": "Pasta",
             "description": "aa",
             "servingCalories": 1000,
@@ -65,34 +61,37 @@ describe('New Recipe Page', () => {
             "cuisine": "Italiaans",
             "externalRecipeLink": "aa",
          })
-         // expect(interception.request.body.ingredients).to.deep.include({
-         //    "ingredients": [
-         //       {
-         //          "id": 1,
-         //          "name": "tomatenblokjes",
-         //          "amount": "1.00",
-         //          "amountType": "stuk"
-         //       },
-         //       {
-         //          "id": 3,
-         //          "name": "gehakt",
-         //          "amount": "300.00",
-         //          "amountType": "gram"
-         //       },
-         //       {
-         //          "id": 4,
-         //          "name": "cous cous",
-         //          "amount": "0.75",
-         //          "amountType": "cup"
-         //       },
-         //       {
-         //          "id": 12,
-         //          "name": "Komkommer",
-         //          "amount": "0.50",
-         //          "amountType": "stuk"
-         //       }]
-         // })
+         expect(interception.request.body.ingredients).to.deep.include, ({
+            "ingredients": [
+               {
+                  "id": 1,
+                  "name": "Tomatenblokjes",
+                  "amount": "1.00",
+                  "amountType": "stuk"
+               },
+               {
+                  "id": 3,
+                  "name": "gehakt",
+                  "amount": "300",
+                  "amountType": "gram"
+               },
+               {
+                  "id": 4,
+                  "name": "cous cous",
+                  "amount": "0.75",
+                  "amountType": "cup"
+               },
+               {
+                  "id": 12,
+                  "name": "Komkommer",
+                  "amount": "0.5",
+                  "amountType": "stuk"
+               }]
+         })
       })
+
+      cy.location("pathname").should("equal", "/recipe/99")
+
    })
 
    it('alerts recipe with the same name exists when saving recipe', () => {
