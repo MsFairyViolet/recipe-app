@@ -12,7 +12,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [globalIngredients, setGlobalIngredients] = useState(null)
-    const [recipes, setRecipes] = useState(null)
+    const [recipes, setRecipes] = useState([])
     const [cuisines, setCuisines] = useState(null)
     const [amountTypes, setAmountTypes] = useState(null)
     const [formData, setFormData] = useState({
@@ -111,8 +111,13 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }, [])
 
     useEffect(() => {
-        document.title = "Edit " + recipe.name
-    }, [recipe.name])
+        if (isNew) {
+            document.title = "New Recipe";
+        } else {
+            document.title = "Edit " + recipe.name;
+        }
+    }, [isNew, recipe.name]);
+
 
     const handleChange = (e) => {
         const { name, value, type } = e.target
@@ -241,6 +246,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
         })
             .then((response) => {
                 if (!response.ok) {
+                    alert("There was a problem creating the recipe.")
                     throw new Error("Failed to create recipe")
                 }
                 return response.json()

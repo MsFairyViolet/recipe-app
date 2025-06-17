@@ -11,7 +11,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
 
     const filteredGlobalIngredients = globalIngredients.filter(i =>
         i.name.toLowerCase().includes(query.toLowerCase()) &&
-        !ingredients.some(ingredient => ingredient.name == i.name)
+        !ingredients.some(ingredient => ingredient.id === i.id)
     )
 
     const handleFocus = (index) => {
