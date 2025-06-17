@@ -19,7 +19,7 @@ describe('New Recipe Page', () => {
       cy.location("pathname").should("equal", "/recipe")
    })
 
-   it.only('sends a post request with correct data when saving recipe', () => {
+   it('sends a post request with correct data when saving recipe', () => {
       cy.intercept('POST', '/api/recipe', { statusCode: 200, body: { id: 99 } }).as('postRecipe')
       cy.intercept('GET', '/api/recipe', { fixture: 'all-recipes.json' })
       cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
@@ -27,11 +27,11 @@ describe('New Recipe Page', () => {
       cy.visit("http://localhost:3000/recipe/new")
 
       cy.get(".page-title").type("Pasta")
-      cy.get('select[name="cuisine"').select("Italiaans")
+      cy.get('select[name="cuisine"]').select("Italiaans")
       cy.get('.description-details').type("aa")
       cy.get('.url-details').type("aa")
-      cy.get('input[name="servingCalories"').type("1000")
-      cy.get('input[name="servingCount"').type("1")
+      cy.get('input[name="servingCalories"]').type("1000")
+      cy.get('input[name="servingCount"]').type("1")
 
       const ingredientData = [
          { name: "tomatenblokjes", amount: "1.00", type: "stuk" },
@@ -89,24 +89,43 @@ describe('New Recipe Page', () => {
                }]
          })
       })
-
       cy.location("pathname").should("equal", "/recipe/99")
-
    })
 
    it('alerts recipe with the same name exists when saving recipe', () => {
-      cy.visit("http://localhost:3000/recipe/new")
-      const patchSpy = cy.spy().as('patchSpy')
-      cy.intercept('PATCH', '/api/recipe/1', patchSpy)
-
-      cy.get(".page-title").clear().type("Pad Thai")
-      cy.dataTest('recipe-save-button').click()
-      cy.on('window:alert', (alert) => {
-         expect(alert).to.equal("A recipe with the same name already exists!")
+      cy.intercept('GET', '/api/recipe', { fixture: 'all-recipes.json' })
+      cy.intercept('POST', '/api/recipe', req => {
+         throw new Error('POST request should not be called when duplicate recipe exists')
       })
-      cy.get('@patchSpy').should("not.have.been.called")
+
+      cy.visit('http://localhost:3000/recipe/new')
+
+      cy.get('.page-title').type('AGBeef')
+      cy.get('select[name="cuisine"]').select('Europees')
+      cy.get('input[name="servingCalories"]').type('1000')
+      cy.get('input[name="servingCount"]').type('1')
+
+      cy.on('window:alert', (alertText) => {
+         expect(alertText).to.equal('A recipe with the same name already exists!')
+      })
    })
 
+   it.only('shows an alert if the POST fails', () => {
+      cy.intercept('POST', '/api/recipe', { statusCode: 500, body: {} }).as('postRecipe')
+
+      cy.visit('http://localhost:3000/recipe/new')
+
+      cy.get('.page-title').type('Aaaaaa')
+      cy.get('select[name="cuisine"]').select('Europees')
+      cy.get('input[name="servingCalories"]').type('1000')
+      cy.get('input[name="servingCount"]').type('1')
+
+      cy.dataTest("recipe-save-button").click()
+      cy.on('window:alert', (alert) => {
+         expect(alert).to.equal("There was a problem creating the recipe.")
+      })
+      cy.wait('@postRecipe')
+   })
 })
 
 

@@ -246,6 +246,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
         })
             .then((response) => {
                 if (!response.ok) {
+                    alert("There was a problem creating the recipe.")
                     throw new Error("Failed to create recipe")
                 }
                 return response.json()
