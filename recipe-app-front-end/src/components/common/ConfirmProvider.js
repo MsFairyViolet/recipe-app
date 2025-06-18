@@ -25,44 +25,49 @@ export function ConfirmProvider({ children }) {
    }, [])
 
    const handleConfirm = () => {
-    if (resolvePromise) {
-      resolvePromise(hasInput ? inputValue : true)
-      cleanup()
-    }
-  };
+      if (hasInput && inputValue.trim() === "") {
+         alert("Can't be empty. Please provide an input.")
+         return
+      }
 
-  const handleCancel = () => {
-    if (resolvePromise) {
-      resolvePromise(false)
-      cleanup()
-    }
-  };
-
-  const cleanup = () => {
-    setIsOpen(false)
-    setMessage("")
-    setValue("")
-    setInputValue("")
-    setHasInput(false)
-    setResolvePromise(null)
-  };
-
-  useEffect(() => {
-   const handleKeyDown = (e) => {
-      if(e.key === "Enter"){
-         e.preventDefault()
-         handleConfirm()
-      } else if (e.key === "Escape") {
-         e.preventDefault()
-         handleCancel()
+      if (resolvePromise) {
+         resolvePromise(hasInput ? inputValue : true)
+         cleanup()
       }
    }
-   if(isOpen){
-      document.addEventListener("keydown", handleKeyDown)
+
+   const handleCancel = () => {
+      if (resolvePromise) {
+         resolvePromise(false)
+         cleanup()
+      }
    }
 
-   return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [isOpen])
+   const cleanup = () => {
+      setIsOpen(false)
+      setMessage("")
+      setValue("")
+      setInputValue("")
+      setHasInput(false)
+      setResolvePromise(null)
+   }
+
+   useEffect(() => {
+      const handleKeyDown = (e) => {
+         if (e.key === "Enter") {
+            e.preventDefault()
+            handleConfirm()
+         } else if (e.key === "Escape") {
+            e.preventDefault()
+            handleCancel()
+         }
+      }
+      if (isOpen) {
+         document.addEventListener("keydown", handleKeyDown)
+      }
+
+      return () => document.removeEventListener("keydown", handleKeyDown)
+   }, [isOpen])
 
    return (
       <ConfirmContext.Provider value={{ confirm }}>
@@ -74,7 +79,7 @@ export function ConfirmProvider({ children }) {
                   <p data-test="overlay-message">{message} <strong data-test="overlay-value">{value}</strong>?</p>
 
                   {hasInput && (
-                     <input data-test="overlay-input" type="text" value={inputValue} autoFocus onChange={(e) => setInputValue(e.target.value)}/>
+                     <input data-test="overlay-input" type="text" value={inputValue} autoFocus onChange={(e) => setInputValue(e.target.value)} />
                   )}
                   <div className="overlay-buttons">
                      <button data-test="cancel-button" onClick={handleCancel}>Cancel</button>
@@ -89,7 +94,7 @@ export function ConfirmProvider({ children }) {
 
 export function useConfirm() {
    const context = useContext(ConfirmContext)
-   if (!context){
+   if (!context) {
       throw new Error("useConfirm must be used within a ConfirmProvider")
    }
    return context.confirm
