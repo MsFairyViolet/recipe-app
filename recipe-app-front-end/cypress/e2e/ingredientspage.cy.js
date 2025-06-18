@@ -108,7 +108,7 @@ describe("Ingredients Page", () => {
          cy.dataTest("overlay-input").should("have.value", "bosui")
       })
 
-      it.only("send a patch request when confirm in the edit ingredient modal", () => {
+      it("send a patch request when confirm in the edit ingredient modal", () => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'single-ingredient.json' })
          cy.intercept('PATCH', '/api/ingredient/5', { fixture: "single-ingredient.json" }).as('patchIngredient')
          cy.get(".edit-button").click()
@@ -288,6 +288,21 @@ describe("Ingredients Page", () => {
          cy.dataTest("cancel-button").click()
          cy.get(".overlay-content").should("not.exist")
          cy.get('@postSpy').should("not.have.been.called")
+      })
+
+      it.only("alerts when input in modal is empty", () => {
+         cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
+
+         const alertStub = cy.stub()
+         cy.on('window:alert', alertStub)
+
+         cy.dataTest("new-global-ingredient-button").click()
+         cy.dataTest("overlay-input").clear()
+         cy.dataTest("confirm-button").click().then(() => {
+
+            expect(alertStub).to.have.been.calledOnce
+            expect(alertStub).to.have.been.calledWith("Can't be empty. Please provide an input.")
+         })
       })
    })
 
