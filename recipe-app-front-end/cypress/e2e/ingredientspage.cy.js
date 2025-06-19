@@ -299,7 +299,6 @@ describe("Ingredients Page", () => {
          cy.dataTest("new-global-ingredient-button").click()
          cy.dataTest("overlay-input").clear()
          cy.dataTest("confirm-button").click().then(() => {
-
             expect(alertStub).to.have.been.calledOnce
             expect(alertStub).to.have.been.calledWith("Can't be empty. Please provide an input.")
          })
