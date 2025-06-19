@@ -97,6 +97,8 @@ describe('New Recipe Page', () => {
       cy.intercept('POST', '/api/recipe', req => {
          throw new Error('POST request should not be called when duplicate recipe exists')
       })
+      const alertStub = cy.stub()
+      cy.on('window:alert', alertStub)
 
       cy.visit('http://localhost:3000/recipe/new')
 
@@ -104,14 +106,16 @@ describe('New Recipe Page', () => {
       cy.get('select[name="cuisine"]').select('Europees')
       cy.get('input[name="servingCalories"]').type('1000')
       cy.get('input[name="servingCount"]').type('1')
-
-      cy.on('window:alert', (alertText) => {
-         expect(alertText).to.equal('A recipe with the same name already exists!')
+      cy.dataTest("recipe-save-button").click().then(() => {
+         expect(alertStub).to.have.been.calledOnce
+         expect(alertStub).to.have.been.calledWith("A recipe with the same name already exists!")
       })
    })
 
-   it.only('shows an alert if the POST fails', () => {
+   it('shows an alert if the POST fails', () => {
       cy.intercept('POST', '/api/recipe', { statusCode: 500, body: {} }).as('postRecipe')
+      const alertStub = cy.stub()
+      cy.on('window:alert', alertStub)
 
       cy.visit('http://localhost:3000/recipe/new')
 
@@ -120,9 +124,9 @@ describe('New Recipe Page', () => {
       cy.get('input[name="servingCalories"]').type('1000')
       cy.get('input[name="servingCount"]').type('1')
 
-      cy.dataTest("recipe-save-button").click()
-      cy.on('window:alert', (alert) => {
-         expect(alert).to.equal("There was a problem creating the recipe.")
+      cy.dataTest("recipe-save-button").click().then(() => {
+         expect(alertStub).to.have.been.calledOnce
+         expect(alertStub).to.have.been.calledWith("There was a problem creating the recipe.")
       })
       cy.wait('@postRecipe')
    })
