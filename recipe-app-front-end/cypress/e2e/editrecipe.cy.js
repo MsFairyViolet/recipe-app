@@ -210,6 +210,8 @@ describe('Edit Recipe Page', () => {
                cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
                const postSpy = cy.spy().as('postSpy')
                cy.intercept('POST', '/api/ingredient', postSpy)
+               const alertStub = cy.stub()
+               cy.on('window:alert', alertStub)
 
                cy.dataTest("ingredient-edit-row-0").within(() => {
                   cy.dataTest("ingredient-name").click()
@@ -218,10 +220,9 @@ describe('Edit Recipe Page', () => {
 
                cy.dataTest("add-ingredient-option").click()
                cy.dataTest("overlay-input").clear().type(`${name}`)
-               cy.dataTest("confirm-button").contains("Confirm").click()
-
-               cy.on('window:alert', (alert) => {
-                  expect(alert).to.equal("That ingredient already exists! Please modify the name and try again.")
+               cy.dataTest("confirm-button").contains("Confirm").click().then(() => {
+                  expect(alertStub).to.have.been.calledOnce
+                  expect(alertStub).to.have.been.calledWith("That ingredient already exists! Please modify the name and try again.")
                })
                cy.get("@postSpy").should("not.have.been.called")
             })
@@ -231,17 +232,19 @@ describe('Edit Recipe Page', () => {
             cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
             cy.intercept('POST', '/api/ingredient', { statusCode: 500, body: {} }).as('postIngredient')
 
+            const alertStub = cy.stub()
+            cy.on('window:alert', alertStub)
+
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").click()
                cy.dataTest("ingredient-name").clear().type(`zzzz`)
             })
             cy.dataTest("add-ingredient-option").click()
-            cy.dataTest("confirm-button").click()
-
-            cy.wait('@postIngredient')
-            cy.on('window:alert', (alert) => {
-               expect(alert).to.equal("There was an error adding the ingredient.")
+            cy.dataTest("confirm-button").click().then(() => {
+               expect(alertStub).to.have.been.calledOnce
+               expect(alertStub).to.have.been.calledWith("There was an error adding the ingredient.")
             })
+            cy.wait('@postIngredient')
          })
 
          it("saves recipe with new global ingredient having correct ID", () => {
@@ -304,9 +307,12 @@ describe('Edit Recipe Page', () => {
 
             it('shows an error if the DELETE fails', () => {
                cy.intercept('DELETE', '/api/recipe/**', { statusCode: 500, body: {} })
-               cy.dataTest("confirm-button").click()
-               cy.on('window:alert', (alert) => {
-                  expect(alert).to.equal("There was an error deleting the recipe.")
+               const alertStub = cy.stub()
+               cy.on('window:alert', alertStub)
+
+               cy.dataTest("confirm-button").click().then(() => {
+                  expect(alertStub).to.have.been.calledOnce
+                  expect(alertStub).to.have.been.calledWith("There was an error deleting the recipe.")
                })
             })
          })
@@ -381,11 +387,13 @@ describe('Edit Recipe Page', () => {
             it('alerts for missing required fields when saving recipe', () => {
                const patchSpy = cy.spy().as('patchSpy')
                cy.intercept('PATCH', '/api/recipe/1', patchSpy)
+               const alertStub = cy.stub()
+               cy.on('window:alert', alertStub)
 
                cy.get(".page-title").clear()
-               cy.dataTest('recipe-save-button').click()
-               cy.on('window:alert', (alert) => {
-                  expect(alert).to.equal("Please fill in the required fields.")
+               cy.dataTest('recipe-save-button').click().then(() => {
+                  expect(alertStub).to.have.been.calledOnce
+                  expect(alertStub).to.have.been.calledWith("Please fill in the required fields.")
                })
                cy.get('@patchSpy').should("not.have.been.called")
             })
@@ -393,6 +401,8 @@ describe('Edit Recipe Page', () => {
             it('alerts for missing ingredient fields when saving recipe', () => {
                const patchSpy = cy.spy().as('patchSpy')
                cy.intercept('PATCH', '/api/recipe/1', patchSpy)
+               const alertStub = cy.stub()
+               cy.on('window:alert', alertStub)
 
                cy.dataTest("ingredient-edit-row-0").within(() => {
                   cy.dataTest("ingredient-name").clear()
@@ -400,31 +410,38 @@ describe('Edit Recipe Page', () => {
                })
 
                cy.dataTest('recipe-save-button').click()
-               cy.on('window:alert', (alert) => {
-                  expect(alert).to.equal("Please fill in all ingredient fields.")
-               })
+                  .then(() => {
+                     expect(alertStub).to.have.been.calledOnce
+                     expect(alertStub).to.have.been.calledWith("Please fill in all ingredient fields.")
+                  })
                cy.get('@patchSpy').should("not.have.been.called")
             })
 
             it('alerts recipe with the same name exists when saving recipe', () => {
                const patchSpy = cy.spy().as('patchSpy')
                cy.intercept('PATCH', '/api/recipe/1', patchSpy)
+               const alertStub = cy.stub()
+               cy.on('window:alert', alertStub)
 
                cy.get(".page-title").clear().type("Pad Thai")
                cy.dataTest('recipe-save-button').click()
-               cy.on('window:alert', (alert) => {
-                  expect(alert).to.equal("A recipe with the same name already exists!")
-               })
+                  .then(() => {
+                     expect(alertStub).to.have.been.calledOnce
+                     expect(alertStub).to.have.been.calledWith("A recipe with the same name already exists!")
+                  })
                cy.get('@patchSpy').should("not.have.been.called")
             })
 
             it('shows an alert if the PATCH fails', () => {
                cy.intercept('PATCH', '/api/recipe/1', { statusCode: 500, body: {} }).as('patchRecipe')
+               const alertStub = cy.stub()
+               cy.on('window:alert', alertStub)
 
                cy.dataTest("recipe-save-button").click()
-               cy.on('window:alert', (alert) => {
-                  expect(alert).to.equal("Failed to update recipe.")
-               })
+                  .then(() => {
+                     expect(alertStub).to.have.been.calledOnce
+                     expect(alertStub).to.have.been.calledWith("Failed to update recipe.")
+                  })
                cy.wait('@patchRecipe')
             })
          })
