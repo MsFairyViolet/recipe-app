@@ -70,7 +70,7 @@ describe('Edit Recipe Page', () => {
          cy.intercept('GET', '/api/amounttype', { fixture: "all-amounttypes.json" })
       })
 
-      it.only('displays all the correct detail information for unedited Albondigas', () => {
+      it('displays all the correct detail information for unedited Albondigas', () => {
          cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
          cy.visit('http://localhost:3000/recipe/1/edit')
          cy.wait("@getRecipe")

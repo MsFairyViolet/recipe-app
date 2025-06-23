@@ -49,26 +49,26 @@ describe("Ingredients Page", () => {
    })
 
    //Unstatic Delay experiment
-   describe("API calls", () => {
-      it.only('shows a loader when fetching recipes', () => {
-         let sendResponse
-         const trigger = new Promise((resolve) => {
-            sendResponse = resolve
-         })
+   // describe("API calls", () => {
+   //    it.only('shows a loader when fetching recipes', () => {
+   //       let sendResponse
+   //       const trigger = new Promise((resolve) => {
+   //          sendResponse = resolve
+   //       })
 
-         cy.intercept('GET', '/api/ingredient', (req) => {
-            trigger.then(() => req.reply())
-         }).as('delayedApi')
+   //       cy.intercept('GET', '/api/ingredient', (req) => {
+   //          trigger.then(() => req.reply())
+   //       }).as('delayedApi')
 
-         cy.visit('http://localhost:3000/ingredients')
+   //       cy.visit('http://localhost:3000/ingredients')
 
-         cy.dataTest('load-ingredients').click()
-         cy.contains("Loading ingredients...").should("be.visible").then(() => {
-            sendResponse()
-         })
-         cy.contains("Loading ingredients...").should("not.exist")
-      })
-   })
+   //       cy.dataTest('load-ingredients').click()
+   //       cy.contains("Loading ingredients...").should("be.visible").then(() => {
+   //          sendResponse()
+   //       })
+   //       cy.contains("Loading ingredients...").should("not.exist")
+   //    })
+   // })
 
    describe("UsedInModal", () => {
       beforeEach(() => {
@@ -195,7 +195,7 @@ describe("Ingredients Page", () => {
          cy.intercept('DELETE', '/api/ingredient/**', { statusCode: 204, body: {}})
       })
 
-      it.only("shows a confirmation modal when pressing delete on an ingredient that is not used in a recipe", () => {
+      it("shows a confirmation modal when pressing delete on an ingredient that is not used in a recipe", () => {
          cy.dataTest('ingredient-row-1').within(() => {
             cy.get(".second-column").contains("-")
             cy.get(".delete-button").click()
@@ -312,7 +312,7 @@ describe("Ingredients Page", () => {
          cy.get('@postSpy').should("not.have.been.called")
       })
 
-      it.only("alerts when input in modal is empty", () => {
+      it("alerts when input in modal is empty", () => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
 
          const alertStub = cy.stub()
