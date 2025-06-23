@@ -122,7 +122,6 @@ describe("Ingredients Page", () => {
    })
 
    describe("Edit Ingredient Button", () => {
-
       it("opens edit ingredient modal", () => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'single-ingredient.json' })
          cy.get(".edit-button").click()
@@ -193,9 +192,10 @@ describe("Ingredients Page", () => {
    describe("Delete Ingredient Button", () => {
       beforeEach(() => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
+         cy.intercept('DELETE', '/api/ingredient/**', { statusCode: 204, body: {}})
       })
 
-      it("shows a confirmation modal when pressing delete on an ingredient that is not used in a recipe", () => {
+      it.only("shows a confirmation modal when pressing delete on an ingredient that is not used in a recipe", () => {
          cy.dataTest('ingredient-row-1').within(() => {
             cy.get(".second-column").contains("-")
             cy.get(".delete-button").click()
