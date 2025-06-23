@@ -24,10 +24,11 @@ describe('Edit Recipe Page', () => {
          cy.contains("Loading recipe...").should("not.exist")
       })
 
-      it('gives an error when fetching this recipe failed', () => {
-         cy.intercept('GET', '/api/recipe/1', { statusCode: 500, body: {} }).as("getRecipe")
+      it.only('gives an error when fetching this recipe failed', () => {
+         cy.intercept('GET', '/api/recipe/1', { statusCode: 500, body: {} }).as("failRecipe")
+
          cy.visit('http://localhost:3000/recipe/1/edit')
-         cy.wait("@getRecipe")
+         cy.wait("@failRecipe")
          cy.get(".error").contains("Failed to fetch recipe.")
       })
 
@@ -78,8 +79,8 @@ describe('Edit Recipe Page', () => {
          cy.visit('http://localhost:3000/recipe/1/edit')
          cy.wait("@getRecipe")
 
-         cy.title().should("include", "Edit Albondigas")
          cy.get(".page-title").should("have.value", "Albondigas")
+         cy.title().should("include", "Edit Albondigas")
          cy.get(".description-details").should("have.value", "Midden-oosterse gehaktballetjes in tomatensaus met couscous en tzatziki")
          cy.get(".url-details").should("have.value", "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas")
          cy.get('input[name="servingCalories"').should("have.value", "945")
