@@ -28,18 +28,26 @@ describe("Ingredients Page", () => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'no-content.json' })
          cy.get(".warning").contains("No ingredients found.")
       })
+   })
 
-      it('shows a loader when fetching recipes', () => {
+   describe("API calls", () => {
+      it.only('shows a loader when fetching recipes', () => {
+         let sendResponse
+         const trigger = new Promise((resolve) => {
+            sendResponse = resolve
+         })
+
          cy.intercept('GET', '/api/ingredient', (req) => {
-            req.reply((res) => {
-               res.delay = 1000
-               res.send({ fixture: 'all-ingredients.json' })
-            })
-         }).as('getIngredients')
+            return trigger.then(() => req.reply())
+         }).as('delayedApi')
+
+         cy.wait(500)
          cy.visit('http://localhost:3000/ingredients')
-         cy.contains("Loading ingredients...").should("be.visible")
-         cy.wait('@getIngredients')
-         cy.contains("Loading ingredients...").should("not.exist")
+
+         cy.contains("Loading ingredients...").should("be.visible").then(() => {
+            sendResponse()
+            cy.contains("Loading ingredients...").should("not.exist")
+         })
       })
 
       it("shows an error when API fails to fetch all ingredients", () => {
@@ -47,28 +55,6 @@ describe("Ingredients Page", () => {
          cy.get(".warning").contains("Failed to fetch ingredients.")
       })
    })
-
-   //Unstatic Delay experiment
-   // describe("API calls", () => {
-   //    it.only('shows a loader when fetching recipes', () => {
-   //       let sendResponse
-   //       const trigger = new Promise((resolve) => {
-   //          sendResponse = resolve
-   //       })
-
-   //       cy.intercept('GET', '/api/ingredient', (req) => {
-   //          trigger.then(() => req.reply())
-   //       }).as('delayedApi')
-
-   //       cy.visit('http://localhost:3000/ingredients')
-
-   //       cy.dataTest('load-ingredients').click()
-   //       cy.contains("Loading ingredients...").should("be.visible").then(() => {
-   //          sendResponse()
-   //       })
-   //       cy.contains("Loading ingredients...").should("not.exist")
-   //    })
-   // })
 
    describe("UsedInModal", () => {
       beforeEach(() => {
@@ -192,7 +178,7 @@ describe("Ingredients Page", () => {
    describe("Delete Ingredient Button", () => {
       beforeEach(() => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
-         cy.intercept('DELETE', '/api/ingredient/**', { statusCode: 204, body: {}})
+         cy.intercept('DELETE', '/api/ingredient/**', { statusCode: 204, body: {} })
       })
 
       it("shows a confirmation modal when pressing delete on an ingredient that is not used in a recipe", () => {
