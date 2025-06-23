@@ -23,7 +23,7 @@ describe('Edit Recipe Page', () => {
       const apiEndPoints = [
          { alias: "Ingredients", url: "/api/ingredient", fixture: "all-ingredients.json" },
          { alias: "Recipe", url: "/api/recipe", fixture: "all-recipes.json" },
-         { alias: "Cuisines", url: "/api/cuisine", fixture: "all-ingredients.json" },
+         { alias: "Cuisines", url: "/api/cuisine", fixture: "all-cuisines.json" },
          { alias: "Amounttype", url: "/api/amounttype", fixture: "all-amounttypes.json" },
       ]
 
@@ -63,7 +63,14 @@ describe('Edit Recipe Page', () => {
    })
 
    describe('Recipe information', () => {
-      it('displays all the correct detail information for unedited Albondigas', () => {
+      beforeEach(() => {
+         cy.intercept('GET', '/api/ingredient', { fixture: "all-ingredients.json" })
+         cy.intercept('GET', '/api/recipe', { fixture: "all-recipes.json" })
+         cy.intercept('GET', '/api/cuisine', { fixture: "all-cuisines.json" })
+         cy.intercept('GET', '/api/amounttype', { fixture: "all-amounttypes.json" })
+      })
+
+      it.only('displays all the correct detail information for unedited Albondigas', () => {
          cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
          cy.visit('http://localhost:3000/recipe/1/edit')
          cy.wait("@getRecipe")
@@ -81,6 +88,9 @@ describe('Edit Recipe Page', () => {
       describe('Ingredients', () => {
          beforeEach(() => {
             cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
+            cy.intercept('GET', '/api/ingredient', { fixture: "all-ingredients.json" })
+            cy.intercept('GET', '/api/cuisine', { fixture: "all-cuisines.json" })
+            cy.intercept('GET', '/api/amounttype', { fixture: "all-amounttypes.json" })
             cy.visit('http://localhost:3000/recipe/1/edit')
             cy.wait("@getRecipe")
          })
@@ -334,6 +344,7 @@ describe('Edit Recipe Page', () => {
          describe("Save button", () => {
             beforeEach(() => {
                cy.intercept('GET', '/api/recipe/1', { fixture: 'single-recipe.json' }).as("getRecipe")
+               cy.intercept('PATCH', '/api/recipe/*', { fixture: { statusCode: 200, body: {} } })
                cy.visit('http://localhost:3000/recipe/1/edit')
                cy.wait("@getRecipe")
             })
