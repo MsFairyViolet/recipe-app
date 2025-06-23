@@ -31,6 +31,19 @@ export default function IngredientsListContainer() {
       fetchIngredients()
    }, [])
 
+   // //Unstatic Delay experiment
+   // useEffect(() => {
+   //    if (typeof Cypress !== "undefined") return
+   //    fetchIngredients()
+   // }, [])
+
+   // if (typeof Cypress !== "undefined") {
+   //    return (
+   //       <button data-test="load-ingredients" onClick={fetchIngredients}>
+   //          Load Ingredients
+   //       </button>)
+   // }
+
    if (loading) {
       return <p className="warning">Loading ingredients...</p>
    }

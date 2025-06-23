@@ -48,6 +48,28 @@ describe("Ingredients Page", () => {
       })
    })
 
+   //Unstatic Delay experiment
+   describe("API calls", () => {
+      it.only('shows a loader when fetching recipes', () => {
+         let sendResponse
+         const trigger = new Promise((resolve) => {
+            sendResponse = resolve
+         })
+
+         cy.intercept('GET', '/api/ingredient', (req) => {
+            trigger.then(() => req.reply())
+         }).as('delayedApi')
+
+         cy.visit('http://localhost:3000/ingredients')
+
+         cy.dataTest('load-ingredients').click()
+         cy.contains("Loading ingredients...").should("be.visible").then(() => {
+            sendResponse()
+         })
+         cy.contains("Loading ingredients...").should("not.exist")
+      })
+   })
+
    describe("UsedInModal", () => {
       beforeEach(() => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'single-ingredient.json' })
