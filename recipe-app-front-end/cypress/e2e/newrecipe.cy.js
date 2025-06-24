@@ -93,7 +93,7 @@ describe('New Recipe Page', () => {
    })
 
    it('alerts recipe with the same name exists when saving recipe', () => {
-      cy.intercept('GET', '/api/recipe', { fixture: 'all-recipes.json' })
+      cy.intercept('GET', '/api/recipe', { fixture: 'all-recipes.json' }).as('getRecipes')
       cy.intercept('POST', '/api/recipe', req => {
          throw new Error('POST request should not be called when duplicate recipe exists')
       })
@@ -101,8 +101,9 @@ describe('New Recipe Page', () => {
       cy.on('window:alert', alertStub)
 
       cy.visit('http://localhost:3000/recipe/new')
+      cy.wait('@getRecipes')
 
-      cy.get('.page-title').type('AGBeef')
+      cy.get('.page-title').type('Aardappel Groenten Beef')
       cy.get('select[name="cuisine"]').select('Europees')
       cy.get('input[name="servingCalories"]').type('1000')
       cy.get('input[name="servingCount"]').type('1')
