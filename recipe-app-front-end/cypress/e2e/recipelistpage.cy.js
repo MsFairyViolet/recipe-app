@@ -1,5 +1,6 @@
 describe('Recipe List Page', () => {
   beforeEach(() => {
+    cy.intercept('GET', '/api/recipe', { fixture: 'all-recipes.json' })
     cy.visit("http://localhost:3000")
   })
 
@@ -9,14 +10,12 @@ describe('Recipe List Page', () => {
 
   describe("Recipe list", () => {
     it('has a recipe list', () => {
-      cy.intercept('GET', '/api/recipe', { fixture: 'single-recipe.json' })
       cy.dataTest('recipe-row-0').contains("Albondigas")
       cy.dataTest('recipe-row-0').contains("945")
       cy.dataTest('recipe-row-0').contains("Midden-Oosters")
     })
 
     it('goes to correct recipe', () => {
-      cy.intercept('GET', '/api/recipe', { fixture: 'single-recipe.json' })
       cy.dataTest('recipe-row-0').find("a").click()
       cy.location("pathname").should("equal", "/recipe/1")
     })
@@ -33,10 +32,6 @@ describe('Recipe List Page', () => {
   })
 
   describe("Searchbar", () => {
-    beforeEach(() => {
-      cy.intercept('GET', '/api/recipe', { fixture: 'all-recipes.json' })
-    })
-
     const searchTerms = ['okono', 'Okono', "OKONO", "Okonomiyaki"]
     searchTerms.forEach((term) => {
       it(`returns Okonomiyaki when searching ${term}`, () => {

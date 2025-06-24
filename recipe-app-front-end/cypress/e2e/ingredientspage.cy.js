@@ -28,18 +28,26 @@ describe("Ingredients Page", () => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'no-content.json' })
          cy.get(".warning").contains("No ingredients found.")
       })
+   })
 
-      it('shows a loader when fetching recipes', () => {
+   describe("API calls", () => {
+      it.only('shows a loader when fetching recipes', () => {
+         let sendResponse
+         const trigger = new Promise((resolve) => {
+            sendResponse = resolve
+         })
+
          cy.intercept('GET', '/api/ingredient', (req) => {
-            req.reply((res) => {
-               res.delay = 1000
-               res.send({ fixture: 'all-ingredients.json' })
-            })
-         }).as('getIngredients')
+            return trigger.then(() => req.reply())
+         }).as('delayedApi')
+
+         cy.wait(500)
          cy.visit('http://localhost:3000/ingredients')
-         cy.contains("Loading ingredients...").should("be.visible")
-         cy.wait('@getIngredients')
-         cy.contains("Loading ingredients...").should("not.exist")
+
+         cy.contains("Loading ingredients...").should("be.visible").then(() => {
+            sendResponse()
+            cy.contains("Loading ingredients...").should("not.exist")
+         })
       })
 
       it("shows an error when API fails to fetch all ingredients", () => {
@@ -100,7 +108,6 @@ describe("Ingredients Page", () => {
    })
 
    describe("Edit Ingredient Button", () => {
-
       it("opens edit ingredient modal", () => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'single-ingredient.json' })
          cy.get(".edit-button").click()
@@ -171,6 +178,7 @@ describe("Ingredients Page", () => {
    describe("Delete Ingredient Button", () => {
       beforeEach(() => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
+         cy.intercept('DELETE', '/api/ingredient/**', { statusCode: 204, body: {} })
       })
 
       it("shows a confirmation modal when pressing delete on an ingredient that is not used in a recipe", () => {
@@ -290,7 +298,7 @@ describe("Ingredients Page", () => {
          cy.get('@postSpy').should("not.have.been.called")
       })
 
-      it.only("alerts when input in modal is empty", () => {
+      it("alerts when input in modal is empty", () => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
 
          const alertStub = cy.stub()
@@ -299,7 +307,6 @@ describe("Ingredients Page", () => {
          cy.dataTest("new-global-ingredient-button").click()
          cy.dataTest("overlay-input").clear()
          cy.dataTest("confirm-button").click().then(() => {
-
             expect(alertStub).to.have.been.calledOnce
             expect(alertStub).to.have.been.calledWith("Can't be empty. Please provide an input.")
          })

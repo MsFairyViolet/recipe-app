@@ -23,16 +23,20 @@ describe('View Recipe Page', () => {
    })
 
    it('shows a loading message while waiting for the recipe to load', () => {
-      cy.intercept('GET', '/api/recipe/1', (req) => {
-         req.reply((res) => {
-            res.delay = 1000
-            res.send({ fixture: 'single-recipe.json' })
-         })
-      }).as('getRecipe')
-      cy.contains("Loading recipe...").should("be.visible")
+      let sendResponse
+      const trigger = new Promise((resolve) => {
+         sendResponse = resolve
+      })
 
-      cy.wait('@getRecipe')
-      cy.contains("Loading recipe...").should("not.exist")
+      cy.intercept('GET', '/api/recipe/1', (req) => {
+         return trigger.then(() => req.reply({ fixture: 'single-recipe.json' }))
+      })
+
+      cy.wait(500)
+      cy.contains("Loading recipe...").should("be.visible").then(() => {
+         sendResponse()
+         cy.contains("Loading recipe...").should("not.exist")
+      })
    })
 
    it('shows a warning message when API fails to fetch recipe', () => {
