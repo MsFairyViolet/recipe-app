@@ -2,16 +2,16 @@ import { useState } from "react"
 import { useConfirm } from "@components/common/ConfirmProvider"
 
 
-export default function EditRecipeIngredientsList({ ingredients, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, globalIngredients, fetchGlobalIngredients, amountTypes }) {
+export default function EditRecipeIngredientsList({ ingredientList, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, ingredients, fetchIngredients, amountTypes }) {
 
     const [query, setQuery] = useState("")
     const [focusedIndex, setFocusedIndex] = useState(null)
     const [isOpen, setIsOpen] = useState(false)
     const confirm = useConfirm()
 
-    const filteredGlobalIngredients = globalIngredients.filter(i =>
+    const filteredIngredients = ingredients.filter(i =>
         i.name.toLowerCase().includes(query.toLowerCase()) &&
-        !ingredients.some(ingredient => ingredient.id === i.id)
+        !ingredientList.some(ingredient => ingredient.id === i.id)
     )
 
     const handleFocus = (index) => {
@@ -33,7 +33,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                 if (!queryIngredient) return
 
                 const newIngredient = queryIngredient.trim();
-                const ingredientExists = globalIngredients.some(
+                const ingredientExists = ingredients.some(
                     (ingredient) => ingredient.name.toLowerCase() === newIngredient.toLowerCase()
                 );
 
@@ -56,7 +56,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                         return response.json()
                     })
                     .then((data) => {
-                        fetchGlobalIngredients();
+                        fetchIngredients();
 
                         if (data && data.name) {
                             handleIngredientChange(index, "name", data.name)
@@ -81,7 +81,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                 <span className="fourth-column">x</span>
             </div>
 
-            {ingredients.map((ingredient, index) => (
+            {ingredientList.map((ingredient, index) => (
                 <div data-test={`ingredient-edit-row-${index}`} className="row" key={ingredient.id}>
                     <div className="first-column autocomplete-container">
                         <input data-test="ingredient-name" className="autocomplete-input ingredient-input"
@@ -97,7 +97,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                         />
                         {focusedIndex === index && (
                             <ul className="autocomplete-dropdown ingredient-input">
-                                {filteredGlobalIngredients.map((option) => (
+                                {filteredIngredients.map((option) => (
                                     <li data-test="autocomplete-option" key={option.id}
                                         onMouseDown={(e) => {
                                             e.preventDefault()
@@ -108,7 +108,7 @@ export default function EditRecipeIngredientsList({ ingredients, handleIngredien
                                         {option.name}
                                     </li>
                                 ))}
-                                {!globalIngredients.some(
+                                {!ingredients.some(
                                     (item) => item.name.toLowerCase() === query.toLowerCase()
                                 ) && (
                                         <li data-test="add-ingredient-option" className="add-new-ingredient" onClick={(e) => {

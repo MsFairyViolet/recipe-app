@@ -11,7 +11,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const confirm = useConfirm()
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const [globalIngredients, setGlobalIngredients] = useState(null)
+    const [ingredients, setIngredients] = useState(null)
     const [recipes, setRecipes] = useState([])
     const [cuisines, setCuisines] = useState(null)
     const [amountTypes, setAmountTypes] = useState(null)
@@ -24,10 +24,10 @@ export default function EditRecipe({ recipe, isNew = false }) {
         servingCount: recipe.servingCount,
         cuisine: recipe.cuisine,
         note: recipe.note,
-        ingredients: recipe.ingredients
+        ingredientList: recipe.ingredients
     })
 
-    const fetchGlobalIngredients = () => {
+    const fetchIngredients = () => {
         fetch(`/api/ingredient`)
             .then((response) => {
                 if (!response.ok) {
@@ -36,7 +36,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                 return response.json()
             })
             .then((data) => {
-                setGlobalIngredients(data)
+                setIngredients(data)
                 setLoading(false)
             })
             .catch((error) => {
@@ -104,7 +104,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     useEffect(() => {
-        fetchGlobalIngredients()
+        fetchIngredients()
         fetchRecipes()
         fetchCuisines()
         fetchAmountTypes()
@@ -134,8 +134,8 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const handleIngredientAdd = () => {
         setFormData(prev => ({
             ...prev,
-            ingredients: [
-                ...prev.ingredients,
+            ingredientList: [
+                ...prev.ingredientList,
                 {
                     id: uuidv4(),
                     name: "",
@@ -148,24 +148,24 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
     const handleIngredientChange = (index, field, value) => {
         setFormData(prev => {
-            const updatedIngredients = [...prev.ingredients]
-            updatedIngredients[index] = {
-                ...updatedIngredients[index],
+            const updatedIngredientList = [...prev.ingredientList]
+            updatedIngredientList[index] = {
+                ...updatedIngredientList[index],
                 [field]: value
             }
             return {
                 ...prev,
-                ingredients: updatedIngredients
+                ingredientList: updatedIngredientList
             }
         })
     }
 
     const handleIngredientDelete = (indexToDelete) => {
         setFormData(prev => {
-            const updatedIngredients = prev.ingredients.filter((ingredient, index) => index !== indexToDelete)
+            const updatedIngredientList = prev.ingredientList.filter((ingredient, index) => index !== indexToDelete)
             return {
                 ...prev,
-                ingredients: updatedIngredients
+                ingredientList: updatedIngredientList
             }
         })
     }
@@ -176,10 +176,10 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                 if (confirmed) {
                     setFormData(prev => {
-                        const updatedIngredients = []
+                        const updatedIngredientList = []
                         return {
                             ...prev,
-                            ingredients: updatedIngredients
+                            ingredientList: updatedIngredientList
                         }
                     })
                 }
@@ -192,7 +192,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const validateIngredients = () => {
-        return formData.ingredients.every(ingredient => {
+        return formData.ingredientList.every(ingredient => {
             return ingredient.name.trim() !== "" && ingredient.amount.trim() !== ""
         })
     }
@@ -314,7 +314,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
     return (
         <>
-            {globalIngredients && recipes && cuisines && amountTypes ? (
+            {ingredients && recipes && cuisines && amountTypes ? (
                 <div className="edit-page" onKeyDown={handleKeyDown}>
                     <input className="page-title" placeholder="Recipe name*" autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
 
@@ -341,7 +341,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                         <div>
                             <h4>Ingredients:</h4>
-                            <EditRecipeIngriedientList ingredients={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} globalIngredients={globalIngredients} fetchGlobalIngredients={fetchGlobalIngredients} amountTypes={amountTypes} />
+                            <EditRecipeIngriedientList ingredientList={formData.ingredientList} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} ingredients={ingredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} />
                         </div>
 
                         <div>

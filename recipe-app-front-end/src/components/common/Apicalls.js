@@ -21,7 +21,7 @@ const fetchIngredients = () => {
 }
 
 // Edit Recipe /recipe/id/edit/page.js/EditRecipe.js
-const fetchGlobalIngredients = () => {
+const fetchIngredients = () => {
    fetch(`/api/ingredient`)
       .then((response) => {
          if (!response.ok) {
@@ -30,7 +30,7 @@ const fetchGlobalIngredients = () => {
          return response.json()
       })
       .then((data) => {
-         setGlobalIngredients(data)
+         setIngredients(data)
          setLoading(false)
       })
       .catch((error) => {
