@@ -5,7 +5,7 @@ const fetchIngredients = () => {
    fetch("/api/ingredient")
       .then((response) => {
          if (!response.ok) {
-            throw new Error("Failed to fetch recipes")
+            throw new Error("Failed to fetch recipes.")
          }
          return response.json()
       })
@@ -25,7 +25,7 @@ const fetchGlobalIngredients = () => {
    fetch(`/api/ingredient`)
       .then((response) => {
          if (!response.ok) {
-            throw new Error("Failed to fetch global ingredients")
+            throw new Error("Failed to fetch recipes")
          }
          return response.json()
       })
@@ -34,7 +34,7 @@ const fetchGlobalIngredients = () => {
          setLoading(false)
       })
       .catch((error) => {
-         console.log("Error fetching global ingredients: ", error)
+         console.log("Error fetching recipes: ", error)
          setError(error.message)
          setLoading(false)
       })
@@ -65,7 +65,7 @@ const handleIngredientAdd = async () => {
             })
                .then((response) => {
                   if (!response.ok) {
-                     throw new Error("Failed to add ingredient");
+                     throw new Error("Failed to add ingredient.");
                   }
                   fetchIngredients()
                })
@@ -89,7 +89,7 @@ const handleQueryIngredientAdd = async (defaultName = "", index) => {
          );
 
          if (ingredientExists) {
-            alert("That ingredient already exists! Please modify the name and try again.")
+            alert("That ingredient already exists!")
             return
          }
 
@@ -102,7 +102,7 @@ const handleQueryIngredientAdd = async (defaultName = "", index) => {
          })
             .then((response) => {
                if (!response.ok) {
-                  throw new Error("Failed to add ingredient")
+                  throw new Error("Failed to add ingredient.")
                }
                return response.json()
             })
@@ -151,7 +151,7 @@ const handleIngredientEdit = async (index) => {
             })
                .then((response) => {
                   if (!response.ok) {
-                     throw new Error("Failed to update ingredient");
+                     throw new Error("Failed to update ingredient.");
                   }
                   fetchIngredients()
                })
@@ -190,7 +190,7 @@ const handleIngredientDelete = async (index) => {
                      fetchIngredients()
                   } else {
                      console.error("Failed to delete")
-                     alert("Something went wrong when trying to delete the ingredient.")
+                     alert("Failed to delete ingredient.")
                   }
                })
          }
@@ -204,7 +204,7 @@ const fetchRecipes = () => {
    fetch("/api/recipe")
       .then((response) => {
          if (!response.ok) {
-            throw new Error("Failed to fetch recipes")
+            throw new Error("Failed to fetch recipes.")
          }
          return response.json()
       })
@@ -224,7 +224,7 @@ const fetchRecipes = () => {
    fetch("/api/recipe")
       .then((response) => {
          if (!response.ok) {
-            throw new Error("Failed to fetch recipes")
+            throw new Error("Failed to fetch recipes.")
          }
          return response.json()
       })
@@ -261,7 +261,7 @@ const handleCreate = () => {
    })
       .then((response) => {
          if (!response.ok) {
-            alert("There was a problem creating the recipe.")
+            alert("Failed to create recipe.")
             throw new Error("Failed to create recipe")
          }
          return response.json()
@@ -281,7 +281,7 @@ const fetchRecipe = () => {
    fetch(`/api/recipe/${id}`)
       .then((response) => {
          if (!response.ok) {
-            throw new Error("Failed to fetch recipe")
+            throw new Error("Failed to fetch recipe.")
          }
          return response.json()
       })
@@ -344,7 +344,7 @@ const handleUpdate = async () => {
       })
       .catch((error) => {
          console.error(error)
-         alert("Failed to update recipe.")
+         alert("There was an error updating the recipe.")
       })
 }
 
@@ -382,7 +382,7 @@ const fetchCuisines = () => {
    fetch("/api/cuisine")
       .then((response) => {
          if (!response.ok) {
-            throw new Error("Failed to fetch cuisines")
+            throw new Error("Failed to fetch cuisines.")
          }
          return response.json()
       })
@@ -404,7 +404,7 @@ const fetchAmountTypes = () => {
    fetch("/api/amounttype")
       .then((response) => {
          if (!response.ok) {
-            throw new Error("Failed to fetch amount types")
+            throw new Error("Failed to fetch amount types.")
          }
          return response.json()
       })
