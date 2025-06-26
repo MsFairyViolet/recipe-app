@@ -1,5 +1,3 @@
-"use client"
-// GET /ingredient
 // /ingredients/page.js
 // Edit Recipe /recipe/id/edit/page.js/EditRecipe.js
 export async function getIngredients() {
@@ -10,5 +8,71 @@ export async function getIngredients() {
    return response.json()
 }
 
+// RecipeList /recipe/page.js
+// Edit Recipe /recipe/id/edit/page.js/EditRecipe.js
+export async function getRecipes() {
+   const response = await fetch(`/api/recipe`)
+   if (!response.ok) {
+      throw new Error("Failed to fetch recipes.")
+   }
+   return response.json()
+}
 
+// ViewRecipe /recipe/id/page.js
+// Edit Recipe /recipe/id/edit/page.js
+export async function getRecipe(id) {
+   const response = await fetch(`/api/recipe/${id}`)
+   if (!response.ok) {
+      throw new Error(`Failed to fetch recipe.`)
+   }
+   return response.json()
+}
 
+// Edit Recipe /recipe/id/edit/page.js/EditRecipe.js
+export async function getCuisines() {
+   const response = await fetch("/api/cuisine")
+   if (!response.ok) {
+      throw new Error("Failed to fetch cuisines.")
+   }
+   return response.json()
+}
+
+// Edit Recipe /recipe/id/edit/page.js/EditRecipe.js
+export async function getAmountTypes() {
+   const response = await fetch("/api/amounttype")
+   if (!response.ok) {
+      throw new Error("Failed to fetch amount types.")
+   }
+   return response.json()
+}
+
+// Edit Recipe /recipe/id/edit/page.js/EditRecipe.js/EditRecipeIngredientList.js
+// /ingredients/page.js/IngredientsPage.js
+export async function addIngredient(name) {
+   const res = await fetch('/api/ingredient', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name }),
+   })
+
+   if (!res.ok) {
+      throw new Error('Failed to add ingredient')
+   }
+   return res.json()
+}
+
+// Edit Recipe /recipe/id/edit/page.js/EditRecipe.js
+export async function createRecipe(recipe) {
+   fetch("/api/recipe", {
+      method: "POST",
+      headers: {
+         "Content-Type": "application/json"
+      },
+      body: JSON.stringify(recipe)
+   })
+   if (!response.ok) {
+      alert("Failed to create recipe.")
+      throw new Error("Failed to create recipe")
+   }
+   return response.json()
+}
