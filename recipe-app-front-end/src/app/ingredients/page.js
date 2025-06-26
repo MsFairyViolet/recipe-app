@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import IngredientsPage from "@components/IngredientsList/IngredientsPage"
+import { getIngredients } from "@components/common/Apicalls"
 
 export default function IngredientsListContainer() {
    const [ingredients, setIngredients] = useState(null)
@@ -9,13 +10,7 @@ export default function IngredientsListContainer() {
    const [error, setError] = useState(null)
 
    const fetchIngredients = () => {
-      fetch("/api/ingredient")
-         .then((response) => {
-            if (!response.ok) {
-               throw new Error("Failed to fetch recipes")
-            }
-            return response.json()
-         })
+      getIngredients()
          .then((data) => {
             setIngredients(data)
             setLoading(false)
