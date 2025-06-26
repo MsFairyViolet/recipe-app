@@ -5,12 +5,23 @@ import { useRouter } from "next/navigation"
 import { useConfirm } from "@components/common/ConfirmProvider"
 import { v4 as uuidv4 } from 'uuid'
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
+import { getIngredients } from "@components/common/Apicalls"
 
 export default function EditRecipe({ recipe, isNew = false }) {
     const router = useRouter()
     const confirm = useConfirm()
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState({
+        ingredients: true,
+        recipes: true,
+        cuisines: true,
+        amountTypes: true
+    })
+    const [error, setError] = useState({
+        ingredients: null,
+        recipes: null,
+        cuisines: null,
+        amountTypes: null
+    })
     const [ingredients, setIngredients] = useState(null)
     const [recipes, setRecipes] = useState([])
     const [cuisines, setCuisines] = useState(null)
@@ -28,21 +39,15 @@ export default function EditRecipe({ recipe, isNew = false }) {
     })
 
     const fetchIngredients = () => {
-        fetch(`/api/ingredient`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch global ingredients")
-                }
-                return response.json()
-            })
+        getIngredients()
             .then((data) => {
                 setIngredients(data)
-                setLoading(false)
+                setLoading(prev => ({ ...prev, recipes: false }))
             })
             .catch((error) => {
-                console.log("Error fetching global ingredients: ", error)
-                setError(error.message)
-                setLoading(false)
+                console.log("Error fetching recipes: ", error)
+                setError(prev => ({ ...prev, recipes: error.message }))
+                setLoading(prev => ({ ...prev, recipes: false }))
             })
     }
 
