@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { useConfirm } from "@components/common/ConfirmProvider"
 import { v4 as uuidv4 } from 'uuid'
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
-import { getIngredients } from "@components/common/Apicalls"
+import { getIngredients, getRecipes } from "@components/common/Apicalls"
 
 export default function EditRecipe({ recipe, isNew = false }) {
     const router = useRouter()
@@ -45,28 +45,22 @@ export default function EditRecipe({ recipe, isNew = false }) {
                 setLoading(prev => ({ ...prev, recipes: false }))
             })
             .catch((error) => {
-                console.log("Error fetching recipes: ", error)
-                setError(prev => ({ ...prev, recipes: error.message }))
-                setLoading(prev => ({ ...prev, recipes: false }))
+                console.log("Error fetching ingredients: ", error)
+                setError(prev => ({ ...prev, ingredients: error.message }))
+                setLoading(prev => ({ ...prev, ingredients: false }))
             })
     }
 
     const fetchRecipes = () => {
-        fetch("/api/recipe")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch recipes")
-                }
-                return response.json()
-            })
+       getRecipes()
             .then((data) => {
                 setRecipes(data)
-                setLoading(false)
+                setLoading(prev => ({ ...prev, recipes: false }))
             })
             .catch((error) => {
                 console.log("Error fetching recipes: ", error)
-                setError(error.message)
-                setLoading(false)
+                setError(prev => ({ ...prev, recipes: error.message }))
+                setLoading(prev => ({ ...prev, recipes: false }))
             })
     }
 
