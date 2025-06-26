@@ -8,6 +8,16 @@ describe('Recipe List Page', () => {
     cy.get("h1").contains("Recipes")
   })
 
+  it(`successfully fetches Recipes`, () => {
+         cy.intercept('GET', "/api/recipe", {
+            statusCode: 200,
+         }).as(`getRecipes`)
+
+         cy.visit('http://localhost:3000/recipe')
+
+         cy.wait(`@getRecipes`).its('response.statusCode').should('eq', 200)
+      })
+
   describe("Recipe list", () => {
     it('has a recipe list', () => {
       cy.dataTest('recipe-row-0').contains("Albondigas")
