@@ -22,6 +22,16 @@ describe('View Recipe Page', () => {
       cy.get(".note-details").should("not.exist")
    })
 
+   it(`successfully fetches Recipe`, () => {
+         cy.intercept('GET', "/api/recipe", {
+            statusCode: 200,
+         }).as(`getRecipe`)
+
+         cy.visit('http://localhost:3000/recipe/1')
+
+         cy.wait(`@getRecipe`).its('response.statusCode').should('eq', 200)
+      })
+
    it('shows a loading message while waiting for the recipe to load', () => {
       let sendResponse
       const trigger = new Promise((resolve) => {
