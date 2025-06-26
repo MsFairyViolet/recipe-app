@@ -31,7 +31,16 @@ describe("Ingredients Page", () => {
    })
 
    describe("API calls", () => {
-      it.only('shows a loader when fetching recipes', () => {
+      it(`successfully fetches Ingredients`, () => {
+         cy.intercept('GET', " /api/ingredients", {
+            statusCode: 200,
+         }).as(`getIngredients`)
+
+         cy.visit('http://localhost:3000/ingredients')
+
+         cy.wait(`@getIngredients`).its('response.statusCode').should('eq', 200)
+      })
+      it('shows a loader when fetching recipes', () => {
          let sendResponse
          const trigger = new Promise((resolve) => {
             sendResponse = resolve
