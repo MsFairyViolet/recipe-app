@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import ViewRecipe from "@components/ViewRecipe/ViewRecipe";
+import { getRecipe } from "@components/common/Apicalls"
+
 
 export default function ViewRecipeContainer() {
     const [recipe, setRecipe] = useState(null);
@@ -11,13 +13,7 @@ export default function ViewRecipeContainer() {
     const [error, setError] = useState(null)
 
     const fetchRecipe = () => {
-        fetch(`/api/recipe/${id}`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch recipe")
-                }
-                return response.json()
-            })
+        getRecipe(id)
             .then((data) => {
                 setRecipe(data)
                 setLoading(false)

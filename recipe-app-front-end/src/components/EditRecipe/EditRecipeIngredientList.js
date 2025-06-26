@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useConfirm } from "@components/common/ConfirmProvider"
+import { addIngredient } from "@components/common/Apicalls"
 
 
 export default function EditRecipeIngredientsList({ ingredientList, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, ingredients, fetchIngredients, amountTypes }) {
@@ -42,19 +43,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
                     return
                 }
 
-                fetch(`/api/ingredient`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ name: newIngredient })
-                })
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error("Failed to add ingredient")
-                        }
-                        return response.json()
-                    })
+                addIngredient(newIngredient)
                     .then((data) => {
                         fetchIngredients();
 

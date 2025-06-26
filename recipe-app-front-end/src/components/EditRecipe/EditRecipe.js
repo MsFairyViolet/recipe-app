@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { useConfirm } from "@components/common/ConfirmProvider"
 import { v4 as uuidv4 } from 'uuid'
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
-import { getIngredients, getRecipes } from "@components/common/Apicalls"
+import { getIngredients, getRecipes, getCuisines, getAmountTypes, createRecipe } from "@components/common/Apicalls"
 
 export default function EditRecipe({ recipe, isNew = false }) {
     const router = useRouter()
@@ -52,7 +52,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const fetchRecipes = () => {
-       getRecipes()
+        getRecipes()
             .then((data) => {
                 setRecipes(data)
                 setLoading(prev => ({ ...prev, recipes: false }))
@@ -65,40 +65,28 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const fetchCuisines = () => {
-        fetch("/api/cuisine")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch cuisines")
-                }
-                return response.json()
-            })
+        getCuisines()
             .then((data) => {
                 setCuisines(data)
-                setLoading(false)
+                setLoading(prev => ({ ...prev, cuisines: false }))
             })
             .catch((error) => {
                 console.log("Error fetching cuisines: ", error)
-                setError(error.message)
-                setLoading(false)
+                setError(prev => ({ ...prev, cuisines: error.message }))
+                setLoading(prev => ({ ...prev, cuisines: false }))
             })
     }
 
     const fetchAmountTypes = () => {
-        fetch("/api/amounttype")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch amount types")
-                }
-                return response.json()
-            })
+        getAmountTypes()
             .then((data) => {
                 setAmountTypes(data)
-                setLoading(false)
+                setLoading(prev => ({ ...prev, amountTypes: false }))
             })
             .catch((error) => {
                 console.log("Error fetching amount types: ", error)
-                setError(error.message)
-                setLoading(false)
+                setError(prev => ({ ...prev, amountTypes: error.message }))
+                setLoading(prev => ({ ...prev, amountTypes: false }))
             })
     }
 
@@ -236,25 +224,13 @@ export default function EditRecipe({ recipe, isNew = false }) {
             return
         }
 
-        fetch("/api/recipe", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    alert("There was a problem creating the recipe.")
-                    throw new Error("Failed to create recipe")
-                }
-                return response.json()
-            })
+        createRecipe(formData)
             .then((savedRecipe) => {
                 router.push(`/recipe/${savedRecipe.id}`)
             })
             .catch((error) => {
                 console.error(error)
+                alert("There was a problem creating the recipe.")
             })
     }
 

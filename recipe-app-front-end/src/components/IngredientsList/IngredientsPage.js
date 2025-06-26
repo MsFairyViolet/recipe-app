@@ -3,6 +3,8 @@ import { useRouter } from "next/navigation"
 import IngredientsList from "./IngredientsList";
 import SearchBar from "@components/common/SearchBar";
 import { useConfirm } from "@components/common/ConfirmProvider";
+import { addIngredient } from "@components/common/Apicalls"
+
 
 export default function IngredientsPage({ ingredients, fetchIngredients, error }) {
     const [searchQuery, setSearchQuery] = useState("")
@@ -22,17 +24,8 @@ export default function IngredientsPage({ ingredients, fetchIngredients, error }
                         return
                     }
 
-                    fetch(`/api/ingredient`, {
-                        method: "POST",
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ name: newIngredient })
-                    })
-                        .then((response) => {
-                            if (!response.ok) {
-                                throw new Error("Failed to add ingredient");
-                            }
+                    addIngredient(newIngredient)
+                        .then(() => {
                             fetchIngredients()
                         })
                         .catch((error) => {
