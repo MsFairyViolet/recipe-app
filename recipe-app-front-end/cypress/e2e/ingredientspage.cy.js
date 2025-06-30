@@ -188,7 +188,7 @@ describe("Ingredients Page", () => {
    describe("Delete Ingredient Button", () => {
       beforeEach(() => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
-         cy.intercept('DELETE', '/api/ingredient/**', { statusCode: 204, body: {} })
+         cy.intercept('DELETE', '/api/ingredient/**', { statusCode: 204, body: {} }).as('deleteIngredient')
       })
 
       it("shows a confirmation modal when pressing delete on an ingredient that is not used in a recipe", () => {
