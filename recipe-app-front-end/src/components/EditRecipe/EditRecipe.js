@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { useConfirm } from "@components/common/ConfirmProvider"
 import { v4 as uuidv4 } from 'uuid'
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
-import { getIngredients, getRecipes, getCuisines, getAmountTypes, createRecipe } from "@components/common/Apicalls"
+import { getIngredients, getRecipes, getCuisines, getAmountTypes, createRecipe, updateRecipe, deleteRecipe } from "@components/common/Apicalls"
 
 export default function EditRecipe({ recipe, isNew = false }) {
     const router = useRouter()
@@ -244,17 +244,8 @@ export default function EditRecipe({ recipe, isNew = false }) {
             return
         }
 
-        fetch(`/api/recipe/${recipe.id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to update recipe.")
-                }
+        updateRecipe(recipe, formData)
+            .then(() => {
                 router.push(`/recipe/${recipe.id}`)
             })
             .catch((error) => {
@@ -267,16 +258,8 @@ export default function EditRecipe({ recipe, isNew = false }) {
         await confirm("Do you want to delete the recipe for", recipe.name)
             .then((confirmed) => {
                 if (confirmed) {
-                    fetch(`/api/recipe/${recipe.id}`, {
-                        method: "DELETE",
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    })
-                        .then((response) => {
-                            if (!response.ok) {
-                                throw new Error("Failed to delete recipe")
-                            }
+                    deleteRecipe(recipe.id)
+                        .then(() => {
                             router.push("/recipe")
                         })
                         .catch((error) => {

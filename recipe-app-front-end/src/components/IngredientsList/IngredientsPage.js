@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation"
 import IngredientsList from "./IngredientsList";
 import SearchBar from "@components/common/SearchBar";
 import { useConfirm } from "@components/common/ConfirmProvider";
-import { addIngredient } from "@components/common/Apicalls"
+import { addIngredient, patchIngredient, deleteIngredient } from "@components/common/Apicalls"
 
 
 export default function IngredientsPage({ ingredients, fetchIngredients, error }) {
@@ -52,17 +52,8 @@ export default function IngredientsPage({ ingredients, fetchIngredients, error }
                         return
                     }
 
-                    fetch(`api/ingredient/${ingredient.id}`, {
-                        method: "PATCH",
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ ...ingredient, name: newName })
-                    })
-                        .then((response) => {
-                            if (!response.ok) {
-                                throw new Error("Failed to update ingredient");
-                            }
+                    patchIngredient(ingredient.id, {name: newName })
+                        .then(() => {
                             fetchIngredients()
                         })
                         .catch((error) => {
@@ -85,22 +76,16 @@ export default function IngredientsPage({ ingredients, fetchIngredients, error }
 
         await confirm("Do you want to globally delete:", ingredient.name)
             .then((confirmed) => {
-                if (!confirmed) {
-                    return
-                }
-                if (confirmed) {
-                    fetch(`/api/ingredient/${ingredient.id}`, {
-                        method: "DELETE",
+                if (!confirmed) return
+
+                deleteIngredient(ingredient.id)
+                    .then(() => {
+                        fetchIngredients()
                     })
-                        .then((response) => {
-                            if (response.ok) {
-                                fetchIngredients()
-                            } else {
-                                console.error("Failed to delete")
-                                alert("Something went wrong when trying to delete the ingredient.")
-                            }
-                        })
-                }
+                    .catch((error) => {
+                        console.error("Failed to delete:", error)
+                        alert("Something went wrong when trying to delete the ingredient.")
+                    })
             })
     }
 
