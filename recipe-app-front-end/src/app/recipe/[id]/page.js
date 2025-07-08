@@ -35,7 +35,6 @@ export default function ViewRecipeContainer() {
 
     if (error) {
         return <p className="warning error">Failed to get recipe.</p>
-
     }
 
     return (
