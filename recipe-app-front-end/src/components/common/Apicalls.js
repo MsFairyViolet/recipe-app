@@ -56,7 +56,7 @@ export async function addIngredient(name) {
    })
 
    if (!response.ok) {
-      throw new Error('Failed to add ingredient')
+      throw new Error('Failed to add ingredient.')
    }
    return response.json()
 }
@@ -71,7 +71,7 @@ export async function createRecipe(recipe) {
       body: JSON.stringify(recipe)
    })
    if (!response.ok) {
-      throw new Error("Failed to create recipe")
+      throw new Error("Failed to create recipe.")
    }
    return response.json()
 }
@@ -124,6 +124,6 @@ export async function deleteRecipe(id) {
    })
 
    if (!response.ok) {
-      throw new Error("Failed to delete recipe")
+      throw new Error("Failed to delete recipe.")
    }
 }
