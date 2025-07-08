@@ -41,7 +41,7 @@ describe("Ingredients Page", () => {
          cy.wait(`@getIngredients`).its('response.statusCode').should('eq', 200)
       })
 
-      it('shows a loader when fetching recipes', () => {
+      it('shows a loader when fetching ingredients', () => {
          let sendResponse
          const trigger = new Promise((resolve) => {
             sendResponse = resolve
