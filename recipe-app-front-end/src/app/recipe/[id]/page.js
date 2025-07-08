@@ -29,18 +29,16 @@ export default function ViewRecipeContainer() {
         fetchRecipe()
     }, [])
 
-    return (
-        <>
-            {recipe ? (
-                <ViewRecipe recipe={recipe} />
-            ) :
-                error ? (
-                    <p className="warning error">Failed to fetch recipe</p>
-                ) : (
-                    <p className="warning">Loading recipe...</p>
-                )
+    if (loading) {
+        return <p className="warning">Loading recipe...</p>
+    }
 
-            }
-        </>
-    );
+    if (error) {
+        return <p className="warning error">Failed to get recipe.</p>
+
+    }
+
+    return (
+        <ViewRecipe recipe={recipe} />
+    )
 }
