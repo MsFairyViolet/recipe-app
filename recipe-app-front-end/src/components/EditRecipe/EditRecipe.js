@@ -5,13 +5,24 @@ import { useRouter } from "next/navigation"
 import { useConfirm } from "@components/common/ConfirmProvider"
 import { v4 as uuidv4 } from 'uuid'
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
+import { getIngredients, getRecipes, getCuisines, getAmountTypes, createRecipe, updateRecipe, deleteRecipe } from "@components/common/Apicalls"
 
 export default function EditRecipe({ recipe, isNew = false }) {
     const router = useRouter()
     const confirm = useConfirm()
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
-    const [globalIngredients, setGlobalIngredients] = useState(null)
+    const [loading, setLoading] = useState({
+        ingredients: true,
+        recipes: true,
+        cuisines: true,
+        amountTypes: true
+    })
+    const [error, setError] = useState({
+        ingredients: null,
+        recipes: null,
+        cuisines: null,
+        amountTypes: null
+    })
+    const [ingredients, setIngredients] = useState(null)
     const [recipes, setRecipes] = useState([])
     const [cuisines, setCuisines] = useState(null)
     const [amountTypes, setAmountTypes] = useState(null)
@@ -24,87 +35,63 @@ export default function EditRecipe({ recipe, isNew = false }) {
         servingCount: recipe.servingCount,
         cuisine: recipe.cuisine,
         note: recipe.note,
-        ingredients: recipe.ingredients
+        ingredientList: recipe.ingredients
     })
 
-    const fetchGlobalIngredients = () => {
-        fetch(`/api/ingredient`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch global ingredients")
-                }
-                return response.json()
-            })
+    const fetchIngredients = () => {
+        getIngredients()
             .then((data) => {
-                setGlobalIngredients(data)
-                setLoading(false)
+                setIngredients(data)
+                setLoading(prev => ({ ...prev, recipes: false }))
             })
             .catch((error) => {
-                console.log("Error fetching global ingredients: ", error)
-                setError(error.message)
-                setLoading(false)
+                console.log("Error fetching ingredients: ", error)
+                setError(prev => ({ ...prev, ingredients: error.message }))
+                setLoading(prev => ({ ...prev, ingredients: false }))
             })
     }
 
     const fetchRecipes = () => {
-        fetch("/api/recipe")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch recipes")
-                }
-                return response.json()
-            })
+        getRecipes()
             .then((data) => {
                 setRecipes(data)
-                setLoading(false)
+                setLoading(prev => ({ ...prev, recipes: false }))
             })
             .catch((error) => {
                 console.log("Error fetching recipes: ", error)
-                setError(error.message)
-                setLoading(false)
+                setError(prev => ({ ...prev, recipes: error.message }))
+                setLoading(prev => ({ ...prev, recipes: false }))
             })
     }
 
     const fetchCuisines = () => {
-        fetch("/api/cuisine")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch cuisines")
-                }
-                return response.json()
-            })
+        getCuisines()
             .then((data) => {
                 setCuisines(data)
-                setLoading(false)
+                setLoading(prev => ({ ...prev, cuisines: false }))
             })
             .catch((error) => {
                 console.log("Error fetching cuisines: ", error)
-                setError(error.message)
-                setLoading(false)
+                setError(prev => ({ ...prev, cuisines: error.message }))
+                setLoading(prev => ({ ...prev, cuisines: false }))
             })
     }
 
     const fetchAmountTypes = () => {
-        fetch("/api/amounttype")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch amount types")
-                }
-                return response.json()
-            })
+        getAmountTypes()
             .then((data) => {
                 setAmountTypes(data)
-                setLoading(false)
+                setLoading(prev => ({ ...prev, amountTypes: false }))
             })
             .catch((error) => {
                 console.log("Error fetching amount types: ", error)
-                setError(error.message)
-                setLoading(false)
+                setError(prev => ({ ...prev, amountTypes: error.message }))
+                setLoading(prev => ({ ...prev, amountTypes: false }))
             })
     }
 
     useEffect(() => {
-        fetchGlobalIngredients()
+        fetchIngredients()
         fetchRecipes()
         fetchCuisines()
         fetchAmountTypes()
@@ -134,8 +121,8 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const handleIngredientAdd = () => {
         setFormData(prev => ({
             ...prev,
-            ingredients: [
-                ...prev.ingredients,
+            ingredientList: [
+                ...prev.ingredientList,
                 {
                     id: uuidv4(),
                     name: "",
@@ -148,24 +135,24 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
     const handleIngredientChange = (index, field, value) => {
         setFormData(prev => {
-            const updatedIngredients = [...prev.ingredients]
-            updatedIngredients[index] = {
-                ...updatedIngredients[index],
+            const updatedIngredientList = [...prev.ingredientList]
+            updatedIngredientList[index] = {
+                ...updatedIngredientList[index],
                 [field]: value
             }
             return {
                 ...prev,
-                ingredients: updatedIngredients
+                ingredientList: updatedIngredientList
             }
         })
     }
 
     const handleIngredientDelete = (indexToDelete) => {
         setFormData(prev => {
-            const updatedIngredients = prev.ingredients.filter((ingredient, index) => index !== indexToDelete)
+            const updatedIngredientList = prev.ingredientList.filter((ingredient, index) => index !== indexToDelete)
             return {
                 ...prev,
-                ingredients: updatedIngredients
+                ingredientList: updatedIngredientList
             }
         })
     }
@@ -176,10 +163,10 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                 if (confirmed) {
                     setFormData(prev => {
-                        const updatedIngredients = []
+                        const updatedIngredientList = []
                         return {
                             ...prev,
-                            ingredients: updatedIngredients
+                            ingredientList: updatedIngredientList
                         }
                     })
                 }
@@ -192,7 +179,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const validateIngredients = () => {
-        return formData.ingredients.every(ingredient => {
+        return formData.ingredientList.every(ingredient => {
             return ingredient.name.trim() !== "" && ingredient.amount.trim() !== ""
         })
     }
@@ -237,25 +224,13 @@ export default function EditRecipe({ recipe, isNew = false }) {
             return
         }
 
-        fetch("/api/recipe", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    alert("There was a problem creating the recipe.")
-                    throw new Error("Failed to create recipe")
-                }
-                return response.json()
-            })
+        createRecipe(formData)
             .then((savedRecipe) => {
                 router.push(`/recipe/${savedRecipe.id}`)
             })
             .catch((error) => {
                 console.error(error)
+                alert("There was a problem creating the recipe.")
             })
     }
 
@@ -269,17 +244,8 @@ export default function EditRecipe({ recipe, isNew = false }) {
             return
         }
 
-        fetch(`/api/recipe/${recipe.id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to update recipe.")
-                }
+        updateRecipe(recipe, formData)
+            .then(() => {
                 router.push(`/recipe/${recipe.id}`)
             })
             .catch((error) => {
@@ -292,16 +258,8 @@ export default function EditRecipe({ recipe, isNew = false }) {
         await confirm("Do you want to delete the recipe for", recipe.name)
             .then((confirmed) => {
                 if (confirmed) {
-                    fetch(`/api/recipe/${recipe.id}`, {
-                        method: "DELETE",
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    })
-                        .then((response) => {
-                            if (!response.ok) {
-                                throw new Error("Failed to delete recipe")
-                            }
+                    deleteRecipe(recipe.id)
+                        .then(() => {
                             router.push("/recipe")
                         })
                         .catch((error) => {
@@ -314,7 +272,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
     return (
         <>
-            {globalIngredients && recipes && cuisines && amountTypes ? (
+            {ingredients && recipes && cuisines && amountTypes ? (
                 <div className="edit-page" onKeyDown={handleKeyDown}>
                     <input className="page-title" placeholder="Recipe name*" autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
 
@@ -341,7 +299,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                         <div>
                             <h4>Ingredients:</h4>
-                            <EditRecipeIngriedientList ingredients={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} globalIngredients={globalIngredients} fetchGlobalIngredients={fetchGlobalIngredients} amountTypes={amountTypes} />
+                            <EditRecipeIngriedientList ingredientList={formData.ingredientList} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} ingredients={ingredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} />
                         </div>
 
                         <div>

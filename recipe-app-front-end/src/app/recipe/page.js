@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react"
 import RecipeListPage from "@components/RecipeList/RecipeListPage";
+import { getRecipes } from "@components/common/Apicalls"
+
 
 export default function RecipeListContainer() {
     const [recipes, setRecipes] = useState([])
@@ -9,13 +11,7 @@ export default function RecipeListContainer() {
     const [error, setError] = useState(null)
 
     const fetchRecipes = () => {
-        fetch("/api/recipe")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch recipes")
-                }
-                return response.json()
-            })
+       getRecipes()
             .then((data) => {
                 setRecipes(data)
                 setLoading(false)

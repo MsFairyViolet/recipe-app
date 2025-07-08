@@ -209,7 +209,7 @@ describe('Edit Recipe Page', () => {
             cy.dataTest('recipe-save-button').click()
 
             cy.wait('@patchRecipe').its('request.body').then((body) => {
-               const found = body.ingredients.find(i => i.id === 53 && i.name === "zzzz")
+               const found = body.ingredientList.find(i => i.id === 53 && i.name === "zzzz")
                expect(found).to.exist
             })
          })
@@ -384,65 +384,75 @@ describe('Edit Recipe Page', () => {
    })
 })
 
- describe('API calls on Edit Page', () => {
-      it('shows a loader when fetching recipe', () => {
-         cy.intercept('GET', '/api/recipe/1', (req) => {
+describe('API calls on Edit Page', () => {
+   it('shows a loader when fetching recipe', () => {
+      cy.intercept('GET', '/api/recipe/1', (req) => {
+         req.reply((res) => {
+            res.delay = 1000
+            res.send({ fixture: 'single-recipe.json' })
+         })
+      }).as('getRecipe')
+      cy.visit('http://localhost:3000/recipe/1/edit')
+      cy.contains("Loading recipe...").should("be.visible")
+      cy.wait('@getRecipe')
+      cy.contains("Loading recipe...").should("not.exist")
+   })
+
+   it('gives an error when fetching this recipe failed', () => {
+      cy.intercept('GET', '/api/recipe/1', { statusCode: 500, body: {} }).as("getRecipe")
+      cy.visit('http://localhost:3000/recipe/1/edit')
+      cy.wait("@getRecipe")
+      cy.get(".error").contains("Failed to fetch recipe.")
+   })
+
+   const apiEndPoints = [
+      { alias: "Ingredients", url: "/api/ingredient", fixture: "all-ingredients.json" },
+      { alias: "Recipe", url: "/api/recipe", fixture: "all-recipes.json" },
+      { alias: "Cuisines", url: "/api/cuisine", fixture: "all-ingredients.json" },
+      { alias: "Amounttype", url: "/api/amounttype", fixture: "all-amounttypes.json" },
+   ]
+
+   apiEndPoints.forEach((api) => {
+      it(`successfully fetches ${api.alias}`, () => {
+         cy.intercept('GET', `${api.url}`, {
+            statusCode: 200,
+         }).as(`get${api.alias}`)
+
+         cy.visit('http://localhost:3000/recipe/1/edit')
+
+         cy.wait(`@get${api.alias}`).its('response.statusCode').should('eq', 200)
+      })
+
+      it(`shows a loader when fetching ${api.alias}`, () => {
+         cy.intercept('GET', `${api.url}`, (req) => {
             req.reply((res) => {
                res.delay = 1000
-               res.send({ fixture: 'single-recipe.json' })
+               res.send({ fixture: `${api.fixture}` })
             })
-         }).as('getRecipe')
-         cy.visit('http://localhost:3000/recipe/1/edit')
-         cy.contains("Loading recipe...").should("be.visible")
-         cy.wait('@getRecipe')
-         cy.contains("Loading recipe...").should("not.exist")
-      })
+         }).as(`get${api.alias}`)
 
-      it('gives an error when fetching this recipe failed', () => {
-         cy.intercept('GET', '/api/recipe/1', { statusCode: 500, body: {} }).as("getRecipe")
-         cy.visit('http://localhost:3000/recipe/1/edit')
-         cy.wait("@getRecipe")
-         cy.get(".error").contains("Failed to fetch recipe.")
-      })
-
-      const apiEndPoints = [
-         { alias: "Ingredients", url: "/api/ingredient", fixture: "all-ingredients.json" },
-         { alias: "Recipe", url: "/api/recipe", fixture: "all-recipes.json" },
-         { alias: "Cuisines", url: "/api/cuisine", fixture: "all-ingredients.json" },
-         { alias: "Amounttype", url: "/api/amounttype", fixture: "all-amounttypes.json" },
-      ]
-
-      apiEndPoints.forEach((api) => {
-         it(`it shows a loader when fetching ${api.alias}`, () => {
-            cy.intercept('GET', `${api.url}`, (req) => {
-               req.reply((res) => {
-                  res.delay = 1000
-                  res.send({ fixture: `${api.fixture}` })
-               })
-            }).as(`get${api.alias}`)
-
-            apiEndPoints.filter((endpoint) => endpoint.alias !== api.alias).forEach(({ url, fixture }) => {
-               cy.intercept('GET', url, { fixture })
-            })
-
-            cy.visit('http://localhost:3000/recipe/1/edit')
-            cy.contains('Loading...').should('be.visible')
-
-            cy.wait(`@get${api.alias}`)
-            cy.contains('Loading...').should('not.exist')
+         apiEndPoints.filter((endpoint) => endpoint.alias !== api.alias).forEach(({ url, fixture }) => {
+            cy.intercept('GET', url, { fixture })
          })
-      })
 
-      apiEndPoints.forEach((api) => {
-         it(`gives an error when fetching ${api.alias} failed`, () => {
-            cy.intercept('GET', `${api.url}`, { statusCode: 500, body: {} })
+         cy.visit('http://localhost:3000/recipe/1/edit')
+         cy.contains('Loading...').should('be.visible')
 
-            apiEndPoints.filter((endpoint) => endpoint.alias !== api.alias).forEach(({ url, fixture }) => {
-               cy.intercept('GET', url, { fixture })
-            })
-
-            cy.visit('http://localhost:3000/recipe/1/edit')
-            cy.get(".error").contains("Failed!")
-         })
+         cy.wait(`@get${api.alias}`)
+         cy.contains('Loading...').should('not.exist')
       })
    })
+
+   apiEndPoints.forEach((api) => {
+      it(`gives an error when fetching ${api.alias} failed`, () => {
+         cy.intercept('GET', `${api.url}`, { statusCode: 500, body: {} })
+
+         apiEndPoints.filter((endpoint) => endpoint.alias !== api.alias).forEach(({ url, fixture }) => {
+            cy.intercept('GET', url, { fixture })
+         })
+
+         cy.visit('http://localhost:3000/recipe/1/edit')
+         cy.get(".error").contains("Failed!")
+      })
+   })
+})

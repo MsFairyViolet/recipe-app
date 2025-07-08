@@ -31,7 +31,17 @@ describe("Ingredients Page", () => {
    })
 
    describe("API calls", () => {
-      it.only('shows a loader when fetching recipes', () => {
+      it(`successfully fetches Ingredients`, () => {
+         cy.intercept('GET', "/api/ingredient", {
+            statusCode: 200,
+         }).as(`getIngredients`)
+
+         cy.visit('http://localhost:3000/ingredients')
+
+         cy.wait(`@getIngredients`).its('response.statusCode').should('eq', 200)
+      })
+
+      it('shows a loader when fetching recipes', () => {
          let sendResponse
          const trigger = new Promise((resolve) => {
             sendResponse = resolve
@@ -178,7 +188,7 @@ describe("Ingredients Page", () => {
    describe("Delete Ingredient Button", () => {
       beforeEach(() => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
-         cy.intercept('DELETE', '/api/ingredient/**', { statusCode: 204, body: {} })
+         cy.intercept('DELETE', '/api/ingredient/**', { statusCode: 204, body: {} }).as('deleteIngredient')
       })
 
       it("shows a confirmation modal when pressing delete on an ingredient that is not used in a recipe", () => {
