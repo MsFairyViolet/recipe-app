@@ -19,7 +19,7 @@ export default function EditRecipeContainer() {
                 setLoading(false)
             })
             .catch((error) => {
-                console.log(`Error fetching recipe.`)
+                console.log(`Error fetching recipe: `, error)
                 setError(error.message)
                 setLoading(false)
             })
@@ -29,15 +29,15 @@ export default function EditRecipeContainer() {
         fetchRecipe()
     }, [])
 
+    if (loading) {
+        return <p className="warning">Loading recipe...</p>
+    }
+
+    if (error) {
+        return <p className="warning error">Failed to get recipe.</p>
+    }
+
     return (
-        <>
-            {recipe ? (
-                <EditRecipe recipe={recipe} />
-            ) : error ? (
-                <p className="warning error">Failed to fetch recipe.</p>
-            ) : (
-                <p className="warning">Loading recipe...</p>
-            )}
-        </>
-    );
+        <EditRecipe recipe={recipe} />
+    )
 }

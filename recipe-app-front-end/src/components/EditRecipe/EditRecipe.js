@@ -42,7 +42,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
         getIngredients()
             .then((data) => {
                 setIngredients(data)
-                setLoading(prev => ({ ...prev, recipes: false }))
+                setLoading(prev => ({ ...prev, ingredients: false }))
             })
             .catch((error) => {
                 console.log("Error fetching ingredients: ", error)
@@ -230,7 +230,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
             .catch((error) => {
                 console.error(error)
-                alert("There was a problem creating the recipe.")
+                alert("Failed to create the recipe.")
             })
     }
 
@@ -264,61 +264,75 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         })
                         .catch((error) => {
                             console.error(error)
-                            alert("There was an error deleting the recipe.")
+                            alert("Failed to delete the recipe.")
                         })
                 }
             })
     }
 
+    if (loading.ingredients) {
+        return <p className="warning">Loading ingredients...</p>
+    } else if (loading.recipes) {
+        return <p className="warning">Loading recipes...</p>
+    } else if (loading.cuisines) {
+        return <p className="warning">Loading cuisines...</p>
+    } else if (loading.amountTypes) {
+        return <p className="warning">Loading amount types...</p>
+    }
+
+    if (error.ingredients) {
+        return <p className="warning error">Failed to get ingredients.</p>
+    } else if (error.recipes) {
+        return <p className="warning error">Failed to get recipes.</p>
+    } else if (error.cuisines) {
+        return <p className="warning error">Failed to get cuisines.</p>
+    } else if (error.amountTypes) {
+        return <p className="warning error">Failed to get amount types.</p>
+    }
+
+
     return (
         <>
-            {ingredients && recipes && cuisines && amountTypes ? (
-                <div className="edit-page" onKeyDown={handleKeyDown}>
-                    <input className="page-title" placeholder="Recipe name*" autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
+            <div className="edit-page" onKeyDown={handleKeyDown}>
+                <input className="page-title" placeholder="Recipe name*" autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
 
-                    <div className="recipe-card">
-                        <div className="top-details">
-                            <div className="big-details">
-                                <textarea className="description-details" placeholder="Add a description" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
-                                <textarea className="url-details" type="text" placeholder="Add a reference link" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
-                            </div>
-
-                            <div className="small-details">
-                                <input name="servingCalories" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
-                                <input name="servingCount" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
-                                <select name="cuisine" value={formData.cuisine} onChange={handleChange}>
-                                    <option value="" hidden disabled>
-                                        Cuisine*
-                                    </option>
-                                    {cuisines.map((item) => {
-                                        return <option key={item.cuisineTitle} value={item.cuisineTitle}>{item.cuisineTitle}</option>
-                                    })}
-                                </select>
-                            </div>
+                <div className="recipe-card">
+                    <div className="top-details">
+                        <div className="big-details">
+                            <textarea className="description-details" placeholder="Add a description" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
+                            <textarea className="url-details" type="text" placeholder="Add a reference link" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
                         </div>
 
-                        <div>
-                            <h4>Ingredients:</h4>
-                            <EditRecipeIngriedientList ingredientList={formData.ingredientList} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} ingredients={ingredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} />
+                        <div className="small-details">
+                            <input name="servingCalories" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
+                            <input name="servingCount" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
+                            <select name="cuisine" value={formData.cuisine} onChange={handleChange}>
+                                <option value="" hidden disabled>
+                                    Cuisine*
+                                </option>
+                                {cuisines.map((item, index) => {
+                                    return <option key={`${item.cuisineTitle}-${index}`} value={item.cuisineTitle}>{item.cuisineTitle}</option>
+                                })}
+                            </select>
                         </div>
+                    </div>
 
-                        <div>
-                            <h4>Notes:</h4>
-                            <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
-                        </div>
-                        <div className="button-container">
-                            <button data-test="recipe-delete-button" className="recipe-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
-                            <button data-test="edit-cancel-button" className="recipe-button" onClick={handleCancel}>Cancel</button>
-                            <button data-test="recipe-save-button" className="recipe-button" onClick={handleSave}>Save</button>
-                        </div>
-                    </div >
-                </div>
-            ) : error ? (
-                <p className="warning error">Failed!</p>
-            ) : (
-                <p className="warning">Loading...</p>
-            )
-            }
+                    <div>
+                        <h4>Ingredients:</h4>
+                        <EditRecipeIngriedientList ingredientList={formData.ingredientList} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} ingredients={ingredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} />
+                    </div>
+
+                    <div>
+                        <h4>Notes:</h4>
+                        <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
+                    </div>
+                    <div className="button-container">
+                        <button data-test="recipe-delete-button" className="recipe-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
+                        <button data-test="edit-cancel-button" className="recipe-button" onClick={handleCancel}>Cancel</button>
+                        <button data-test="recipe-save-button" className="recipe-button" onClick={handleSave}>Save</button>
+                    </div>
+                </div >
+            </div>
         </>
     )
 }
