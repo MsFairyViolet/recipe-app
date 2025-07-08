@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function RecipeList({ recipes, searchQuery, error }) {
+export default function RecipeList({ recipes, searchQuery }) {
 
     const filteredRecipes = recipes.filter((recipe) =>
         recipe.name.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -21,10 +21,7 @@ export default function RecipeList({ recipes, searchQuery, error }) {
                     </div>
                 ))
             ) : (
-                error === null ?
-                    <span className="warning">No recipes found.</span>
-                    :
-                    <span className="warning error">Something went wrong.</span>
+                <span className="warning">No recipes found.</span>
             )
             }
         </div>

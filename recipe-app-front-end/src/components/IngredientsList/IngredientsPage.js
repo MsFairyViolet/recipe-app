@@ -6,7 +6,7 @@ import { useConfirm } from "@components/common/ConfirmProvider";
 import { addIngredient, patchIngredient, deleteIngredient } from "@components/common/Apicalls"
 
 
-export default function IngredientsPage({ ingredients, fetchIngredients, error }) {
+export default function IngredientsPage({ ingredients, fetchIngredients}) {
     const [searchQuery, setSearchQuery] = useState("")
     const confirm = useConfirm();
     const router = useRouter();
@@ -30,7 +30,7 @@ export default function IngredientsPage({ ingredients, fetchIngredients, error }
                         })
                         .catch((error) => {
                             console.error("Error adding ingredient:", error);
-                            alert("There was an error adding the ingredient.");
+                            alert("Failed to add the ingredient.");
                         })
                 }
             })
@@ -58,7 +58,7 @@ export default function IngredientsPage({ ingredients, fetchIngredients, error }
                         })
                         .catch((error) => {
                             console.error("Error updating ingredient:", error);
-                            alert("There was an error updating the ingredient.");
+                            alert("Failed to update the ingredient.");
                         })
                 }
             })
@@ -84,7 +84,7 @@ export default function IngredientsPage({ ingredients, fetchIngredients, error }
                     })
                     .catch((error) => {
                         console.error("Failed to delete:", error)
-                        alert("Something went wrong when trying to delete the ingredient.")
+                        alert("Failed to delete the ingredient.")
                     })
             })
     }

@@ -51,7 +51,7 @@ describe('View Recipe Page', () => {
 
    it('shows a warning message when API fails to fetch recipe', () => {
       cy.intercept('GET', '/api/recipe/1', { statusCode: 500, body: {} })
-      cy.get(".error").contains("Failed to fetch recipe")
+      cy.get(".error").contains("Failed to get recipe.")
    })
 
    it('when pressing Edit button redirects to the edit page of this recipe', () => {

@@ -35,9 +35,28 @@ describe('Recipe List Page', () => {
       cy.get(".warning").contains("No recipes found.")
     })
 
+     it('shows a loader when fetching recipes', () => {
+         let sendResponse
+         const trigger = new Promise((resolve) => {
+            sendResponse = resolve
+         })
+
+         cy.intercept('GET', '/api/recipe', (req) => {
+            return trigger.then(() => req.reply())
+         }).as('delayedApi')
+
+         cy.wait(500)
+         cy.visit('http://localhost:3000')
+
+         cy.contains("Loading recipes...").should("be.visible").then(() => {
+            sendResponse()
+            cy.contains("Loading recipes...").should("not.exist")
+         })
+      })
+
     it('shows an error when API fails', () => {
       cy.intercept('GET', '/api/recipe', { statusCode: 500, body: {} })
-      cy.get(".error").contains("Something went wrong.")
+      cy.get(".error").contains("Failed to get recipes.")
     })
   })
 

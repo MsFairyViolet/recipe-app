@@ -31,10 +31,10 @@ export default function IngredientsListContainer() {
    }
 
    if (error) {
-      return <p className="warning error">Failed to fetch ingredients.</p>
+      return <p className="warning error">Failed to get ingredients.</p>
    }
 
    return (
-      <IngredientsPage ingredients={ingredients} fetchIngredients={fetchIngredients} error={error} />
+      <IngredientsPage ingredients={ingredients} fetchIngredients={fetchIngredients}/>
    )
 }

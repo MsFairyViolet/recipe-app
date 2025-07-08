@@ -27,7 +27,15 @@ export default function RecipeListContainer() {
         fetchRecipes()
     }, [])
 
+      if (loading) {
+      return <p className="warning">Loading recipes...</p>
+   }
+
+   if (error) {
+      return <p className="warning error">Failed to get recipes.</p>
+   }
+
     return (
-        <RecipeListPage recipes={recipes} error={error} />
+        <RecipeListPage recipes={recipes}/>
     );
 }

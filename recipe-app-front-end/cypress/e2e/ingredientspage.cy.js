@@ -41,7 +41,7 @@ describe("Ingredients Page", () => {
          cy.wait(`@getIngredients`).its('response.statusCode').should('eq', 200)
       })
 
-      it('shows a loader when fetching recipes', () => {
+      it('shows a loader when fetching ingredients', () => {
          let sendResponse
          const trigger = new Promise((resolve) => {
             sendResponse = resolve
@@ -62,7 +62,7 @@ describe("Ingredients Page", () => {
 
       it("shows an error when API fails to fetch all ingredients", () => {
          cy.intercept('GET', '/api/ingredient', { statusCode: 500, body: {} })
-         cy.get(".warning").contains("Failed to fetch ingredients.")
+         cy.get(".warning").contains("Failed to get ingredients.")
       })
    })
 
@@ -179,7 +179,7 @@ describe("Ingredients Page", () => {
          cy.dataTest("overlay-input").clear().type("newname")
          cy.dataTest("confirm-button").click()
          cy.on('window:alert', (alert) => {
-            expect(alert).to.equal("There was an error updating the ingredient.")
+            expect(alert).to.equal("Failed to update the ingredient.")
          })
          cy.wait('@patchIngredient')
       })
@@ -243,7 +243,7 @@ describe("Ingredients Page", () => {
          })
          cy.dataTest("confirm-button").click()
          cy.on('window:alert', (alert) => {
-            expect(alert).to.equal("Something went wrong when trying to delete the ingredient.")
+            expect(alert).to.equal("Failed to delete the ingredient.")
          })
       })
    })
@@ -293,7 +293,7 @@ describe("Ingredients Page", () => {
          cy.dataTest("overlay-input").type("AAAZOUT")
          cy.dataTest("confirm-button").click()
          cy.on('window:alert', (alert) => {
-            expect(alert).to.equal("There was an error adding the ingredient.")
+            expect(alert).to.equal("Failed to add the ingredient.")
          })
       })
 
