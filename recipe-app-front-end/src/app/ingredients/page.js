@@ -35,6 +35,6 @@ export default function IngredientsListContainer() {
    }
 
    return (
-      <IngredientsPage ingredients={ingredients} fetchIngredients={fetchIngredients} error={error} />
+      <IngredientsPage ingredients={ingredients} fetchIngredients={fetchIngredients}/>
    )
 }
