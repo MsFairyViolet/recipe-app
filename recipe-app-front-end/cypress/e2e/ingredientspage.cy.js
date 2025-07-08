@@ -62,7 +62,7 @@ describe("Ingredients Page", () => {
 
       it("shows an error when API fails to fetch all ingredients", () => {
          cy.intercept('GET', '/api/ingredient', { statusCode: 500, body: {} })
-         cy.get(".warning").contains("Failed to fetch ingredients.")
+         cy.get(".warning").contains("Failed to get ingredients.")
       })
    })
 
