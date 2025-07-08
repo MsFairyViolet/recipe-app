@@ -290,7 +290,6 @@ export default function EditRecipe({ recipe, isNew = false }) {
         return <p className="warning error">Failed to get amount types.</p>
     }
 
-
     return (
         <>
             <div className="edit-page" onKeyDown={handleKeyDown}>
