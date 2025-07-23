@@ -30,7 +30,6 @@ html {
 }
 
 .page-container {
-  /* border: 2px solid red; */
   display: flex;
   flex-direction: column;
   width: 95vw;
@@ -65,7 +64,7 @@ html {
   overflow: hidden;
 }
 
-/* NavBar" */
+/* NavBar */
 
 nav {
   background-color: var(--primary-color);
@@ -150,49 +149,16 @@ nav {
   justify-content: center;
   align-items: center;
   width: 100%;
+  padding: 0 0.25rem;
   min-height: 40px;
   gap: 0.5rem;
   border-bottom: 1px solid var(--primary-color);
-  flex-wrap: wrap;
 }
 
 .column-title {
   border-bottom: 2px solid var(--primary-color);
   font-size: 0.9rem;
   font-weight: bold;
-}
-
-.column-title.row {
-  height: 30px;
-  margin-top: 0.25rem;
-  border-bottom: 2px solid var(--primary-color);
-}
-
-.column-title .fourth-column {
-  text-align: center;
-}
-
-.first-column {
-  /* border: 1px solid red; */
-  flex: 1.5;
-  margin-left: 0.5rem;
-}
-
-.second-column {
-  /* border: 1px solid blue; */
-  flex: 0.5;
-}
-
-.third-column {
-  /* border: 1px solid green; */
-  flex: 1;
-}
-
-.fourth-column {
-  /* border: 1px solid grey; */
-  flex: 0.3;
-  text-align: center;
-  margin-right: 0.5rem;
 }
 
 /* Pages */
@@ -205,6 +171,24 @@ nav {
   max-height: 775px;
   gap: 0.5rem;
   font-size: 0.9em;
+}
+
+/* Recipes List View */
+.recipe-page .first-column {
+  width: 50%;
+}
+
+.recipe-page .second-column {
+  width: 20%;
+}
+
+.recipe-page .third-column {
+  width: 30%;
+}
+
+.recipe-page .fourth-column {
+  width: 10%;
+  text-align: center;
 }
 
 /* RecipeView */
@@ -261,6 +245,23 @@ nav {
   text-align: center;
 }
 
+.recipe-view-page .first-column {
+  width: 50%;
+}
+
+.recipe-view-page .second-column {
+  width: 20%;
+}
+
+.recipe-view-page .third-column {
+  width: 30%;
+}
+
+.recipe-view-page .fourth-column {
+  width: 10%;
+  text-align: center;
+}
+
 .ingredients-list {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
@@ -281,11 +282,11 @@ nav {
   border-radius: 5px;
   padding: 0.5rem;
   font-family: var(--font-main);
-  width: 100%;
 }
 
 .edit-page .page-title {
   width: 50%;
+  margin-bottom: 0.5rem;
 }
 
 .edit-page .row input,
@@ -293,24 +294,21 @@ nav {
   height: 35px;
 }
 
-input.page-title {
-  margin-bottom: 0.5rem;
-}
-
 .edit-page .first-column {
-  flex: 2;
+  flex: 40%;
 }
 
 .edit-page .second-column {
-  flex: 0.6;
+  flex: 20%
 }
 
 .edit-page .third-column {
-  flex: 0.6;
+  flex: 20%
 }
 
 .edit-page .fourth-column {
-  flex: 0.3;
+  flex: 10%;
+  text-align: center;
 }
 
 .recipe-card input,
@@ -357,7 +355,7 @@ input.page-title {
   left: 0;
   right: 0;
   background-color: white;
-   border: 1px solid #ccc;
+  border: 1px solid #ccc;
   border-radius: 0.5rem;
   z-index: 10;
   list-style: none;
@@ -441,12 +439,20 @@ button.fourth-column {
 
 /* All Ingredients Page */
 .ingredients-page .first-column {
-  flex: 0.4;
+  width: 35%;
 }
 
-.ingredients-page .third-column,
+.ingredients-page .second-column {
+  width: 50%;
+}
+
+.ingredients-page .third-column {
+  width: 10%;
+}
+
 .ingredients-page .fourth-column {
-  flex: 0.1;
+  width: 10%;
+  text-align: center;
 }
 
 /* Autocomplete */

@@ -12,7 +12,7 @@ export default function RecipeListPage({ recipes }) {
     }
 
     return (
-        <>
+        <div className="recipe-page">
             <div className="page-header">
                 <h1 className="page-title">Recipes</h1>
             </div>
@@ -22,6 +22,6 @@ export default function RecipeListPage({ recipes }) {
                 <RecipeList recipes={recipes} searchQuery={searchQuery}/>
                 <button data-test="new-recipe-button" className="recipe-button" onClick={handleRecipeAdd}>Add new recipe</button>
             </div>
-        </>
+        </div>
     )
 }

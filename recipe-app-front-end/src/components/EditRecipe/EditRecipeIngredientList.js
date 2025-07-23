@@ -73,7 +73,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
             {ingredientList.map((ingredient, index) => (
                 <div data-test={`ingredient-edit-row-${index}`} className="row" key={ingredient.id}>
                     <div className="first-column autocomplete-container">
-                        <input data-test="ingredient-name" className="autocomplete-input ingredient-input"
+                        <input data-test="ingredient-name" className="autocomplete-input"
                             type="text"
                             value={ingredient.name}
                             onChange={(e) => {
