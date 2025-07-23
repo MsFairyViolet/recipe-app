@@ -37,6 +37,9 @@ export default function EditRecipe({ recipe, isNew = false }) {
         note: recipe.note,
         ingredientList: recipe.ingredients
     })
+    const [isCuisineOpen, setIsCuisineOpen] = useState(false);
+    const [selectedCuisine, setSelectedCuisine] = useState(formData.cuisine || "");
+
 
     const fetchIngredients = () => {
         getIngredients()
@@ -293,15 +296,36 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         <div className="small-details">
                             <input name="servingCalories" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
                             <input name="servingCount" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
-                            <select name="cuisine" value={formData.cuisine} onChange={handleChange}>
-                                <option value="" hidden disabled>
-                                    Cuisine*
-                                </option>
-                                {cuisines.map((item, index) => {
-                                    return <option key={`${item.cuisineTitle}-${index}`} value={item.cuisineTitle}>{item.cuisineTitle}</option>
-                                })}
-                            </select>
+                            <div className="custom-cuisine-dropdown-container">
+                                <div className={`custom-cuisine-dropdown ${!selectedCuisine ? "placeholder" : ""}`}
+                                    onClick={() => setIsCuisineOpen(!isCuisineOpen)}
+                                    tabIndex={0}
+                                    onBlur={() => setTimeout(() => setIsCuisineOpen(false), 100)}
+                                >
+                                    <span className="dropdown-label">{selectedCuisine || "Cuisine*"}</span>
+                                    <span className="dropdown-arrow">&#9662;</span>
+                                </div>
+                                {isCuisineOpen && (
+                                    <ul className="custom-cuisine-dropdown-options">
+                                        {cuisines.map((item, index) => (
+                                            <li
+                                                key={`${item.cuisineTitle}=${index}`}
+                                                onMouseDown={(e) => {
+                                                    e.preventDefault()
+                                                    setSelectedCuisine(item.cuisineTitle)
+                                                    handleChange({ target: { name: "cuisine", value: item.cuisineTitle } })
+                                                    setIsCuisineOpen(false)
+                                                }}
+                                            >
+                                                {item.cuisineTitle}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+
                         </div>
+
                     </div>
 
                     <div>
@@ -319,7 +343,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         <button data-test="recipe-save-button" className="recipe-button" onClick={handleSave}>Save</button>
                     </div>
                 </div >
-            </div>
+            </div >
         </>
     )
 }
