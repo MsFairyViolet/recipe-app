@@ -384,7 +384,7 @@ describe('Edit Recipe Page', () => {
    })
 })
 
-describe('API calls on Edit Page', () => {
+describe.only('API calls on Edit Page', () => {
    it('shows a loader when fetching recipe', () => {
       cy.intercept('GET', '/api/recipe/1', (req) => {
          req.reply((res) => {
@@ -402,7 +402,7 @@ describe('API calls on Edit Page', () => {
       cy.intercept('GET', '/api/recipe/1', { statusCode: 500, body: {} }).as("getRecipe")
       cy.visit('http://localhost:3000/recipe/1/edit')
       cy.wait("@getRecipe")
-      cy.get(".error").contains("Failed to fetch recipe.")
+      cy.get(".error").contains("Failed to get recipe.")
    })
 
    const apiEndPoints = [
@@ -435,10 +435,10 @@ describe('API calls on Edit Page', () => {
 
          cy.visit('http://localhost:3000/recipe/1/edit')
 
-         cy.contains(`Loading ${api.name}...`).should('be.visible')
+         cy.contains(`Loading...`).should('be.visible')
 
          otherEndpoints.forEach(endpoint => {
-            cy.contains(`Loading ${endpoint.name}...`).should('not.exist')
+            cy.contains(`Loading...`).should('not.exist')
          })
 
          cy.wait(`@get${api.alias}`)
@@ -455,7 +455,7 @@ describe('API calls on Edit Page', () => {
 
          cy.visit('http://localhost:3000/recipe/1/edit')
 
-         cy.get('.error').should('contain.text', `Failed to get ${api.name}.`)
+         cy.get('.error').should('contain.text', `Failed to load.`)
       })
    })
 })

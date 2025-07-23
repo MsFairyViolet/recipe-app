@@ -270,24 +270,12 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
-    if (loading.ingredients) {
-        return <p className="warning">Loading ingredients...</p>
-    } else if (loading.recipes) {
-        return <p className="warning">Loading recipes...</p>
-    } else if (loading.cuisines) {
-        return <p className="warning">Loading cuisines...</p>
-    } else if (loading.amountTypes) {
-        return <p className="warning">Loading amount types...</p>
+    if (loading.ingredients || loading.recipes || loading.cuisines || loading.amountTypes) {
+        return <p className="warning">Loading...</p>
     }
 
-    if (error.ingredients) {
-        return <p className="warning error">Failed to get ingredients.</p>
-    } else if (error.recipes) {
-        return <p className="warning error">Failed to get recipes.</p>
-    } else if (error.cuisines) {
-        return <p className="warning error">Failed to get cuisines.</p>
-    } else if (error.amountTypes) {
-        return <p className="warning error">Failed to get amount types.</p>
+    if (error.ingredients || error.recipes || error.cuisines || error.amountTypes) {
+        return <p className="warning error">Failed to load.</p>
     }
 
     return (
