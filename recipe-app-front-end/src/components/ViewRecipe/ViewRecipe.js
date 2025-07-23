@@ -16,7 +16,7 @@ export default function ViewRecipe({ recipe }) {
   }, [recipe.name])
 
   return (
-    <>
+    <div className="view-recipe-page">
       <div className="page-header">
         <h1 className="page-title">{recipe.name}</h1>
       </div>
@@ -51,6 +51,6 @@ export default function ViewRecipe({ recipe }) {
           <button data-test="edit-button" className="recipe-button" onClick={handleClick}>Edit</button>
         </div>
       </div >
-    </>
+    </div>
   );
 }

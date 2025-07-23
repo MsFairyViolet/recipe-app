@@ -1,3 +1,4 @@
+/* MOBILE */
 :root {
   --primary-color: #3551c1;
   --primary-accent: #4c67d3;
@@ -247,7 +248,7 @@ nav {
   gap: 0.5rem;
 }
 
-.small-details span {
+.recipe-view-page .small-details span {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
   width: 5.5rem;
@@ -319,9 +320,71 @@ input.page-title {
 }
 
 .small-details input,
-.small-details select {
+.custom-cuisine-dropdown-container {
   height: 4rem;
   text-align: center;
+}
+
+/* Cuisine Dropdown */
+.custom-cuisine-dropdown-container {
+  position: relative;
+  width: 100%;
+}
+
+.custom-cuisine-dropdown {
+  position: relative;
+  border: 2px solid var(--secondary-color);
+  border-radius: 5px;
+  height: 100%;
+  font-size: 1rem;
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+
+.custom-cuisine-dropdown.placeholder {
+  color: #75777a;
+  font-size: 1.1rem;
+}
+
+.custom-cuisine-dropdown span.dropdown-label {
+  width: 100%;
+}
+
+.custom-cuisine-dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+   border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  z-index: 10;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+.custom-cuisine-dropdown-options li {
+  text-align: left;
+  height: 38px;
+  line-height: 38px;
+  padding-left: 0.3rem;
+  margin: 0.4rem;
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+}
+
+.custom-cuisine-dropdown-options li:hover {
+  background-color: #d5d5db;
+}
+
+.arrow {
+  position: absolute;
+  width: 10%;
+  font-size: 0.8rem;
+  z-index: 2;
 }
 
 textarea.note-details {
@@ -406,7 +469,7 @@ button.fourth-column {
   overflow-y: auto;
   background-color: white;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 0.85rem;
   z-index: 10;
@@ -431,7 +494,7 @@ select,
   font-size: 0.9rem;
 }
 
-.autocomplete-dropdown li.add-new-ingredient{
+.autocomplete-dropdown li.add-new-ingredient {
   border: 1.5px solid var(--primary-color);
   cursor: pointer;
 }
@@ -501,7 +564,7 @@ select,
 }
 
 .error {
-  color:darkred;
+  color: darkred;
 }
 
 .recipe-link-inline {
@@ -539,7 +602,7 @@ input[type="number"] {
   appearance: textfield;
 }
 
-/* Web Media Query */
+/* Web Media Query, WEBPAGE OVERWRITE */
 @media (min-width: 600px) {
   body {
     --background-color: #e7e7e7;
@@ -592,6 +655,8 @@ input[type="number"] {
     background: var(--primary-accent)
   }
 
+  /* View Recipe */
+
   .page-title {
     font-size: 1.8rem;
   }
@@ -616,7 +681,7 @@ input[type="number"] {
     justify-content: space-between;
   }
 
-  .small-details span {
+  .view-recipe-page .small-details span {
     width: 10rem;
     min-height: 4rem;
     font-size: 1.1rem;
@@ -636,8 +701,8 @@ input[type="number"] {
   }
 
   .autocomplete-dropdown {
-   max-height: 200px;
-   width: 100%;
+    max-height: 200px;
+    width: 100%;
   }
 
   .autocomplete-dropdown li {
