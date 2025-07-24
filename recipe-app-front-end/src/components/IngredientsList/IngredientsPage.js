@@ -6,7 +6,7 @@ import { useConfirm } from "@components/common/ConfirmProvider";
 import { addIngredient, patchIngredient, deleteIngredient } from "@components/common/Apicalls"
 
 
-export default function IngredientsPage({ ingredients, fetchIngredients}) {
+export default function IngredientsPage({ ingredients, fetchIngredients }) {
     const [searchQuery, setSearchQuery] = useState("")
     const confirm = useConfirm();
     const router = useRouter();
@@ -52,7 +52,7 @@ export default function IngredientsPage({ ingredients, fetchIngredients}) {
                         return
                     }
 
-                    patchIngredient(ingredient.id, {name: newName })
+                    patchIngredient(ingredient.id, { name: newName })
                         .then(() => {
                             fetchIngredients()
                         })
@@ -92,13 +92,15 @@ export default function IngredientsPage({ ingredients, fetchIngredients}) {
     return (
         <>
             <div className="page-header">
-                <h1 className="page-title">All Ingredients</h1>
-            </div>
-            <div className="ingredients-container">
+                <h1 className="page-title">Ingredients</h1>
                 <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={"Search for ingredient..."} />
+            </div>
+
+            <div className="ingredients-container">
                 <IngredientsList ingredients={ingredients} searchQuery={searchQuery} onIngredientEdit={handleIngredientEdit} onIngredientDelete={handleIngredientDelete} />
                 <button data-test="new-global-ingredient-button" className="ingredient-button" onClick={handleIngredientAdd}>Add new ingredient</button>
             </div>
+
         </>
     )
 }

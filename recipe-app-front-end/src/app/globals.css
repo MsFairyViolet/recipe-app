@@ -41,19 +41,22 @@ html {
 }
 
 .page-header {
+  width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   gap: 0.5rem;
 }
 
 .page-title {
-  font-size: 1.2em;
-  width: 76%;
+  font-size: 1.5rem;
+  width: 40%;
   color: var(--primary-color);
+  margin-left: 1.1rem;
 }
 
 .search-bar {
-  width: 45%;
+  width: 55%;
   min-height: 2rem;
 
   padding-left: 0.5rem;
@@ -69,7 +72,7 @@ html {
 nav {
   background-color: var(--primary-color);
   width: 100%;
-  height: 60px;
+  height: 55px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -79,9 +82,11 @@ nav {
 
 .logo {
   color: var(--accent-background-color);
-  font-size: 1.5rem;
+  font-size: 1.1rem;
+  margin-left: 0.5rem;
   font-weight: bold;
   line-height: 5rem;
+  cursor: pointer;
 }
 
 .menu-button {
@@ -94,22 +99,22 @@ nav {
 }
 
 .nav-links {
+  display: flex;
+  justify-content: space-between;
   flex-direction: column;
   position: fixed;
   width: 100%;
   height: 40vh;
+  padding: 3rem 0;
   background: var(--primary-color);
   top: 5rem;
   left: -100%;
   transition: left 0.2s;
   text-align: center;
-  padding-top: 3rem;
 }
 
 .nav-links li {
-  margin: 2rem 0;
-  line-height: 2.5rem;
-
+  line-height: 5rem;
 }
 
 .nav-links a {
@@ -138,7 +143,7 @@ nav {
   border-radius: 5px;
   height: 700px;
   max-height: 900px;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   overflow-y: auto;
 }
@@ -161,6 +166,10 @@ nav {
   font-weight: bold;
 }
 
+.row.column-title {
+  height: 34px;
+}
+
 /* Pages */
 
 .recipes-container,
@@ -168,9 +177,9 @@ nav {
   display: flex;
   flex-direction: column;
   height: 100%;
-  max-height: 775px;
-  gap: 0.5rem;
-  font-size: 0.9em;
+  max-height: 760px;
+  gap: 0.25rem;
+  font-size: 1em;
 }
 
 /* Recipes List View */
@@ -293,6 +302,11 @@ nav {
 .edit-page .row select {
   height: 35px;
 }
+
+.edit-page .row.column-title {
+  padding-left: 0.5rem
+}
+
 
 .edit-page .first-column {
   flex: 40%;
@@ -420,7 +434,7 @@ button.fourth-column {
   margin: 0.5rem;
   height: 35px;
   width: 10rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   justify-content: center;
   align-items: center;
 }
@@ -432,7 +446,7 @@ button.fourth-column {
   margin: 0.5rem;
   height: 35px;
   width: 12rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   justify-content: center;
   align-items: center;
 }
@@ -448,6 +462,7 @@ button.fourth-column {
 
 .ingredients-page .third-column {
   width: 10%;
+  text-align: center;
 }
 
 .ingredients-page .fourth-column {
@@ -612,6 +627,8 @@ input[type="number"] {
 @media (min-width: 600px) {
   body {
     --background-color: #e7e7e7;
+    /* --background-color: #f6c8c8; */
+
   }
 
   .page-container {
@@ -629,6 +646,10 @@ input[type="number"] {
     display: none;
   }
 
+  .logo{
+    font-size: 1.6rem;
+  }
+
   .nav-links {
     display: flex;
     flex-direction: row;
@@ -638,12 +659,12 @@ input[type="number"] {
     top: auto;
     left: auto;
     background: none;
-    padding-top: 0;
+    padding: 0;
   }
 
   .nav-links li {
     margin: 0 0.5rem;
-    line-height: 65px;
+    line-height: 55px;
     list-style: none;
   }
 
@@ -651,7 +672,7 @@ input[type="number"] {
     font-size: 1rem;
     width: 10rem;
     padding: 0.75rem 1rem;
-    border-radius: 0.3rem;
+    border-radius: 5px;
     display: inline-block;
     text-decoration: none;
   }
@@ -676,6 +697,11 @@ input[type="number"] {
     padding: 1rem;
   }
 
+  .row {
+    padding: 0 0.5rem;
+    height: 42px;
+  }
+
   .big-details {
     width: 80%;
     min-height: none;
@@ -687,19 +713,15 @@ input[type="number"] {
     justify-content: space-between;
   }
 
-  .view-recipe-page .small-details span {
-    width: 10rem;
-    min-height: 4rem;
+  .recipe-view-page .small-details span {
+    width: 100%;
+    min-height: 4.5rem;
     font-size: 1.1rem;
   }
 
   .recipe-card input,
   .recipe-card textarea {
     font-size: 1.1rem;
-  }
-
-  .small-details input {
-    min-height: 4rem;
   }
 
   .recipe-button {
