@@ -2,9 +2,10 @@
 :root {
   --primary-color: #513c97;
   --primary-accent: #785fbc;
-  --secondary-color: #4c7f50;
+  --input-color: #ffffff;
   --error-color: #811C32;
   --background-color: #f0efef;
+  --mid-background-color: #f8f7f7;
   --accent-background-color: #fffefb;
   --hoover-color: #d5d5db;
   --text-color: #333;
@@ -139,8 +140,9 @@ nav {
 /* Lists */
 
 .list {
-  border: 2px solid var(--primary-color);
+  border: 1.5px solid var(--primary-color);
   border-radius: 5px;
+  background-color: var(--mid-background-color);
   height: 713px;
   max-height: 900px;
   margin-top: 0.5rem;
@@ -158,6 +160,10 @@ nav {
   min-height: 40px;
   gap: 0.5rem;
   border-bottom: 1px solid var(--primary-color);
+}
+
+.row:last-child {
+  border-bottom: none;
 }
 
 .column-title {
@@ -206,6 +212,7 @@ nav {
   border: 1.5px solid var(--primary-color);
   border-radius: 5px;
   padding: 0.5rem;
+  background-color: var(--mid-background-color);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -242,7 +249,7 @@ nav {
 }
 
 .recipe-view-page .small-details span {
-  border: 2px solid var(--primary-color);
+  border: 1.5px solid var(--primary-color);
   border-radius: 5px;
   width: 5.5rem;
   min-height: 3rem;
@@ -277,7 +284,7 @@ nav {
 }
 
 .note-details {
-  border: 2px solid var(--primary-color);
+  border: 1.5px solid var(--primary-color);
   border-radius: 5px;
   padding: 0.5rem;
 }
@@ -287,10 +294,12 @@ nav {
 .edit-page input,
 .edit-page textarea,
 .edit-page select {
-  border: 2px solid var(--secondary-color);
+  border: 2px solid var(--white);
   border-radius: 5px;
+  background-color: var(--input-color);
   padding: 0.5rem;
   font-family: var(--font-main);
+  box-shadow: 0 1px 2px rgba(81, 60, 151, 0.25);
 }
 
 .edit-page .page-title {
@@ -306,7 +315,6 @@ nav {
 .edit-page .row.column-title {
   padding-left: 0.5rem
 }
-
 
 .edit-page .first-column {
   flex: 40%;
@@ -341,17 +349,23 @@ nav {
 .custom-cuisine-dropdown-container {
   position: relative;
   width: 100%;
+  box-shadow: 0 1px 2px rgba(81, 60, 151, 0.25);
 }
 
 .custom-cuisine-dropdown {
   position: relative;
-  border: 2px solid var(--secondary-color);
   border-radius: 5px;
   height: 100%;
   font-size: 1rem;
-  background-color: var(--accent-background-color);
+  background-color: var(--input-color);
   display: flex;
   align-items: center;
+}
+
+.custom-cuisine-dropdown:focus {
+  outline: none;
+  border-color: #513c97;
+  box-shadow: 0 0 4px 2px rgba(81, 60, 151, 0.4);
 }
 
 .custom-cuisine-dropdown.placeholder {
@@ -369,8 +383,9 @@ nav {
   right: 0;
   width: 100%;
   min-width: 150px;
-  background-color: var(--accent-background-color);
-  border: 1px solid #ccc;
+  background-color: var(--input-color);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
+  border: 1.5px solid #ccc;
   border-radius: 0.5rem;
   z-index: 10;
   list-style: none;
@@ -414,23 +429,25 @@ textarea.note-details {
 
 .recipe-button,
 .ingredient-button {
-  border: 1.5px solid var(--primary-color);
+  border: 2px solid var(--primary-color);
   border-radius: 5px;
-  background-color: var(--background-color);
+  background-color: var(--mid-background-color);
   width: 50%;
   height: 3rem;
 }
 
 button.third-column,
 button.fourth-column {
-  border: 2px solid var(--secondary-color);
+  border: 1px solid var(--primary-color);
   border-radius: 5px;
+  background-color: var(--mid-background-color);
   height: 35px;
 }
 
 .add-ingredient-button {
-  border: 1.5px solid var(--primary-color);
+  border: 2px solid var(--primary-color);
   border-radius: 5px;
+  background-color: var(--mid-background-color);
   display: flex;
   margin: 0.5rem;
   height: 35px;
@@ -441,8 +458,9 @@ button.fourth-column {
 }
 
 .delete-all-ingredients-button {
-  border: 1.5px solid var(--primary-color);
+  border: 2px solid var(--primary-color);
   border-radius: 5px;
+  background-color: var(--mid-background-color);
   display: flex;
   margin: 0.5rem;
   height: 35px;
@@ -478,10 +496,9 @@ button.fourth-column {
 }
 
 .autocomplete-input:focus {
-  border: 2px solid var(--primary-accent);
-  box-shadow: 0 0 5px rgba(81, 90, 151, 0.2);
   outline: none;
-  transition: border-color 0.3s ease;
+  border-color: #513c97;
+  box-shadow: 0 0 4px 2px rgba(81, 60, 151, 0.4);
 }
 
 .autocomplete-dropdown {
@@ -489,10 +506,10 @@ button.fourth-column {
   width: 120%;
   max-height: 200px;
   overflow-y: auto;
-  background-color: var(--accent-background-color);
+  background-color: var(--input-color);
   border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
   font-size: 0.85rem;
   z-index: 10;
 }
@@ -518,6 +535,7 @@ select,
 
 .autocomplete-dropdown li.add-new-ingredient {
   border: 1.5px solid var(--primary-color);
+  border-radius: 5px;
   cursor: pointer;
 }
 
@@ -547,8 +565,13 @@ select,
   text-align: center;
 }
 
-.overlay-content input:focus{
-  box-shadow: 0 0 5px rgba(81, 90, 151, 0.2);
+.overlay-content input {
+  min-width: 14rem;
+  min-height: 2rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border: var(--input-color);
+  border-radius: 5px;
 }
 
 .overlay-buttons {
@@ -561,7 +584,7 @@ select,
 .overlay-buttons button {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
-  background-color: var(--background-color);
+  background-color: var(--mid-background-color);
   width: 45%;
   height: 3rem;
 }
@@ -569,6 +592,7 @@ select,
 .overlay-close-button {
   position: absolute;
   top: 0.8rem;
+  color: var(--primary);
   right: 1rem;
   font-size: 1.5em;
   background: none;
@@ -582,6 +606,19 @@ select,
 }
 
 /* Common CSS Rules */
+
+a {
+  color: var(--primary-color);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--input-color);
+  border-radius: 5px;
+  box-shadow: 0 0 4px 2px rgba(81, 60, 151, 0.4);
+}
 
 .warning {
   text-align: left;
@@ -693,6 +730,7 @@ input[type="number"] {
 
   .column-title {
     font-size: 1rem;
+    color: var(--primary-color)
   }
 
   .recipe-card {
