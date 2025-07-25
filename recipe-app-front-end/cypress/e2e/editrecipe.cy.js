@@ -134,7 +134,7 @@ describe('Edit Recipe Page', () => {
             cy.wait("@getIngredients")
          })
 
-         it.only("new ingredient > adds a 'add new global ingredient' button when there is no exact ingredient match", () => {
+         it("new ingredient > adds a 'add new global ingredient' button when there is no exact ingredient match", () => {
             cy.intercept('POST', '/api/ingredient', { statusCode: 200, body: { id: 53, name: "zzzz" } }).as('postIngredient')
 
             cy.get(".add-ingredient-button").click()

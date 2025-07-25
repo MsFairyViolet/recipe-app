@@ -11,18 +11,18 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const router = useRouter()
     const confirm = useConfirm()
     const [loading, setLoading] = useState({
-        ingredients: true,
+        allIngredients: true,
         recipes: true,
         cuisines: true,
         amountTypes: true
     })
     const [error, setError] = useState({
-        ingredients: null,
+        allIngredients: null,
         recipes: null,
         cuisines: null,
         amountTypes: null
     })
-    const [ingredients, setIngredients] = useState(null)
+    const [allIngredients, setAllIngredients] = useState(null)
     const [recipes, setRecipes] = useState([])
     const [cuisines, setCuisines] = useState(null)
     const [amountTypes, setAmountTypes] = useState(null)
@@ -35,7 +35,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
         servingCount: recipe.servingCount,
         cuisine: recipe.cuisine,
         note: recipe.note,
-        ingredientList: recipe.ingredients
+        ingredients: recipe.ingredients
     })
     const [isCuisineOpen, setIsCuisineOpen] = useState(false);
     const [selectedCuisine, setSelectedCuisine] = useState(formData.cuisine || "");
@@ -44,13 +44,13 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const fetchIngredients = () => {
         getIngredients()
             .then((data) => {
-                setIngredients(data)
-                setLoading(prev => ({ ...prev, ingredients: false }))
+                setAllIngredients(data)
+                setLoading(prev => ({ ...prev, allIngredients: false }))
             })
             .catch((error) => {
-                console.log("Error fetching ingredients: ", error)
-                setError(prev => ({ ...prev, ingredients: error.message }))
-                setLoading(prev => ({ ...prev, ingredients: false }))
+                console.log("Error fetching all ingredients: ", error)
+                setError(prev => ({ ...prev, allIngredients: error.message }))
+                setLoading(prev => ({ ...prev, allIngredients: false }))
             })
     }
 
@@ -124,8 +124,8 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const handleIngredientAdd = () => {
         setFormData(prev => ({
             ...prev,
-            ingredientList: [
-                ...prev.ingredientList,
+            ingredients: [
+                ...prev.ingredients,
                 {
                     id: uuidv4(),
                     name: "",
@@ -138,24 +138,24 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
     const handleIngredientChange = (index, field, value) => {
         setFormData(prev => {
-            const updatedIngredientList = [...prev.ingredientList]
+            const updatedIngredientList = [...prev.ingredients]
             updatedIngredientList[index] = {
                 ...updatedIngredientList[index],
                 [field]: value
             }
             return {
                 ...prev,
-                ingredientList: updatedIngredientList
+                ingredients: updatedIngredientList
             }
         })
     }
 
     const handleIngredientDelete = (indexToDelete) => {
         setFormData(prev => {
-            const updatedIngredientList = prev.ingredientList.filter((ingredient, index) => index !== indexToDelete)
+            const updatedIngredientList = prev.ingredients.filter((ingredient, index) => index !== indexToDelete)
             return {
                 ...prev,
-                ingredientList: updatedIngredientList
+                ingredients: updatedIngredientList
             }
         })
     }
@@ -169,7 +169,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         const updatedIngredientList = []
                         return {
                             ...prev,
-                            ingredientList: updatedIngredientList
+                            ingredients: updatedIngredientList
                         }
                     })
                 }
@@ -182,7 +182,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const validateIngredients = () => {
-        return formData.ingredientList.every(ingredient => {
+        return formData.ingredients.every(ingredient => {
             return ingredient.name.trim() !== "" && ingredient.amount.trim() !== ""
         })
     }
@@ -273,11 +273,11 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
-    if (loading.ingredients || loading.recipes || loading.cuisines || loading.amountTypes) {
+    if (loading.allIngredients || loading.recipes || loading.cuisines || loading.amountTypes) {
         return <p className="warning">Loading...</p>
     }
 
-    if (error.ingredients || error.recipes || error.cuisines || error.amountTypes) {
+    if (error.allIngredients || error.recipes || error.cuisines || error.amountTypes) {
         return <p className="warning error">Failed to load.</p>
     }
 
@@ -330,7 +330,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                     <div>
                         <h4>Ingredients:</h4>
-                        <EditRecipeIngriedientList ingredientList={formData.ingredientList} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} ingredients={ingredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} />
+                        <EditRecipeIngriedientList ingredientList={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} ingredients={allIngredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} />
                     </div>
 
                     <div>
