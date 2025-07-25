@@ -302,11 +302,11 @@ export default function EditRecipe({ recipe, isNew = false }) {
                                     tabIndex={0}
                                     onBlur={() => setTimeout(() => setIsCuisineOpen(false), 100)}
                                 >
-                                    <span className="dropdown-label">{selectedCuisine || "Cuisine*"}</span>
+                                    <span data-test="cuisine" className="dropdown-label">{selectedCuisine || "Cuisine*"}</span>
                                     <span className="dropdown-arrow">&#9662;</span>
                                 </div>
                                 {isCuisineOpen && (
-                                    <ul className="custom-cuisine-dropdown-options">
+                                    <ul data-test="cuisine-options" className="custom-cuisine-dropdown-options">
                                         {cuisines.map((item, index) => (
                                             <li
                                                 key={`${item.cuisineTitle}=${index}`}

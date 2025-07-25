@@ -21,7 +21,7 @@ describe('Edit Recipe Page', () => {
          cy.get(".url-details").should("have.value", "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas")
          cy.get('input[name="servingCalories"').should("have.value", "945")
          cy.get('input[name="servingCount"').should("have.value", "2")
-         cy.get('select[name="cuisine"').should("have.value", "Midden-Oosters")
+         cy.dataTest('cuisine').should("contain", "Midden-Oosters")
          cy.get('.note-details').should("have.value", "Couscous : water = 1 : 1")
       })
 
@@ -112,7 +112,7 @@ describe('Edit Recipe Page', () => {
             cy.dataTest("add-ingredient-option").should("not.exist")
          })
 
-         it("adds a 'add new global ingredient' button when there is no exact ingredient match", () => {
+         it("ingredient change > adds a 'add new global ingredient' button when there is no exact ingredient match", () => {
             cy.intercept('POST', '/api/ingredient', { statusCode: 200, body: { id: 53, name: "zzzz" } }).as('postIngredient')
 
             cy.dataTest("ingredient-edit-row-0").within(() => {
@@ -128,6 +128,29 @@ describe('Edit Recipe Page', () => {
             cy.get('@postIngredient').its('request.body').should('include', { name: "zzzz" })
 
             cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").should("have.value", "zzzz")
+            })
+
+            cy.wait("@getIngredients")
+         })
+
+         it.only("new ingredient > adds a 'add new global ingredient' button when there is no exact ingredient match", () => {
+            cy.intercept('POST', '/api/ingredient', { statusCode: 200, body: { id: 53, name: "zzzz" } }).as('postIngredient')
+
+            cy.get(".add-ingredient-button").click()
+            cy.dataTest("ingredient-edit-row-4").within(() => {
+               cy.dataTest("ingredient-name").click()
+               cy.dataTest("ingredient-name").clear().type(`zzzz`)
+            })
+            cy.dataTest("add-ingredient-option").should("contain", "+ Add zzzz").click()
+
+            cy.get(".overlay-content").should("contain", "Add new global ingredient zzzz?")
+            cy.dataTest("confirm-button").contains("Confirm").click()
+
+            cy.wait('@postIngredient')
+            cy.get('@postIngredient').its('request.body').should('include', { name: "zzzz" })
+
+            cy.dataTest("ingredient-edit-row-4").within(() => {
                cy.dataTest("ingredient-name").should("have.value", "zzzz")
             })
 
@@ -251,7 +274,7 @@ describe('Edit Recipe Page', () => {
 
                cy.dataTest("confirm-button").click().then(() => {
                   expect(alertStub).to.have.been.calledOnce
-                  expect(alertStub).to.have.been.calledWith("There was an error deleting the recipe.")
+                  expect(alertStub).to.have.been.calledWith("Failed to delete the recipe.")
                })
             })
          })
@@ -277,7 +300,8 @@ describe('Edit Recipe Page', () => {
 
             it('sends a patch request with correct edits when saving recipe', () => {
                cy.get(".page-title").clear().type("Albondigas!")
-               cy.get('select[name="cuisine"').select("Japans")
+               cy.dataTest('cuisine').click()
+               cy.dataTest('cuisine-options').contains("Japans").click()
                cy.dataTest("ingredient-edit-row-0").within(() => {
                   cy.dataTest("ingredient-name").click()
                   cy.get(".autocomplete-dropdown").should("exist").within(() => {
@@ -384,7 +408,7 @@ describe('Edit Recipe Page', () => {
    })
 })
 
-describe.only('API calls on Edit Page', () => {
+describe('API calls on Edit Page', () => {
    it('shows a loader when fetching recipe', () => {
       cy.intercept('GET', '/api/recipe/1', (req) => {
          req.reply((res) => {
