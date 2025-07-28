@@ -24,7 +24,7 @@ describe('Edit Recipe Page', () => {
          cy.dataTest('cuisine').should("contain", "Midden-Oosters")
          cy.get('.note-details').should("have.value", "Couscous : water = 1 : 1")
       })
-
+      
       describe('Ingredients', () => {
          beforeEach(() => {
             cy.visit('http://localhost:3000/recipe/1/edit')
@@ -308,7 +308,7 @@ describe('Edit Recipe Page', () => {
                      cy.dataTest("autocomplete-option").contains("Aardappel").click()
                   })
                   cy.dataTest("ingredient-amount").type("5")
-                  cy.dataTest("amount-type").select("portie")
+                  cy.dataTest("amount-type").select("portie").should("have.value", "portie");
                })
                cy.get(".note-details").clear()
 
@@ -321,7 +321,9 @@ describe('Edit Recipe Page', () => {
 
                cy.dataTest('recipe-save-button').contains("Save").click()
                cy.wait('@patchRecipe').then((interception) => {
-                  expect(interception.request.body).to.deep.include, {
+                  console.log("Actual request body:", interception.request.body);
+
+                  expect(interception.request.body).to.deep.equal({
                      "id": 1,
                      "name": "Albondigas!",
                      "description": "Midden-oosterse gehaktballetjes in tomatensaus met couscous en tzatziki",
@@ -330,16 +332,14 @@ describe('Edit Recipe Page', () => {
                      "note": "",
                      "cuisine": "Japans",
                      "externalRecipeLink": "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas",
-                  }
-                  expect(interception.request.body.ingredients).to.deep.include, {
                      "ingredients": [
                         {
                            "id": 15,
                            "name": "Aardappel",
-                           "amount": "15.00",
+                           "amount": "15",
                            "amountType": "portie"
                         }]
-                  }
+                  })
                })
             })
 
