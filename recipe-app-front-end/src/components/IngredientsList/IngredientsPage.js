@@ -98,7 +98,7 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
 
             <div className="ingredients-container">
                 <IngredientsList ingredients={ingredients} searchQuery={searchQuery} onIngredientEdit={handleIngredientEdit} onIngredientDelete={handleIngredientDelete} />
-                <button data-test="new-global-ingredient-button" className="ingredient-button" onClick={handleIngredientAdd}>Add new ingredient</button>
+                <button data-test="new-global-ingredient-button" className="ingredient-button primary-button" onClick={handleIngredientAdd}>Add new ingredient</button>
             </div>
 
         </>

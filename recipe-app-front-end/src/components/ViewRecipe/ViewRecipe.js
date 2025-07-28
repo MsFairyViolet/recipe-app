@@ -48,7 +48,7 @@ export default function ViewRecipe({ recipe }) {
           </div>
         )}
         <div className="button-container">
-          <button data-test="edit-button" className="recipe-button" onClick={handleClick}>Edit</button>
+          <button data-test="edit-button" className="recipe-button primary-button" onClick={handleClick}>Edit</button>
         </div>
       </div>
     </div>

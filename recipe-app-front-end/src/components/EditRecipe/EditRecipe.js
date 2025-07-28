@@ -338,9 +338,9 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
                     </div>
                     <div className="button-container">
-                        <button data-test="recipe-delete-button" className="recipe-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
-                        <button data-test="edit-cancel-button" className="recipe-button" onClick={handleCancel}>Cancel</button>
-                        <button data-test="recipe-save-button" className="recipe-button" onClick={handleSave}>Save</button>
+                        <button data-test="recipe-delete-button" className="recipe-button secondary-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
+                        <button data-test="edit-cancel-button" className="recipe-button secondary-button" onClick={handleCancel}>Cancel</button>
+                        <button data-test="recipe-save-button" className="recipe-button primary-button" onClick={handleSave}>Save</button>
                     </div>
                 </div >
             </div >
