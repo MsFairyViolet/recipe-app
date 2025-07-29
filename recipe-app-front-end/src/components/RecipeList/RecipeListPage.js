@@ -14,7 +14,7 @@ export default function RecipeListPage({ recipes }) {
     return (
         <div className="recipe-page">
             <div className="page-header">
-                <h1 className="page-title">Recipes</h1>
+                <div className="page-title">Recipes</div>
                 <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={"Search for recipe..."} />
             </div>
 

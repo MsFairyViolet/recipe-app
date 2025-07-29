@@ -18,7 +18,7 @@ export default function ViewRecipe({ recipe }) {
   return (
     <div className="recipe-view-page">
       <div className="page-header">
-        <h1 className="page-title">{recipe.name}</h1>
+        <div className="page-title">{recipe.name}</div>
       </div>
       <div className="recipe-card">
         <div className="top-details">
