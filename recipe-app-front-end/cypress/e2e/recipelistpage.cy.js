@@ -5,7 +5,7 @@ describe('Recipe List Page', () => {
   })
 
   it('has the "Recipes" title', () => {
-    cy.get("h1").contains("Recipes")
+    cy.get(".page-title").contains("Recipes")
   })
 
   it(`successfully fetches Recipes`, () => {

@@ -232,7 +232,7 @@ describe('Edit Recipe Page', () => {
             cy.dataTest('recipe-save-button').click()
 
             cy.wait('@patchRecipe').its('request.body').then((body) => {
-               const found = body.ingredientList.find(i => i.id === 53 && i.name === "zzzz")
+               const found = body.ingredients.find(i => i.id === 53 && i.name === "zzzz")
                expect(found).to.exist
             })
          })

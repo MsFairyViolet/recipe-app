@@ -8,7 +8,7 @@ describe('New Recipe Page', () => {
       cy.get(".url-details").should("have.value", "").and("have.attr", "placeholder", "Add a reference link")
       cy.get('input[name="servingCalories"').should("have.value", "").and("have.attr", "placeholder", "Calories*")
       cy.get('input[name="servingCount"').should("have.value", "").and("have.attr", "placeholder", "Servings*")
-      cy.get('select[name="cuisine"').should("have.value", null).find("option:selected").should("have.text", "Cuisine*")
+      cy.dataTest("cuisine").should("have.value", "").should("have.text", "Cuisine*")
       cy.get('.note-details').should("have.value", "").and("have.attr", "placeholder", "Add additional notes")
       cy.dataTest("ingredient-edit-row", "^=").should("not.exist")
    })
@@ -27,7 +27,8 @@ describe('New Recipe Page', () => {
       cy.visit("http://localhost:3000/recipe/new")
 
       cy.get(".page-title").type("Pasta")
-      cy.get('select[name="cuisine"]').select("Italiaans")
+      cy.dataTest("cuisine").click()
+      cy.dataTest('cuisine-options').contains("Japans").click()
       cy.get('.description-details').type("aa")
       cy.get('.url-details').type("aa")
       cy.get('input[name="servingCalories"]').type("1000")
@@ -104,7 +105,8 @@ describe('New Recipe Page', () => {
       cy.wait('@getRecipes')
 
       cy.get('.page-title').type('Aardappel Groenten Beef')
-      cy.get('select[name="cuisine"]').select('Europees')
+      cy.dataTest("cuisine").click()
+      cy.dataTest('cuisine-options').contains("Japans").click()
       cy.get('input[name="servingCalories"]').type('1000')
       cy.get('input[name="servingCount"]').type('1')
       cy.dataTest("recipe-save-button").click().then(() => {
@@ -121,13 +123,14 @@ describe('New Recipe Page', () => {
       cy.visit('http://localhost:3000/recipe/new')
 
       cy.get('.page-title').type('Aaaaaa')
-      cy.get('select[name="cuisine"]').select('Europees')
+      cy.dataTest("cuisine").click()
+      cy.dataTest('cuisine-options').contains("Europees").click()
       cy.get('input[name="servingCalories"]').type('1000')
       cy.get('input[name="servingCount"]').type('1')
 
       cy.dataTest("recipe-save-button").click().then(() => {
          expect(alertStub).to.have.been.calledOnce
-         expect(alertStub).to.have.been.calledWith("There was a problem creating the recipe.")
+         expect(alertStub).to.have.been.calledWith("Failed to create the recipe.")
       })
       cy.wait('@postRecipe')
    })

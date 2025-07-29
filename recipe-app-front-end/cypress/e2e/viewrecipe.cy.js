@@ -23,7 +23,7 @@ describe('View Recipe Page', () => {
    })
 
    it(`successfully fetches Recipe`, () => {
-         cy.intercept('GET', "/api/recipe", {
+         cy.intercept('GET', "/api/recipe/1", {
             statusCode: 200,
          }).as(`getRecipe`)
 

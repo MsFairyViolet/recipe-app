@@ -4,7 +4,7 @@ describe("Ingredients Page", () => {
    })
 
    it("has the Ingredients title", () => {
-      cy.get("h1").contains("All Ingredients")
+      cy.get(".page-title").contains("Ingredients")
    })
 
    describe("List Content", () => {
