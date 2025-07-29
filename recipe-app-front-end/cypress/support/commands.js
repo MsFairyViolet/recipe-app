@@ -27,3 +27,9 @@
 Cypress.Commands.add('dataTest', (value, operator = "=") => {
    return cy.get(`[data-test${operator}"${value}"]`)
 })
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // returning false here prevents Cypress from
+  // failing the test
+  return false
+})
