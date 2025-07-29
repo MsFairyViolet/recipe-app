@@ -36,7 +36,8 @@ html {
 .page-container {
   display: flex;
   flex-direction: column;
-  width: 95vw;
+  padding: 0 2vw;
+  width: 100%;
   min-width: 380px;
   min-height: 90vh;
   gap: 0.5rem;
@@ -177,7 +178,7 @@ nav {
   color: var(--primary-color)
 }
 
-.row.column-title {
+.column-title.row {
   min-height: 20px;
   height: 30px;
   margin-top: 0.1rem;
@@ -418,78 +419,6 @@ textarea.note-details {
   width: 100%;
 }
 
-/* Buttons */
-.button-container {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  width: 100%;
-  gap: 0.5rem;
-}
-
-.recipe-button,
-.ingredient-button {
-  border: none;
-  border-radius: 5px;
-  background-color: var(--mid-background-color);
-  width: 50%;
-  height: 3rem;
-  cursor: pointer;
-}
-
-button.third-column,
-button.fourth-column {
-  border: 1px solid var(--primary-color);
-  border-radius: 5px;
-  background-color: var(--mid-background-color);
-  color: var(--primary-color);
-  height: 35px;
-  cursor: pointer;
-}
-
-button.third-column:hover,
-button.fourth-column:hover{
-  background-color: var(--primary-accent);
-  color: var(--accent-text);
-}
-
-.add-ingredient-button {
-  border: 1.5px solid var(--primary-color);
-  border-radius: 5px;
-  background-color: var(--mid-background-color);
-  color: var(--primary-color);
-  display: flex;
-  margin: 0.5rem;
-  height: 35px;
-  width: 10rem;
-  font-size: 1rem;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.delete-all-ingredients-button {
-  border: 1.5px solid var(--primary-color);
-  border-radius: 5px;
-  background-color: var(--mid-background-color);
-  color: var(--primary-color);
-  display: flex;
-  margin: 0.5rem;
-  height: 35px;
-  width: 12rem;
-  font-size: 1rem;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.add-ingredient-button:hover,
-.delete-all-ingredients-button:hover{
-  background-color: var(--primary-accent);
-  color: var(--accent-text);
-  border: none;
-}
-
 /* All Ingredients Page */
 .ingredients-page .first-column {
   width: 35%;
@@ -542,7 +471,6 @@ button.fourth-column:hover{
   border-radius: 2px;
   transition: background-color 0.2s ease;
 }
-/* LEFT OFF */
 
 .autocomplete-dropdown li:hover {
   background-color: var(--hoover-color)
@@ -591,7 +519,7 @@ select,
   min-height: 2rem;
   margin-top: 0.5rem;
   padding: 0.5rem;
-  border: var(--input-color);
+  border: none;
   border-radius: 5px;
 }
 
@@ -675,6 +603,41 @@ select:focus {
   text-decoration: none;
 }
 
+/* Buttons */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.recipe-button,
+.ingredient-button {
+  border: none;
+  border-radius: 5px;
+  background-color: var(--mid-background-color);
+  width: 50%;
+  height: 3rem;
+  cursor: pointer;
+}
+
+button.third-column,
+button.fourth-column {
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  background-color: var(--mid-background-color);
+  color: var(--primary-color);
+  height: 35px;
+  cursor: pointer;
+}
+
+button.third-column:hover,
+button.fourth-column:hover{
+  background-color: var(--primary-accent);
+  color: var(--accent-text);
+}
+
 .inline-button {
   background: none;
   border: none;
@@ -707,6 +670,43 @@ select:focus {
   background-color: var(--button-hover);
 }
 
+.add-ingredient-button {
+  border: 1.5px solid var(--primary-color);
+  border-radius: 5px;
+  background-color: var(--mid-background-color);
+  color: var(--primary-color);
+  display: flex;
+  margin: 0.5rem;
+  height: 35px;
+  width: 10rem;
+  font-size: 1rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.delete-all-ingredients-button {
+  border: 1.5px solid var(--primary-color);
+  border-radius: 5px;
+  background-color: var(--mid-background-color);
+  color: var(--primary-color);
+  display: flex;
+  margin: 0.5rem;
+  height: 35px;
+  width: 12rem;
+  font-size: 1rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.add-ingredient-button:hover,
+.delete-all-ingredients-button:hover{
+  background-color: var(--primary-accent);
+  color: var(--accent-text);
+  border: none;
+}
+
 /* Hide the number input spinners in modern browsers */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -720,7 +720,7 @@ input[type="number"] {
 /* Web Media Query, WEBPAGE OVERWRITE */
 @media (min-width: 600px) {
   .page-container {
-    max-width: 1100px;
+    max-width: 1200px;
   }
 
   .recipes-container,
@@ -797,7 +797,6 @@ input[type="number"] {
 
   .big-details {
     width: 80%;
-    min-height: none;
   }
 
   .small-details {

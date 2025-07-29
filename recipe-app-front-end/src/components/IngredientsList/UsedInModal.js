@@ -11,11 +11,11 @@ export default function UsedInModal({ ingredient, onClose }) {
       <div className="overlay">
          <div className="overlay-content">
             <button className="overlay-close-button" onClick={onClose}>&times;</button>
-            <p data-test="used-in-ingredient"><strong>{ingredient.name} </strong> is used in:</p>
+            <p data-test="used-in-ingredient"><strong className="text-highlight">{ingredient.name} </strong> is used in:</p>
             {sortedRecipes.length > 0 ? (
                <ul>
                   {sortedRecipes.map((recipe) => (
-                     <li key={recipe.id}><Link href={`/recipe/${recipe.id}`}>{recipe.name}</Link></li>
+                     <li key={recipe.id}><Link href={`/recipe/${recipe.id}`} className="recipe-link-inline">{recipe.name}</Link></li>
                   ))}
                </ul>
             ) : (
