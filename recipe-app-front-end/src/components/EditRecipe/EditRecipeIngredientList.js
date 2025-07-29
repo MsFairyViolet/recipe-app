@@ -86,8 +86,8 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
                         />
                         {focusedIndex === index && (
                             <ul className="autocomplete-dropdown ingredient-input">
-                                {filteredIngredients.map((option, index) => (
-                                    <li data-test="autocomplete-option" key={`${option}-${index}`}
+                                {filteredIngredients.map((option) => (
+                                    <li data-test="autocomplete-option" key={option.id}
                                         onMouseDown={(e) => {
                                             e.preventDefault()
                                             handleIngredientChange(index, "name", option.name)

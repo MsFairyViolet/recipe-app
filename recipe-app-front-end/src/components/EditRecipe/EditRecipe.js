@@ -161,7 +161,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const handleAllIngredientsDelete = async () => {
-        await confirm("Do you want to delete all ingredients for: ", recipe.name)
+        await confirm("Do you want to delete all ingredients for ", recipe.name)
             .then((confirmed) => {
 
                 if (confirmed) {
