@@ -1,65 +1,6 @@
-import { useState } from "react"
-import { useConfirm } from "@components/common/ConfirmProvider"
-import { addIngredient } from "@components/common/Apicalls"
+import AutocompleteInput from "@components/common/Autocomplete-input"
 
-
-export default function EditRecipeIngredientsList({ ingredientList, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, ingredients, fetchIngredients, amountTypes }) {
-
-    const [query, setQuery] = useState("")
-    const [focusedIndex, setFocusedIndex] = useState(null)
-    const [isOpen, setIsOpen] = useState(false)
-    const confirm = useConfirm()
-
-    const filteredIngredients = ingredients.filter(i =>
-        i.name.toLowerCase().includes(query.toLowerCase()) &&
-        !ingredientList.some(ingredient => ingredient.id === i.id)
-    )
-
-    const handleFocus = (index) => {
-        setFocusedIndex(index)
-        setIsOpen(true)
-    }
-
-    const handleBlur = () => {
-        setTimeout(() => {
-            setQuery("")
-            setFocusedIndex(null)
-            setIsOpen(false)
-        }, 100)
-    }
-
-    const handleQueryIngredientAdd = async (defaultName = "", index) => {
-        await confirm("Add new global ingredient", defaultName, true)
-            .then((queryIngredient) => {
-                if (!queryIngredient) return
-
-                const newIngredient = queryIngredient.trim();
-                const ingredientExists = ingredients.some(
-                    (ingredient) => ingredient.name.toLowerCase() === newIngredient.toLowerCase()
-                );
-
-                if (ingredientExists) {
-                    alert("That ingredient already exists! Please modify the name and try again.")
-                    return
-                }
-
-                addIngredient(newIngredient)
-                    .then((data) => {
-                        fetchIngredients();
-
-                        if (data && data.name) {
-                            handleIngredientChange(index, "name", data.name)
-                            handleIngredientChange(index, "id", data.id)
-                        } else {
-                            handleIngredientChange(index, "name", newIngredient)
-                        }
-                    })
-                    .catch((error) => {
-                        console.error("Error adding ingredient:", error)
-                        alert("There was an error adding the ingredient.")
-                    })
-            })
-    }
+export default function EditRecipeIngredientsList({ ingredientList, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, allIngredients, fetchIngredients, amountTypes }) {
 
     return (
         <div className="edit-page ingredients-list">
@@ -72,46 +13,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
 
             {ingredientList.map((ingredient, index) => (
                 <div data-test={`ingredient-edit-row-${index}`} className="row" key={ingredient.id}>
-                    <div className="first-column autocomplete-container">
-                        <input data-test="ingredient-name" className="autocomplete-input"
-                            type="text"
-                            value={ingredient.name}
-                            onChange={(e) => {
-                                handleIngredientChange(index, "name", e.target.value)
-                                setQuery(e.target.value)
-                            }}
-                            onFocus={() => handleFocus(index)}
-                            onBlur={() => handleBlur()}
-                            placeholder="Start typing..."
-                        />
-                        {focusedIndex === index && (
-                            <ul className="autocomplete-dropdown ingredient-input">
-                                {filteredIngredients.map((option) => (
-                                    <li data-test="autocomplete-option" key={option.id}
-                                        onMouseDown={(e) => {
-                                            e.preventDefault()
-                                            handleIngredientChange(index, "name", option.name)
-                                            handleIngredientChange(index, "id", option.id)
-                                            setFocusedIndex(null)
-                                        }}>
-                                        {option.name}
-                                    </li>
-                                ))}
-                                {!ingredients.some(
-                                    (item) => item.name.toLowerCase() === query.toLowerCase()
-                                ) && (
-                                        <li data-test="add-ingredient-option" className="add-new-ingredient" onClick={(e) => {
-                                            e.preventDefault()
-                                            handleQueryIngredientAdd(query, index)
-                                            setFocusedIndex(null)
-                                        }}>
-                                            + Add <i>{query}</i>
-                                        </li>
-                                    )
-                                }
-                            </ul>
-                        )}
-                    </div>
+                    <AutocompleteInput ingredient={ingredient} index={index} allIngredients={allIngredients} ingredientList={ingredientList} handleIngredientChange={handleIngredientChange} fetchIngredients={fetchIngredients} />
                     <input
                         data-test="ingredient-amount" className="second-column ingredient-input" type="number"
                         value={ingredient.amount === "" | isNaN(parseFloat(ingredient.amount)) ? "" : parseFloat(ingredient.amount)}

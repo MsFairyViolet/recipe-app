@@ -330,7 +330,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                     <div>
                         <h4>Ingredients:</h4>
-                        <EditRecipeIngriedientList ingredientList={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} ingredients={allIngredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} />
+                        <EditRecipeIngriedientList ingredientList={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} allIngredients={allIngredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} />
                     </div>
 
                     <div>
