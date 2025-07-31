@@ -13,7 +13,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
 
             {ingredientList.map((ingredient, index) => (
                 <div data-test={`ingredient-edit-row-${index}`} className="row" key={ingredient.id}>
-                    <AutocompleteInput ingredient={ingredient} index={index} allIngredients={allIngredients} ingredientList={ingredientList} handleIngredientChange={handleIngredientChange} fetchIngredients={fetchIngredients} />
+                    <AutocompleteInput ingredient={ingredient} row={index} allIngredients={allIngredients} ingredientList={ingredientList} handleIngredientChange={handleIngredientChange} fetchIngredients={fetchIngredients} />
                     <input
                         data-test="ingredient-amount" className="second-column ingredient-input" type="number"
                         value={ingredient.amount === "" | isNaN(parseFloat(ingredient.amount)) ? "" : parseFloat(ingredient.amount)}

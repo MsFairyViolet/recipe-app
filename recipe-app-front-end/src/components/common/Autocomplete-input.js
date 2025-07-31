@@ -4,31 +4,24 @@ import { useState } from "react"
 import { addIngredient } from "@components/common/Apicalls"
 import { useConfirm } from "@components/common/ConfirmProvider"
 
-
-
-export default function AutocompleteInput({ ingredient, index, allIngredients, ingredientList, handleIngredientChange, fetchIngredients }) {
+export default function AutocompleteInput({ ingredient, row, allIngredients, ingredientList, handleIngredientChange, fetchIngredients }) {
 
    const confirm = useConfirm()
-
-   const [isOpen, setIsOpen] = useState(false)
    const [query, setQuery] = useState("")
+   const [isOpen, setIsOpen] = useState(false)
 
-   const [focusedIndex, setFocusedIndex] = useState(null)
-
-   const handleFocus = (index) => {
-      setFocusedIndex(index)
+   const handleFocus = () => {
       setIsOpen(true)
    }
 
    const handleBlur = () => {
       setTimeout(() => {
          setQuery("")
-         setFocusedIndex(null)
          setIsOpen(false)
       }, 100)
    }
 
-   const handleQueryIngredientAdd = async (defaultName = "", index) => {
+   const handleQueryIngredientAdd = async (defaultName = "") => {
       await confirm("Add new global ingredient", defaultName, true)
          .then((queryIngredient) => {
             if (!queryIngredient) return
@@ -36,7 +29,7 @@ export default function AutocompleteInput({ ingredient, index, allIngredients, i
             const newIngredient = queryIngredient.trim();
             const ingredientExists = allIngredients.some(
                (ingredient) => ingredient.name.toLowerCase() === newIngredient.toLowerCase()
-            );
+            )
 
             if (ingredientExists) {
                alert("That ingredient already exists! Please modify the name and try again.")
@@ -48,10 +41,10 @@ export default function AutocompleteInput({ ingredient, index, allIngredients, i
                   fetchIngredients();
 
                   if (data && data.name) {
-                     handleIngredientChange(index, "name", data.name)
-                     handleIngredientChange(index, "id", data.id)
+                     handleIngredientChange(row, "name", data.name)
+                     handleIngredientChange(row, "id", data.id)
                   } else {
-                     handleIngredientChange(index, "name", newIngredient)
+                     handleIngredientChange(row, "name", newIngredient)
                   }
                })
                .catch((error) => {
@@ -68,26 +61,26 @@ export default function AutocompleteInput({ ingredient, index, allIngredients, i
 
    return (
       <div className="first-column autocomplete-container">
-         <input data-test={`ingredient-name-${index}`} className="autocomplete-input"
+         <input data-test={`ingredient-name-${row}`} className="autocomplete-input"
             type="text"
             value={ingredient.name}
             onChange={(e) => {
-               handleIngredientChange(index, "name", e.target.value)
+               handleIngredientChange(row, "name", e.target.value)
                setQuery(e.target.value)
             }}
-            onFocus={() => handleFocus(index)}
+            onFocus={() => handleFocus()}
             onBlur={() => handleBlur()}
             placeholder="Start typing..."
          />
-         {focusedIndex === index && (
+         {isOpen && (
             <ul className="autocomplete-dropdown ingredient-input">
                {filteredIngredients.map((option) => (
                   <li data-test="autocomplete-option" key={option.id}
                      onMouseDown={(e) => {
                         e.preventDefault()
-                        handleIngredientChange(index, "name", option.name)
-                        handleIngredientChange(index, "id", option.id)
-                        setFocusedIndex(null)
+                        handleIngredientChange(row, "name", option.name)
+                        handleIngredientChange(row, "id", option.id)
+                        setIsOpen(false)
                      }}>
                      {option.name}
                   </li>
@@ -95,10 +88,10 @@ export default function AutocompleteInput({ ingredient, index, allIngredients, i
                {!allIngredients.some(
                   (item) => item.name.toLowerCase() === query.toLowerCase()
                ) && (
-                     <li data-test="add-ingredient-option" className="add-new-ingredient" onClick={(e) => {
+                     <li data-test="add-ingredient-option" className="add-new-ingredient" onMouseDown={(e) => {
                         e.preventDefault()
-                        handleQueryIngredientAdd(query, index)
-                        setFocusedIndex(null)
+                        handleQueryIngredientAdd(query)
+                        setIsOpen(false)
                      }}>
                         + Add <i>{query}</i>
                      </li>
