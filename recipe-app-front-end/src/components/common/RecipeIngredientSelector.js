@@ -15,10 +15,8 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
    }
 
    const handleBlur = () => {
-      setTimeout(() => {
-         setQuery("")
-         setIsOpen(false)
-      }, 100)
+      setQuery("")
+      setIsOpen(false)
    }
 
    const handleQueryIngredientAdd = async (defaultName = "") => {
