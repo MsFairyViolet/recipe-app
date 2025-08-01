@@ -61,7 +61,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
 
    return (
       <div className="first-column autocomplete-container">
-         <input data-test={`ingredient-name-${row}`} className="autocomplete-input"
+         <input data-test={`ingredient-name`} className="autocomplete-input"
             type="text"
             value={ingredient.name}
             onChange={(e) => {
