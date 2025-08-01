@@ -4,7 +4,7 @@ import { useState } from "react"
 import { addIngredient } from "@components/common/Apicalls"
 import { useConfirm } from "@components/common/ConfirmProvider"
 
-export default function AutocompleteInput({ ingredient, row, allIngredients, ingredientList, handleIngredientChange, fetchIngredients }) {
+export default function RecipeIngredientSelector({ ingredient, row, allIngredients, ingredientList, handleIngredientChange, fetchIngredients }) {
 
    const confirm = useConfirm()
    const [query, setQuery] = useState("")

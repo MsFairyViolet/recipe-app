@@ -1,4 +1,4 @@
-import AutocompleteInput from "@components/common/Autocomplete-input"
+import RecipeIngredientSelector from "@components/common/RecipeIngredientSelector"
 
 export default function EditRecipeIngredientsList({ ingredientList, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, allIngredients, fetchIngredients, amountTypes }) {
 
@@ -13,7 +13,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
 
             {ingredientList.map((ingredient, index) => (
                 <div data-test={`ingredient-edit-row-${index}`} className="row" key={ingredient.id}>
-                    <AutocompleteInput ingredient={ingredient} row={index} allIngredients={allIngredients} ingredientList={ingredientList} handleIngredientChange={handleIngredientChange} fetchIngredients={fetchIngredients} />
+                    <RecipeIngredientSelector ingredient={ingredient} row={index} allIngredients={allIngredients} ingredientList={ingredientList} handleIngredientChange={handleIngredientChange} fetchIngredients={fetchIngredients} />
                     <input
                         data-test="ingredient-amount" className="second-column ingredient-input" type="number"
                         value={ingredient.amount === "" | isNaN(parseFloat(ingredient.amount)) ? "" : parseFloat(ingredient.amount)}
