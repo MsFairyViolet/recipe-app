@@ -1,4 +1,5 @@
 import RecipeIngredientSelector from "@components/EditRecipe/RecipeIngredientSelector"
+import IngredientAmountTypeSelector from "./IngredientAmountTypeSelector"
 
 export default function EditRecipeIngredientsList({ ingredientList, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, allIngredients, fetchIngredients, amountTypes }) {
 
@@ -19,11 +20,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
                         value={ingredient.amount === "" | isNaN(parseFloat(ingredient.amount)) ? "" : parseFloat(ingredient.amount)}
                         onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}>
                     </input>
-                    <select data-test="amount-type" className="third-column ingredient-input" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
-                        {amountTypes.map((type) => (
-                            <option key={type.amountType} value={type.amountType}>{type.amountType}</option>
-                        ))}
-                    </select>
+                    {/* <IngredientAmountTypeSelector ingredient={ingredient} amountTypes={amountTypes} handleIngredientChange={handleIngredientChange}/> */}
                     <button data-test="ingredient-delete-button" className="fourth-column" onClick={() => handleIngredientDelete(index)}>x</button>
                 </div>
             ))
