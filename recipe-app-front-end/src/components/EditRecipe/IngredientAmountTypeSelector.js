@@ -2,14 +2,35 @@
 
 import { useState } from "react"
 
-export default function IngredientAmountTypeSelector({ingredient, amountTypes, handleIngredientChange}){
+export default function IngredientAmountTypeSelector({ ingredient, row, amountTypes, handleIngredientChange }) {
 
-   const [isOpen, setIsOpen] = useState(false)
-return (
-   <select data-test="amount-type" className="third-column ingredient-input" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
-                        {amountTypes.map((type) => (
-                            <option key={type.amountType} value={type.amountType}>{type.amountType}</option>
-                        ))}
-                    </select>
-)
+    const [isOpen, setIsOpen] = useState(false)
+    const [selected, setSelected] = useState(ingredient.amountType)
+
+    return (
+        <div className="amount-type ingredient-input third-column">
+            <div className="amount-type dropdown"
+                onClick={() => setIsOpen(!isOpen)}
+                onBlur={() => setTimeout(() => setIsOpen(false), 100)}>
+                <span className="dropdown-label">{selected}</span>
+                <span className="dropdown-arrow">&#9662;</span>
+            </div>
+            {isOpen && (
+                <ul >
+                    {amountTypes.map((item, index) => (
+                        <li
+                        key={`${item.amountType}-${index}`}
+                        onMouseDown={(e) => {
+                            e.preventDefault()
+                            setSelected(item.amountType)
+                            handleIngredientChange(row, "amountType", item.amountType)
+                            setIsOpen(false)
+                        }}
+                        >
+                            {item.amountType}</li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    )
 }

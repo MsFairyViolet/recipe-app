@@ -6,7 +6,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
     return (
         <div className="edit-page ingredients-list">
             <div className="row column-title">
-                <span className="first-column">Name</span>
+                <span className="first-column">Namessss</span>
                 <span className="second-column">Amount</span>
                 <span className="third-column">Type</span>
                 <span className="fourth-column">x</span>
@@ -20,7 +20,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
                         value={ingredient.amount === "" | isNaN(parseFloat(ingredient.amount)) ? "" : parseFloat(ingredient.amount)}
                         onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}>
                     </input>
-                    {/* <IngredientAmountTypeSelector ingredient={ingredient} amountTypes={amountTypes} handleIngredientChange={handleIngredientChange}/> */}
+                    <IngredientAmountTypeSelector ingredient={ingredient} row={index} amountTypes={amountTypes} handleIngredientChange={handleIngredientChange}/>
                     <button data-test="ingredient-delete-button" className="fourth-column" onClick={() => handleIngredientDelete(index)}>x</button>
                 </div>
             ))
