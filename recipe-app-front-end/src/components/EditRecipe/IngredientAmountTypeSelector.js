@@ -8,15 +8,15 @@ export default function IngredientAmountTypeSelector({ ingredient, row, amountTy
     const [selected, setSelected] = useState(ingredient.amountType)
 
     return (
-        <div className="amount-type ingredient-input third-column">
-            <div className="amount-type dropdown"
+        <div className="amount-type ingredient-input third-column select-container">
+            <div className="amount-type select-box"
                 onClick={() => setIsOpen(!isOpen)}
                 onBlur={() => setTimeout(() => setIsOpen(false), 100)}>
                 <span className="dropdown-label">{selected}</span>
                 <span className="dropdown-arrow">&#9662;</span>
             </div>
             {isOpen && (
-                <ul >
+                <ul className="dropdown-options" >
                     {amountTypes.map((item, index) => (
                         <li
                         key={`${item.amountType}-${index}`}
