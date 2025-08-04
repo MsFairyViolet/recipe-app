@@ -309,7 +309,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                                     <ul data-test="cuisine-options" className="custom-cuisine-dropdown-options">
                                         {cuisines.map((item, index) => (
                                             <li
-                                                key={`${item.cuisineTitle}=${index}`}
+                                                key={`${item.cuisineTitle}-${index}`}
                                                 onMouseDown={(e) => {
                                                     e.preventDefault()
                                                     setSelectedCuisine(item.cuisineTitle)
