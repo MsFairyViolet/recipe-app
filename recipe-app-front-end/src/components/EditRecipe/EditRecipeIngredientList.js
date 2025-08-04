@@ -1,4 +1,4 @@
-import RecipeIngredientSelector from "@components/common/RecipeIngredientSelector"
+import RecipeIngredientSelector from "@components/EditRecipe/RecipeIngredientSelector"
 
 export default function EditRecipeIngredientsList({ ingredientList, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, allIngredients, fetchIngredients, amountTypes }) {
 
