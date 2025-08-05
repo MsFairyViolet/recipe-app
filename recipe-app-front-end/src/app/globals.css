@@ -349,15 +349,22 @@ nav {
 .select-container{
   position: relative;
   width: 100%;
+  font-size: 1rem;
   box-shadow: 0 1px 2px rgba(81, 60, 151, 0.25);
 }
 
 .select-box{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: var(--input-color);
-  width: 100%;
+  /* width: 100%; */
+  padding: 0.5rem;
   height: 35px;
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(81, 60, 151, 0.25);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
 }
 
 .select-box:focus {
@@ -397,19 +404,21 @@ nav {
   background-color: var(--hoover-color)
 }
 
-.dropdown span.dropdown-label {
+.amount-type .dropdown-label {
   width: 100%;
+  font-size: 0.8em;
+  line-height: 1;
 }
 
 .dropdown-arrow {
-  position: absolute;
+  height: 100%;
   width: 10%;
   font-size: 0.8rem;
-  z-index: 2;
+  align-self: flex-end;
 }
 
 /* Cuisine Dropdown */
-.custom-cuisine-dropdown-container {
+/* .custom-cuisine-dropdown-container {
   position: relative;
   width: 100%;
   box-shadow: 0 1px 2px rgba(81, 60, 151, 0.25);
@@ -434,10 +443,6 @@ nav {
 .custom-cuisine-dropdown.placeholder {
   color: #75777a;
   font-size: 1.1rem;
-}
-
-.custom-cuisine-dropdown span.dropdown-label {
-  width: 100%;
 }
 
 .custom-cuisine-dropdown-options {
@@ -469,14 +474,7 @@ nav {
 
 .custom-cuisine-dropdown-options li:hover {
   background-color: var(--hoover-color)
-}
-
-.arrow {
-  position: absolute;
-  width: 10%;
-  font-size: 0.8rem;
-  z-index: 2;
-}
+} */
 
 textarea.note-details {
   width: 100%;

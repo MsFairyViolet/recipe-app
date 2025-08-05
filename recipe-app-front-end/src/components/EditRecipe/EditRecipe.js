@@ -296,8 +296,8 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         <div className="small-details">
                             <input name="servingCalories" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
                             <input name="servingCount" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
-                            <div className="custom-cuisine-dropdown-container">
-                                <div className={`custom-cuisine-dropdown ${!selectedCuisine ? "placeholder" : ""}`}
+                            <div className="custom-cuisine-dropdown-container select-container">
+                                <div className={`custom-cuisine-dropdown ${!selectedCuisine ? "placeholder" : ""} select-box`}
                                     onClick={() => setIsCuisineOpen(!isCuisineOpen)}
                                     tabIndex={0}
                                     onBlur={() => setTimeout(() => setIsCuisineOpen(false), 100)}
@@ -306,7 +306,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                                     <span className="dropdown-arrow">&#9662;</span>
                                 </div>
                                 {isCuisineOpen && (
-                                    <ul data-test="cuisine-options" className="custom-cuisine-dropdown-options">
+                                    <ul data-test="cuisine-options" className="custom-cuisine-dropdown-options dropdown-options">
                                         {cuisines.map((item, index) => (
                                             <li
                                                 key={`${item.cuisineTitle}-${index}`}
