@@ -59,7 +59,7 @@ html {
   width: 40%;
   color: var(--primary-color);
   line-height: 1;
-  margin-left: 1.1rem;
+  margin-left: 0.5rem;
   align-self: center;
 }
 
@@ -232,7 +232,7 @@ nav {
 }
 
 .big-details {
-  width: 70%;
+  width: 65%;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -247,7 +247,7 @@ nav {
 }
 
 .small-details {
-  width: 30%;
+  width: 35%;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -263,7 +263,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
+  font-size: 0.6rem;
   text-align: center;
 }
 
@@ -293,7 +293,7 @@ nav {
 .recipe-card input,
 .recipe-card textarea {
   width: 100%;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 /* Edit Recipe Page */
@@ -408,7 +408,7 @@ textarea.note-details {
   background-color: var(--hoover-color)
 }
 
-.dropdown-label{
+.dropdown-label {
   width: 100%;
 }
 
@@ -419,14 +419,13 @@ textarea.note-details {
 }
 
 .cuisine .dropdown-label {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   text-align: center;
   padding-left: 0.5rem;
 }
 
 .dropdown-label.placeholder {
   color: #75777a;
-  font-size: 1.1rem;
 }
 
 .dropdown-arrow {
@@ -791,6 +790,7 @@ input[type="number"] {
 
   .page-title {
     font-size: 1.8rem;
+    margin-left: 1.1rem;
   }
 
   .page-container {
@@ -824,6 +824,10 @@ input[type="number"] {
   .recipe-view-page .small-details span {
     width: 100%;
     min-height: 4.5rem;
+    font-size: 1.1rem;
+  }
+
+  .cuisine .dropdown-label {
     font-size: 1.1rem;
   }
 
