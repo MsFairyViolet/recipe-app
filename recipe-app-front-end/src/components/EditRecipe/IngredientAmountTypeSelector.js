@@ -7,12 +7,21 @@ export default function IngredientAmountTypeSelector({ ingredient, row, amountTy
     const [isOpen, setIsOpen] = useState(false)
     const [selected, setSelected] = useState(ingredient.amountType)
 
+    const handleFocus = () => {
+        setIsOpen(true)
+    }
+
+    const handleBlur = () => {
+        setIsOpen(false)
+    }
+
     return (
         <>
             <div className="amount-type ingredient-input third-column select-container">
                 <div className="amount-type select-box"
-                    onClick={() => setIsOpen(!isOpen)}
-                    onBlur={() => setTimeout(() => setIsOpen(false), 100)}>
+                    tabIndex={0}
+                    onMouseDown={() => handleFocus()}
+                    onBlur={() => handleBlur()}>
                     <span className="dropdown-label">{selected}</span>
                     <span className="dropdown-arrow">&#9662;</span>
                 </div>
