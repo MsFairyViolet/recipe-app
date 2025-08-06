@@ -294,19 +294,19 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         </div>
 
                         <div className="small-details">
-                            <input name="servingCalories" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
-                            <input name="servingCount" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
-                            <div className="custom-cuisine-dropdown-container select-container">
-                                <div className={`custom-cuisine-dropdown ${!selectedCuisine ? "placeholder" : ""} select-box`}
+                            <input name="servingCalories" className="small-detail-box" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
+                            <input name="servingCount" className="small-detail-box" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
+                            <div className="cuisine select-container small-detail-box">
+                                <div className="select-box"
                                     onClick={() => setIsCuisineOpen(!isCuisineOpen)}
                                     tabIndex={0}
                                     onBlur={() => setTimeout(() => setIsCuisineOpen(false), 100)}
                                 >
-                                    <span data-test="cuisine" className="dropdown-label">{selectedCuisine || "Cuisine*"}</span>
+                                    <span data-test="cuisine" className={`dropdown-label ${!selectedCuisine ? "placeholder" : ""}`}>{selectedCuisine || "Cuisine*"}</span>
                                     <span className="dropdown-arrow">&#9662;</span>
                                 </div>
                                 {isCuisineOpen && (
-                                    <ul data-test="cuisine-options" className="custom-cuisine-dropdown-options dropdown-options">
+                                    <ul data-test="cuisine-options" className="dropdown-options">
                                         {cuisines.map((item, index) => (
                                             <li
                                                 key={`${item.cuisineTitle}-${index}`}
