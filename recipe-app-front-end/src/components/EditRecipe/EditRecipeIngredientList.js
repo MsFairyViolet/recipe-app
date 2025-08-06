@@ -6,7 +6,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
     return (
         <div className="edit-page ingredients-list">
             <div className="row column-title">
-                <span className="first-column">Namessss</span>
+                <span className="first-column">Name</span>
                 <span className="second-column">Amount</span>
                 <span className="third-column">Type</span>
                 <span className="fourth-column">x</span>
