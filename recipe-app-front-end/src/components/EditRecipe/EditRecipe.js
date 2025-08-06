@@ -329,12 +329,12 @@ export default function EditRecipe({ recipe, isNew = false }) {
                     </div>
 
                     <div>
-                        <h4>Ingredients:</h4>
+                        <h4 className="box-title">Ingredients:</h4>
                         <EditRecipeIngriedientList ingredientList={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} allIngredients={allIngredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} />
                     </div>
 
                     <div>
-                        <h4>Notes:</h4>
+                        <h4 className="box-title">Notes:</h4>
                         <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
                     </div>
                     <div className="button-container">

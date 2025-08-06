@@ -618,6 +618,10 @@ select:focus {
   text-decoration: none;
 }
 
+.box-title {
+  color: var(--primary-color);
+}
+
 /* Buttons */
 .button-container {
   display: flex;
@@ -764,6 +768,7 @@ input[type="number"] {
     left: auto;
     background: none;
     padding: 0;
+    z-index: 50;
   }
 
   .nav-links li {
