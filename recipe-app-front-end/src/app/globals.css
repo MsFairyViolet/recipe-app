@@ -283,6 +283,7 @@ nav {
 .ingredients-list {
   border: 1.5px solid var(--primary-color);
   border-radius: 5px;
+  background-color: var(--mid-background-color);
 }
 
 .note-details {
@@ -321,8 +322,10 @@ nav {
 }
 
 .edit-page .row input,
-.edit-page .row select {
+.edit-page .row .select-container {
   height: 35px;
+  width: 100%;
+  font-size: 0.95rem;
 }
 
 .edit-page .row.column-title {
@@ -390,8 +393,6 @@ textarea.note-details {
   border-radius: 0.5rem;
   z-index: 10;
   list-style: none;
-  margin: 0;
-  padding: 0;
   font-size: 0.9rem;
 }
 
@@ -460,6 +461,10 @@ textarea.note-details {
   width: 100%;
 }
 
+.auto-complete-input{
+  width: 100%;
+}
+
 .autocomplete-input:focus {
   outline: none;
   border-color: #513c97;
@@ -468,7 +473,7 @@ textarea.note-details {
 
 .autocomplete-dropdown {
   position: absolute;
-  width: 120%;
+  width: 130%;
   max-height: 200px;
   overflow-y: auto;
   background-color: var(--input-color);
@@ -621,6 +626,7 @@ select:focus {
 
 .box-title {
   color: var(--primary-color);
+  margin-top: 0.25rem;
 }
 
 /* Buttons */
@@ -630,6 +636,7 @@ select:focus {
   flex-direction: row;
   width: 100%;
   gap: 0.5rem;
+  margin-top: 0.25rem;
 }
 
 .recipe-button,
