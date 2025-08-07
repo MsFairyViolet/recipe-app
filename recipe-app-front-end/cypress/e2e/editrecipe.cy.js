@@ -21,7 +21,7 @@ describe('Edit Recipe Page', () => {
          cy.get(".url-details").should("have.value", "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas")
          cy.get('input[name="servingCalories"').should("have.value", "945")
          cy.get('input[name="servingCount"').should("have.value", "2")
-         cy.dataTest('cuisine').should("contain", "Midden-Oosters")
+         cy.get('.cuisine').should("contain", "Midden-Oosters")
          cy.get('.note-details').should("have.value", "Couscous : water = 1 : 1")
       })
       
@@ -35,7 +35,7 @@ describe('Edit Recipe Page', () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").should("have.value", "tomatenblokjes")
                cy.dataTest("ingredient-amount").should("have.value", "1")
-               cy.dataTest("amount-type").should("have.value", "stuk")
+               cy.get(".dropdown-label").should("contain", "stuk")
             })
          })
 
@@ -44,7 +44,7 @@ describe('Edit Recipe Page', () => {
             cy.dataTest("ingredient-edit-row-4").within(() => {
                cy.dataTest("ingredient-name").should("be.empty")
                cy.dataTest("ingredient-amount").should("be.empty")
-               cy.dataTest("amount-type").should("have.value", "stuk")
+               cy.get(".dropdown-label").should("contain", "stuk")
             })
          })
 
@@ -308,7 +308,8 @@ describe('Edit Recipe Page', () => {
                      cy.dataTest("autocomplete-option").contains("Aardappel").click()
                   })
                   cy.dataTest("ingredient-amount").type("5")
-                  cy.dataTest("amount-type").select("portie").should("have.value", "portie");
+                  cy.get(".dropdown-label").click()
+                  cy.get(".dropdown-options").contains("portie").click()
                })
                cy.get(".note-details").clear()
 

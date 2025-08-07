@@ -15,7 +15,7 @@ export default function CustomSelector({options = [], selected, onSelect, getOpt
 
    return (
       <>
-         <div className={`select-container ${className}`}>
+         <div className={`select-container ${className}`} data-test={dataTest}>
             <div className={`select-box ${dataTest}`}
                tabIndex={0}
                onMouseDown={() => handleFocus()}
