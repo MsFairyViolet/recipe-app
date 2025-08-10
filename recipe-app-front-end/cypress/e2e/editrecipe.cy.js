@@ -39,7 +39,7 @@ describe('Edit Recipe Page', () => {
             })
          })
 
-         it.only('adds a new empty ingredients row', () => {
+         it('adds a new empty ingredients row', () => {
             cy.get(".add-ingredient-button").contains("Add ingredient").click()
             cy.dataTest("ingredient-edit-row-4").within(() => {
                cy.dataTest("ingredient-name").should("be.empty")
