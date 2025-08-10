@@ -18,8 +18,8 @@ export default function Select({options, selected, onSelect, getOptionLabel, pla
          <div className={`select-container ${className}`} data-test={dataTest}>
             <div className={`select-box ${dataTest}`}
                tabIndex={0}
-               onMouseDown={() => handleFocus()}
-               onBlur={() => handleBlur()}>
+               onMouseDown={handleFocus}
+               onBlur={handleBlur}>
                <span className={`dropdown-label ${!selected ? "placeholder" : ""}`}>{selected || placeholder}</span>
                <span className="dropdown-arrow">&#9662;</span>
             </div>
