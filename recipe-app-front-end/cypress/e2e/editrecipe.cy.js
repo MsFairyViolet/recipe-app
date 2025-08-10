@@ -21,7 +21,7 @@ describe('Edit Recipe Page', () => {
          cy.get(".url-details").should("have.value", "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas")
          cy.get('input[name="servingCalories"').should("have.value", "945")
          cy.get('input[name="servingCount"').should("have.value", "2")
-         cy.get('.cuisine').should("contain", "Midden-Oosters")
+         cy.dataTest('cuisine').should("contain", "Midden-Oosters")
          cy.get('.note-details').should("have.value", "Couscous : water = 1 : 1")
       })
       
@@ -35,16 +35,16 @@ describe('Edit Recipe Page', () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").should("have.value", "tomatenblokjes")
                cy.dataTest("ingredient-amount").should("have.value", "1")
-               cy.get(".dropdown-label").should("contain", "stuk")
+               cy.dataTest("amount-type").should("contain", "stuk")
             })
          })
 
-         it('adds a new empty ingredients row', () => {
+         it.only('adds a new empty ingredients row', () => {
             cy.get(".add-ingredient-button").contains("Add ingredient").click()
             cy.dataTest("ingredient-edit-row-4").within(() => {
                cy.dataTest("ingredient-name").should("be.empty")
                cy.dataTest("ingredient-amount").should("be.empty")
-               cy.get(".dropdown-label").should("contain", "stuk")
+               cy.dataTest("amount-type").should("contain", "stuk")
             })
          })
 
