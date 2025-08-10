@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-export default function Select({options, selected, onSelect, getOptionLabel, placeholder, className, dataTest}) {
+export default function Select({options, selected, onSelect, getOptionLabel, placeholder, styleType, dataTest}) {
    const [isOpen, setIsOpen] = useState(false)
 
    const handleFocus = () => {
@@ -15,8 +15,8 @@ export default function Select({options, selected, onSelect, getOptionLabel, pla
 
    return (
       <>
-         <div className={`select-container ${className}`} data-test={dataTest}>
-            <div className={`select-box ${dataTest}`}
+         <div className={`select-container ${styleType === "inline" ? "third-column" : "small-detail-box"}`} data-test={dataTest}>
+            <div className={`select-box ${styleType === "card-box" ? "cuisine" : ""}`}
                tabIndex={0}
                onMouseDown={handleFocus}
                onBlur={handleBlur}>

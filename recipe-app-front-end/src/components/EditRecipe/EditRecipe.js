@@ -305,7 +305,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                                 }}
                                 getOptionLabel={(item) => item.cuisineTitle}
                                 placeholder="Cuisine*"
-                                className="cuisine small-detail-box"
+                                styleType="card-box"
                                 dataTest="cuisine" />
                         </div >
                     </div>

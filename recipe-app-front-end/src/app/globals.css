@@ -414,16 +414,8 @@ textarea.note-details {
   width: 100%;
 }
 
-.amount-type .dropdown-label {
-  width: 100%;
-  font-size: 1em;
-  line-height: 1;
-}
-
 .cuisine .dropdown-label {
-  font-size: 0.9rem;
-  text-align: center;
-  padding-left: 0.5rem;
+   padding-left: 0.5rem;
 }
 
 .dropdown-label.placeholder {

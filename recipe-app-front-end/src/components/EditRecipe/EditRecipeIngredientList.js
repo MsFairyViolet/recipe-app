@@ -24,7 +24,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
                         selected={ingredient.amountType}
                         onSelect={(value) => handleIngredientChange(index, "amountType", value)}
                         getOptionLabel={(item) => item.amountType}
-                        className="third-column"
+                        styleType="inline"
                         dataTest="amount-type" />
                     <button data-test="ingredient-delete-button" className="fourth-column" onClick={() => handleIngredientDelete(index)}>x</button>
                 </div>
