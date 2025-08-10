@@ -35,13 +35,13 @@ export default function ViewRecipe({ recipe }) {
         </div>
 
         <div>
-          <h4>Ingredients:</h4>
+          <h4 className="box-title"> Ingredients:</h4>
           <span><RecipeIngredientsList ingredients={recipe.ingredients} /></span>
         </div>
 
         {recipe.note && (
           <div>
-            <h4>Notes:</h4>
+            <h4 className="box-title">Notes:</h4>
             <div className="note-details">
               <span>{recipe.note}</span>
             </div>

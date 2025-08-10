@@ -35,7 +35,7 @@ describe('Edit Recipe Page', () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").should("have.value", "tomatenblokjes")
                cy.dataTest("ingredient-amount").should("have.value", "1")
-               cy.dataTest("amount-type").should("have.value", "stuk")
+               cy.dataTest("amount-type").should("contain", "stuk")
             })
          })
 
@@ -44,7 +44,7 @@ describe('Edit Recipe Page', () => {
             cy.dataTest("ingredient-edit-row-4").within(() => {
                cy.dataTest("ingredient-name").should("be.empty")
                cy.dataTest("ingredient-amount").should("be.empty")
-               cy.dataTest("amount-type").should("have.value", "stuk")
+               cy.dataTest("amount-type").should("contain", "stuk")
             })
          })
 
@@ -308,7 +308,8 @@ describe('Edit Recipe Page', () => {
                      cy.dataTest("autocomplete-option").contains("Aardappel").click()
                   })
                   cy.dataTest("ingredient-amount").type("5")
-                  cy.dataTest("amount-type").select("portie").should("have.value", "portie");
+                  cy.get(".dropdown-label").click()
+                  cy.get(".dropdown-options").contains("portie").click()
                })
                cy.get(".note-details").clear()
 

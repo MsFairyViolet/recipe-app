@@ -59,7 +59,7 @@ html {
   width: 40%;
   color: var(--primary-color);
   line-height: 1;
-  margin-left: 1.1rem;
+  margin-left: 0.5rem;
   align-self: center;
 }
 
@@ -85,6 +85,7 @@ nav {
   align-items: center;
   padding: 0 2vw;
   position: relative;
+  z-index: 100;
 }
 
 .logo {
@@ -211,9 +212,10 @@ nav {
 
 /* RecipeView */
 
-.recipe-view-page .page-title{
+.recipe-view-page .page-title {
   margin-bottom: 0.5rem;
 }
+
 .recipe-card {
   border: 1.5px solid var(--primary-color);
   border-radius: 5px;
@@ -231,7 +233,7 @@ nav {
 }
 
 .big-details {
-  width: 70%;
+  width: 65%;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -246,7 +248,7 @@ nav {
 }
 
 .small-details {
-  width: 30%;
+  width: 35%;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -281,6 +283,7 @@ nav {
 .ingredients-list {
   border: 1.5px solid var(--primary-color);
   border-radius: 5px;
+  background-color: var(--mid-background-color);
 }
 
 .note-details {
@@ -292,7 +295,7 @@ nav {
 .recipe-card input,
 .recipe-card textarea {
   width: 100%;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 /* Edit Recipe Page */
@@ -313,15 +316,16 @@ nav {
   margin-bottom: 0.5rem;
 }
 
-.small-details input,
-.custom-cuisine-dropdown-container {
+.small-detail-box {
   height: 4rem;
   text-align: center;
 }
 
 .edit-page .row input,
-.edit-page .row select {
+.edit-page .row .select-container {
   height: 35px;
+  width: 100%;
+  font-size: 0.95rem;
 }
 
 .edit-page .row.column-title {
@@ -345,39 +349,39 @@ nav {
   text-align: center;
 }
 
-/* Cuisine Dropdown */
-.custom-cuisine-dropdown-container {
+textarea.note-details {
+  width: 100%;
+}
+
+/* Custom Selector */
+.select-container {
   position: relative;
   width: 100%;
+  font-size: 1rem;
   box-shadow: 0 1px 2px rgba(81, 60, 151, 0.25);
 }
 
-.custom-cuisine-dropdown {
+.select-box {
   position: relative;
-  border-radius: 5px;
-  height: 100%;
-  font-size: 1rem;
-  background-color: var(--input-color);
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  background-color: var(--input-color);
+  padding: 0.5rem;
+  height: 100%;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(81, 60, 151, 0.25);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
 }
 
-.custom-cuisine-dropdown:focus {
+.select-box:focus {
   outline: none;
   border-color: #513c97;
   box-shadow: 0 0 4px 2px rgba(81, 60, 151, 0.4);
 }
 
-.custom-cuisine-dropdown.placeholder {
-  color: #75777a;
-  font-size: 1.1rem;
-}
-
-.custom-cuisine-dropdown span.dropdown-label {
-  width: 100%;
-}
-
-.custom-cuisine-dropdown-options {
+.dropdown-options {
   position: absolute;
   top: 100%;
   right: 0;
@@ -389,34 +393,39 @@ nav {
   border-radius: 0.5rem;
   z-index: 10;
   list-style: none;
-  margin: 0;
-  padding: 0;
   font-size: 0.9rem;
 }
 
-.custom-cuisine-dropdown-options li {
+.dropdown-options li {
   text-align: left;
-  height: 38px;
-  line-height: 38px;
+  height: 32px;
+  line-height: 32px;
   padding-left: 0.3rem;
   margin: 0.4rem;
   border-radius: 2px;
   transition: background-color 0.2s ease;
 }
 
-.custom-cuisine-dropdown-options li:hover {
+.dropdown-options li:hover {
   background-color: var(--hoover-color)
 }
 
-.arrow {
-  position: absolute;
-  width: 10%;
-  font-size: 0.8rem;
-  z-index: 2;
+.dropdown-label {
+  width: 100%;
 }
 
-textarea.note-details {
-  width: 100%;
+.cuisine .dropdown-label {
+   padding-left: 0.5rem;
+}
+
+.dropdown-label.placeholder {
+  color: #75777a;
+}
+
+.dropdown-arrow {
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  justify-self: flex-end;
 }
 
 /* All Ingredients Page */
@@ -444,6 +453,10 @@ textarea.note-details {
   width: 100%;
 }
 
+.auto-complete-input{
+  width: 100%;
+}
+
 .autocomplete-input:focus {
   outline: none;
   border-color: #513c97;
@@ -452,7 +465,7 @@ textarea.note-details {
 
 .autocomplete-dropdown {
   position: absolute;
-  width: 120%;
+  width: 130%;
   max-height: 200px;
   overflow-y: auto;
   background-color: var(--input-color);
@@ -589,7 +602,7 @@ select:focus {
   color: var(--error-color)
 }
 
-.text-highlight{
+.text-highlight {
   color: var(--primary-color);
 }
 
@@ -603,6 +616,11 @@ select:focus {
   text-decoration: none;
 }
 
+.box-title {
+  color: var(--primary-color);
+  margin-top: 0.25rem;
+}
+
 /* Buttons */
 .button-container {
   display: flex;
@@ -610,6 +628,7 @@ select:focus {
   flex-direction: row;
   width: 100%;
   gap: 0.5rem;
+  margin-top: 0.25rem;
 }
 
 .recipe-button,
@@ -633,7 +652,7 @@ button.fourth-column {
 }
 
 button.third-column:hover,
-button.fourth-column:hover{
+button.fourth-column:hover {
   background-color: var(--primary-accent);
   color: var(--accent-text);
 }
@@ -666,7 +685,7 @@ button.fourth-column:hover{
 }
 
 .primary-button:hover,
-.secondary-button:hover{
+.secondary-button:hover {
   background-color: var(--button-hover);
 }
 
@@ -701,7 +720,7 @@ button.fourth-column:hover{
 }
 
 .add-ingredient-button:hover,
-.delete-all-ingredients-button:hover{
+.delete-all-ingredients-button:hover {
   background-color: var(--primary-accent);
   color: var(--accent-text);
   border: none;
@@ -775,6 +794,7 @@ input[type="number"] {
 
   .page-title {
     font-size: 1.8rem;
+    margin-left: 1.1rem;
   }
 
   .page-container {
@@ -808,6 +828,10 @@ input[type="number"] {
   .recipe-view-page .small-details span {
     width: 100%;
     min-height: 4.5rem;
+    font-size: 1.1rem;
+  }
+
+  .cuisine .dropdown-label {
     font-size: 1.1rem;
   }
 

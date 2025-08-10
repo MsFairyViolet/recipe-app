@@ -6,6 +6,7 @@ import { useConfirm } from "@components/common/ConfirmProvider"
 import { v4 as uuidv4 } from 'uuid'
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
 import { getIngredients, getRecipes, getCuisines, getAmountTypes, createRecipe, updateRecipe, deleteRecipe } from "@components/common/Apicalls"
+import Select from "../common/Select"
 
 export default function EditRecipe({ recipe, isNew = false }) {
     const router = useRouter()
@@ -294,55 +295,36 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         </div>
 
                         <div className="small-details">
-                            <input name="servingCalories" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
-                            <input name="servingCount" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
-                            <div className="custom-cuisine-dropdown-container">
-                                <div className={`custom-cuisine-dropdown ${!selectedCuisine ? "placeholder" : ""}`}
-                                    onClick={() => setIsCuisineOpen(!isCuisineOpen)}
-                                    tabIndex={0}
-                                    onBlur={() => setTimeout(() => setIsCuisineOpen(false), 100)}
-                                >
-                                    <span data-test="cuisine" className="dropdown-label">{selectedCuisine || "Cuisine*"}</span>
-                                    <span className="dropdown-arrow">&#9662;</span>
-                                </div>
-                                {isCuisineOpen && (
-                                    <ul data-test="cuisine-options" className="custom-cuisine-dropdown-options">
-                                        {cuisines.map((item, index) => (
-                                            <li
-                                                key={`${item.cuisineTitle}-${index}`}
-                                                onMouseDown={(e) => {
-                                                    e.preventDefault()
-                                                    setSelectedCuisine(item.cuisineTitle)
-                                                    handleChange({ target: { name: "cuisine", value: item.cuisineTitle } })
-                                                    setIsCuisineOpen(false)
-                                                }}
-                                            >
-                                                {item.cuisineTitle}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </div>
-
-                        </div>
-
+                            <input name="servingCalories" className="small-detail-box" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
+                            <input name="servingCount" className="small-detail-box" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
+                            <Select options={cuisines}
+                                selected={selectedCuisine}
+                                onSelect={(value) => {
+                                    setSelectedCuisine(value)
+                                    handleChange({ target: { name: "cuisine", value } })
+                                }}
+                                getOptionLabel={(item) => item.cuisineTitle}
+                                placeholder="Cuisine*"
+                                styleType="card-box"
+                                dataTest="cuisine" />
+                        </div >
                     </div>
+                </div>
 
-                    <div>
-                        <h4>Ingredients:</h4>
-                        <EditRecipeIngriedientList ingredientList={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} allIngredients={allIngredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} />
-                    </div>
+                <div>
+                    <h4 className="box-title">Ingredients:</h4>
+                    <EditRecipeIngriedientList ingredientList={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} allIngredients={allIngredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} />
+                </div>
 
-                    <div>
-                        <h4>Notes:</h4>
-                        <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
-                    </div>
-                    <div className="button-container">
-                        <button data-test="recipe-delete-button" className="recipe-button secondary-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
-                        <button data-test="edit-cancel-button" className="recipe-button secondary-button" onClick={handleCancel}>Cancel</button>
-                        <button data-test="recipe-save-button" className="recipe-button primary-button" onClick={handleSave}>Save</button>
-                    </div>
-                </div >
+                <div>
+                    <h4 className="box-title">Notes:</h4>
+                    <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
+                </div>
+                <div className="button-container">
+                    <button data-test="recipe-delete-button" className="recipe-button secondary-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
+                    <button data-test="edit-cancel-button" className="recipe-button secondary-button" onClick={handleCancel}>Cancel</button>
+                    <button data-test="recipe-save-button" className="recipe-button primary-button" onClick={handleSave}>Save</button>
+                </div>
             </div >
         </>
     )

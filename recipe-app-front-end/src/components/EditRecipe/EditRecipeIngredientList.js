@@ -1,4 +1,5 @@
 import RecipeIngredientSelector from "@components/EditRecipe/RecipeIngredientSelector"
+import Select from "../common/Select"
 
 export default function EditRecipeIngredientsList({ ingredientList, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, allIngredients, fetchIngredients, amountTypes }) {
 
@@ -19,11 +20,12 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
                         value={ingredient.amount === "" | isNaN(parseFloat(ingredient.amount)) ? "" : parseFloat(ingredient.amount)}
                         onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}>
                     </input>
-                    <select data-test="amount-type" className="third-column ingredient-input" type="text" value={ingredient.amountType} onChange={(e) => handleIngredientChange(index, "amountType", e.target.value)}>
-                        {amountTypes.map((type) => (
-                            <option key={type.amountType} value={type.amountType}>{type.amountType}</option>
-                        ))}
-                    </select>
+                    <Select options={amountTypes}
+                        selected={ingredient.amountType}
+                        onSelect={(value) => handleIngredientChange(index, "amountType", value)}
+                        getOptionLabel={(item) => item.amountType}
+                        styleType="inline"
+                        dataTest="amount-type" />
                     <button data-test="ingredient-delete-button" className="fourth-column" onClick={() => handleIngredientDelete(index)}>x</button>
                 </div>
             ))
@@ -32,6 +34,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
                 <button className="add-ingredient-button" type="button" onClick={() => handleIngredientAdd()}>Add ingredient</button>
                 <button className="delete-all-ingredients-button" type="button" onClick={() => handleAllIngredientsDelete()}>Delete all ingredients</button>
             </div>
+
         </div>
     )
 }

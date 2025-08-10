@@ -66,8 +66,8 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                handleIngredientChange(row, "name", e.target.value)
                setQuery(e.target.value)
             }}
-            onFocus={() => handleFocus()}
-            onBlur={() => handleBlur()}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             placeholder="Start typing..."
          />
          {isOpen && (
