@@ -6,7 +6,7 @@ import { useConfirm } from "@components/common/ConfirmProvider"
 import { v4 as uuidv4 } from 'uuid'
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
 import { getIngredients, getRecipes, getCuisines, getAmountTypes, createRecipe, updateRecipe, deleteRecipe } from "@components/common/Apicalls"
-import CustomSelector from "./CustomSelector"
+import Select from "../common/Select"
 
 export default function EditRecipe({ recipe, isNew = false }) {
     const router = useRouter()
@@ -297,7 +297,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         <div className="small-details">
                             <input name="servingCalories" className="small-detail-box" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
                             <input name="servingCount" className="small-detail-box" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
-                            <CustomSelector options={cuisines}
+                            <Select options={cuisines}
                                 selected={selectedCuisine}
                                 onSelect={(value) => {
                                     setSelectedCuisine(value)

@@ -1,5 +1,5 @@
 import RecipeIngredientSelector from "@components/EditRecipe/RecipeIngredientSelector"
-import CustomSelector from "./CustomSelector"
+import Select from "../common/Select"
 
 export default function EditRecipeIngredientsList({ ingredientList, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, allIngredients, fetchIngredients, amountTypes }) {
 
@@ -20,7 +20,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
                         value={ingredient.amount === "" | isNaN(parseFloat(ingredient.amount)) ? "" : parseFloat(ingredient.amount)}
                         onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}>
                     </input>
-                    <CustomSelector options={amountTypes}
+                    <Select options={amountTypes}
                         selected={ingredient.amountType}
                         onSelect={(value) => handleIngredientChange(index, "amountType", value)}
                         getOptionLabel={(item) => item.amountType}

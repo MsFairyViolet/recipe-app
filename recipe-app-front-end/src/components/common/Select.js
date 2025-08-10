@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-export default function CustomSelector({options, selected, onSelect, getOptionLabel, placeholder, className, dataTest}) {
+export default function Select({options, selected, onSelect, getOptionLabel, placeholder, className, dataTest}) {
    const [isOpen, setIsOpen] = useState(false)
 
    const handleFocus = () => {
