@@ -138,8 +138,11 @@ describe('New Recipe Page', () => {
       cy.wait('@postRecipe')
    })
 
-   it.only('hides the delete button on new recipe', () => {
+   it.only('shows correct buttons on new recipe', () => {
+      cy.visit('http://localhost:3000/recipe/new')
       cy.dataTest("recipe-delete-button").should("not.exist")
+      cy.dataTest("edit-cancel-button").should("exist")
+      cy.dataTest("recipe-save-button").should("exist")
    })
 })
 
