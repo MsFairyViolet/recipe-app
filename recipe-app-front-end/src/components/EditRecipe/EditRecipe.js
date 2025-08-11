@@ -38,9 +38,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
         note: recipe.note,
         ingredients: recipe.ingredients
     })
-    const [isCuisineOpen, setIsCuisineOpen] = useState(false);
     const [selectedCuisine, setSelectedCuisine] = useState(formData.cuisine || "");
-
 
     const fetchIngredients = () => {
         getIngredients()
@@ -321,7 +319,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                     <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
                 </div>
                 <div className="button-container">
-                    <button data-test="recipe-delete-button" className="recipe-button secondary-button" onClick={isNew ? handleCancel : handleDelete}>Delete</button>
+                    {!isNew ? <button data-test="recipe-delete-button" className="recipe-button secondary-button" onClick={handleDelete}>Delete</button> : "" }
                     <button data-test="edit-cancel-button" className="recipe-button secondary-button" onClick={handleCancel}>Cancel</button>
                     <button data-test="recipe-save-button" className="recipe-button primary-button" onClick={handleSave}>Save</button>
                 </div>
