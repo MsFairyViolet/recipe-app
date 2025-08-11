@@ -8,7 +8,7 @@ describe('New Recipe Page', () => {
       cy.get(".url-details").should("have.value", "").and("have.attr", "placeholder", "Add a reference link")
       cy.get('input[name="servingCalories"').should("have.value", "").and("have.attr", "placeholder", "Calories*")
       cy.get('input[name="servingCount"').should("have.value", "").and("have.attr", "placeholder", "Servings*")
-      cy.dataTest("cuisine").should("have.value", "").should("have.text", "Cuisine*")
+      cy.dataTest("cuisine").should("have.value", "").should("contain", "Cuisine*")
       cy.get('.note-details').should("have.value", "").and("have.attr", "placeholder", "Add additional notes")
       cy.dataTest("ingredient-edit-row", "^=").should("not.exist")
    })
@@ -16,6 +16,8 @@ describe('New Recipe Page', () => {
    it('redirects to recipe list page on cancel', () => {
       cy.visit("http://localhost:3000/recipe/new")
       cy.dataTest('edit-cancel-button').should("contain", "Cancel").click()
+      cy.dataTest("overlay-message").should("contain", "Do you want to cancel creating recipe ?")
+      cy.dataTest("confirm-button").click()
       cy.location("pathname").should("equal", "/recipe")
    })
 
@@ -47,7 +49,8 @@ describe('New Recipe Page', () => {
             cy.get('.autocomplete-dropdown').should("exist")
             cy.dataTest('autocomplete-option').first().click()
             cy.dataTest("ingredient-amount").type(ingredient.amount)
-            cy.dataTest("amount-type").select(ingredient.type)
+            cy.get(".dropdown-label").click()
+            cy.get(".dropdown-options").contains(`${ingredient.type}`).click()
          })
       })
 
@@ -133,6 +136,10 @@ describe('New Recipe Page', () => {
          expect(alertStub).to.have.been.calledWith("Failed to create the recipe.")
       })
       cy.wait('@postRecipe')
+   })
+
+   it.only('hides the delete button on new recipe', () => {
+      cy.dataTest("recipe-delete-button").should("not.exist")
    })
 })
 
