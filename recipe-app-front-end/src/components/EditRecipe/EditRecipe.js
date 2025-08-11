@@ -116,8 +116,17 @@ export default function EditRecipe({ recipe, isNew = false }) {
         }))
     }
 
-    const handleCancel = () => {
-        router.push(isNew ? `/recipe` : `/recipe/${recipe.id}`)
+    const handleCancel = async () => {
+        await confirm(
+            isNew ? "Do you want to cancel creating"
+            : "Do you want to cancel editing", recipe.name)
+            .then((confirmed) => {
+                if (confirmed) {
+                    router.push(isNew ? `/recipe` : `/recipe/${recipe.id}`)
+
+                }
+                else return
+            })
     }
 
     const handleIngredientAdd = () => {
@@ -319,7 +328,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                     <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
                 </div>
                 <div className="button-container">
-                    {!isNew ? <button data-test="recipe-delete-button" className="recipe-button secondary-button" onClick={handleDelete}>Delete</button> : "" }
+                    {!isNew ? <button data-test="recipe-delete-button" className="recipe-button secondary-button" onClick={handleDelete}>Delete</button> : ""}
                     <button data-test="edit-cancel-button" className="recipe-button secondary-button" onClick={handleCancel}>Cancel</button>
                     <button data-test="recipe-save-button" className="recipe-button primary-button" onClick={handleSave}>Save</button>
                 </div>
