@@ -287,8 +287,24 @@ describe('Edit Recipe Page', () => {
                const patchSpy = cy.spy().as('patchSpy')
                cy.intercept('PATCH', "/api/recipe/**", patchSpy)
                cy.dataTest("edit-cancel-button").click()
+               cy.dataTest("overlay-message").should("contain", "Do you want to cancel editing Albondigas?")
+
+               cy.dataTest("confirm-button").click()
                cy.get('@patchSpy').should("not.have.been.called")
                cy.location("pathname").should("equal", "/recipe/1")
+            })
+
+            it('undoes the creating of new page, redirects and makes no call if user cancels', () => {
+               cy.visit('http://localhost:3000/recipe/new')
+
+               const patchSpy = cy.spy().as('patchSpy')
+               cy.intercept('PATCH', "/api/recipe/**", patchSpy)
+               cy.dataTest("edit-cancel-button").click()
+               cy.dataTest("overlay-message").should("contain", "Do you want to cancel creating recipe ?")
+
+               cy.dataTest("confirm-button").click()
+               cy.get('@patchSpy').should("not.have.been.called")
+               cy.location("pathname").should("equal", "/recipe")
             })
          })
 

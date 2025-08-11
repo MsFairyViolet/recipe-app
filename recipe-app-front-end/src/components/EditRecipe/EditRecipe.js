@@ -118,7 +118,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
     const handleCancel = async () => {
         await confirm(
-            isNew ? "Do you want to cancel creating"
+            isNew ? "Do you want to cancel creating recipe"
             : "Do you want to cancel editing", recipe.name)
             .then((confirmed) => {
                 if (confirmed) {
