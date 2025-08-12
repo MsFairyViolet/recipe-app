@@ -6,30 +6,23 @@ import "./globals.css";
 export const metadata = {
   title: "Recipe App",
   description: "Our personal food database",
-};
+}
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-       <head>
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/icons/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/icons/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/icons/favicon-16x16.png"
-        />
+      <head>
+        {/* Desktop favicon */}
+        <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+
+        {/* iOS Safari home screen */}
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+
+        {/* Android & Firefox home screen */}
         <link rel="manifest" href="/icons/site.webmanifest" />
+
       </head>
       <body>
         <NavBar />
