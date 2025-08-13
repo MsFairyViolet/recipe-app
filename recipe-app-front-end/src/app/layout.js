@@ -27,11 +27,9 @@ export default function RootLayout({ children }) {
       <body>
         <NavBar />
         <div className="page-container">
-          <main>
             <ConfirmProvider>
               {children}
             </ConfirmProvider>
-          </main>
         </div>
       </body>
     </html>
