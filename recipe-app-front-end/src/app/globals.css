@@ -11,6 +11,7 @@
   --accent-background-color: #fffefb;
   --accent-text: #fffefb;
   --text-color: #333;
+  --placeholder-color: #75777a;
   --font-main: 'Inter', sans-serif;
 }
 
@@ -419,13 +420,35 @@ textarea.note-details {
 }
 
 .dropdown-label.placeholder {
-  color: #75777a;
+  font-size: 0.9rem;
+  color: var(--placeholder-color)
 }
 
 .dropdown-arrow {
   flex: 0 0 auto;
   font-size: 0.8rem;
   justify-self: flex-end;
+}
+
+/* Input placeholders */
+::placeholder {
+  color: var(--placeholder-color);
+  opacity: 1;
+}
+
+::-webkit-input-placeholder {
+  color: var(--placeholder-color);
+  opacity: 1;
+}
+
+::-moz-placeholder {
+  color: var(--placeholder-color);
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  color: var(--placeholder-color);
+  opacity: 1;
 }
 
 /* All Ingredients Page */
