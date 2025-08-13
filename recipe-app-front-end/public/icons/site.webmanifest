@@ -1,6 +1,11 @@
 {
   "name": "Recipe App",
   "short_name": "Recipes",
+  "description": "Our personal food database",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#513c97",
   "icons": [
     {
       "src": "/icons/android-chrome-192x192.png",
@@ -12,8 +17,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  ]
 }

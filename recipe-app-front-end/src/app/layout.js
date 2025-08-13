@@ -6,30 +6,27 @@ import "./globals.css";
 export const metadata = {
   title: "Recipe App",
   description: "Our personal food database",
+  icons: {
+    icon: [
+      { url: "/icons/favicon-16x16.png", type: "image/png" },
+      { url: "/icons/favicon-32x32.png", type: "image/png" }
+    ],
+    apple: "/icons/apple-touch-icon.png",
+    shortcut: "/icons/favicon.ico",
+  },
+  manifest: "/icons/site.webmanifest",
+  themeColor: "#513c97",
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        {/* Desktop favicon */}
-        <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
-
-        {/* iOS Safari home screen */}
-        <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
-
-        {/* Android & Firefox home screen */}
-        <link rel="manifest" href="/icons/site.webmanifest" />
-
-      </head>
       <body>
         <NavBar />
         <div className="page-container">
-            <ConfirmProvider>
-              {children}
-            </ConfirmProvider>
+          <ConfirmProvider>
+            {children}
+          </ConfirmProvider>
         </div>
       </body>
     </html>
