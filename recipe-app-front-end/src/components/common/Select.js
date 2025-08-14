@@ -19,6 +19,7 @@ export default function Select({options, selected, onSelect, getOptionLabel, pla
             <div className={`select-box ${styleType === "card-box" ? "cuisine" : ""}`}
                tabIndex={0}
                onMouseDown={handleFocus}
+               onBlur={handleBlur}
                >
                <span className={`dropdown-label ${!selected ? "placeholder" : ""}`}>{selected || placeholder}</span>
                <span className="dropdown-arrow">&#9662;</span>
