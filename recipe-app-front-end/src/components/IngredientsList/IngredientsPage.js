@@ -90,7 +90,7 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
     }
 
     return (
-        <>
+        <div className="ingredients-page">
             <div className="page-header">
                 <div className="page-title">Ingredients</div>
                 <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={"Search for ingredient..."} />
@@ -101,6 +101,6 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
                 <button data-test="new-global-ingredient-button" className="ingredient-button primary-button" onClick={handleIngredientAdd}>Add new ingredient</button>
             </div>
 
-        </>
+        </div>
     )
 }
