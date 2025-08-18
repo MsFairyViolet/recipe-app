@@ -1,0 +1,108 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Robin Spek
+      changes:
+        - createTable:
+            tableName: recipes
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: description
+                  type: varchar(255)
+              - column:
+                  name: serving_calories
+                  type: int
+              - column:
+                  name: serving_count
+                  type: int
+              - column:
+                  name: cuisine
+                  type: varchar(255)
+              - column:
+                  name: note
+                  type: text
+              - column:
+                  name: external_recipe_link
+                  type: varchar(255)
+
+        - createTable:
+            tableName: ingredients
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+        - createTable:
+            tableName: recipe_ingredient
+            columns:
+              - column:
+                  name: recipe_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ingredient_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount_value
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount_type
+                  type: tinytext
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ordinal
+                  type: int
+                  constraints:
+                    nullable: false
+
+        - addUniqueConstraint:
+            tableName: recipe_ingredient
+            columnNames: recipe_id, ingredient_id
+            constraintName: uq_recipe_ingredient
+
+        - addForeignKeyConstraint:
+            baseTableName: recipe_ingredient
+            baseColumnNames: recipe_id
+            referencedTableName: recipes
+            referencedColumnNames: id
+            constraintName: fk_recipe_ingredient_recipes
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+
+        - addForeignKeyConstraint:
+            baseTableName: recipe_ingredient
+            baseColumnNames: ingredient_id
+            referencedTableName: ingredients
+            referencedColumnNames: id
+            constraintName: fk_recipe_ingredient_ingredients
+            onDelete: CASCADE
+            onUpdate: RESTRICT

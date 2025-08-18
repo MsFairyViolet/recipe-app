@@ -1,0 +1,637 @@
+[
+   {
+      "id": 1,
+      "name": "Albondigas",
+      "description": "Midden-oosterse gehaktballetjes in tomatensaus met couscous en tzatziki",
+      "servingCalories": 945,
+      "servingCount": 2,
+      "cuisine": "Midden-Oosters",
+      "note": "Couscous : water = 1 : 1",
+      "externalRecipeLink": "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas",
+      "ingredients": [
+         {
+            "id": 1,
+            "name": "tomatenblokjes",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 2,
+            "name": "tomatenpuree",
+            "amount": "2.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 3,
+            "name": "gehakt",
+            "amount": "300.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 4,
+            "name": "cous cous",
+            "amount": "0.75",
+            "amountType": "cup"
+         },
+         {
+            "id": 5,
+            "name": "bosui",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 6,
+            "name": "paprika",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 7,
+            "name": "courgette",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 8,
+            "name": "bouillon",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 10,
+            "name": "Harissa",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 11,
+            "name": "Griekse yoghurt",
+            "amount": "3.00",
+            "amountType": "tbsp"
+         },
+         {
+            "id": 12,
+            "name": "Komkommer",
+            "amount": "0.50",
+            "amountType": "stuk"
+         },
+         {
+            "id": 13,
+            "name": "Knoflooksaus",
+            "amount": "0.50",
+            "amountType": "portie"
+         },
+         {
+            "id": 14,
+            "name": "Ui",
+            "amount": "1.00",
+            "amountType": "stuk"
+         }
+      ]
+   },
+   {
+      "id": 7,
+      "name": "Lasagne Bolognese",
+      "description": "Klassieke Italiaanse lasagne met gehaktsaus en bechamel",
+      "servingCalories": 1200,
+      "servingCount": 2,
+      "cuisine": "Italiaans",
+      "note": "Ovengebakken pasta met romige saus",
+      "externalRecipeLink": "https://example.com/lasagne-bolognese",
+      "ingredients": [
+         {
+            "id": 1,
+            "name": "tomatenblokjes",
+            "amount": "400.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 3,
+            "name": "gehakt",
+            "amount": "300.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 14,
+            "name": "Ui",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 24,
+            "name": "Parmezaanse kaas",
+            "amount": "50.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 40,
+            "name": "Lasagnebladen",
+            "amount": "250.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 41,
+            "name": "Knoflook",
+            "amount": "2.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 42,
+            "name": "Bechamelsaus",
+            "amount": "500.00",
+            "amountType": "ml"
+         }
+      ]
+   },
+   {
+      "id": 2,
+      "name": "Shaksuka",
+      "description": "Gestoofde eieren in pittige tomatensaus met couscous.",
+      "servingCalories": 870,
+      "servingCount": 2,
+      "cuisine": "Midden-Oosters",
+      "note": "Couscous : water = 1 : 1",
+      "externalRecipeLink": "https://www.ah.nl/allerhande/recept/R-R1196837/shakshuka",
+      "ingredients": [
+         {
+            "id": 1,
+            "name": "tomatenblokjes",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 2,
+            "name": "tomatenpuree",
+            "amount": "2.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 4,
+            "name": "cous cous",
+            "amount": "1.00",
+            "amountType": "cup"
+         },
+         {
+            "id": 5,
+            "name": "bosui",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 6,
+            "name": "paprika",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 7,
+            "name": "courgette",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 8,
+            "name": "bouillon",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 9,
+            "name": "Ei",
+            "amount": "4.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 10,
+            "name": "Harissa",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 11,
+            "name": "Griekse yoghurt",
+            "amount": "3.00",
+            "amountType": "tbsp"
+         },
+         {
+            "id": 12,
+            "name": "Komkommer",
+            "amount": "0.50",
+            "amountType": "stuk"
+         },
+         {
+            "id": 13,
+            "name": "Knoflooksaus",
+            "amount": "0.50",
+            "amountType": "portie"
+         },
+         {
+            "id": 14,
+            "name": "Ui",
+            "amount": "1.00",
+            "amountType": "stuk"
+         }
+      ]
+   },
+   {
+      "id": 9,
+      "name": "Chili con Carne",
+      "description": "Pittige bonenschotel met gehakt en tomatensaus",
+      "servingCalories": 1100,
+      "servingCount": 2,
+      "cuisine": "Mexicaans",
+      "note": "Stevige bonenschotel met kruiden",
+      "externalRecipeLink": "https://example.com/chili-con-carne",
+      "ingredients": [
+         {
+            "id": 1,
+            "name": "tomatenblokjes",
+            "amount": "400.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 3,
+            "name": "gehakt",
+            "amount": "300.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 6,
+            "name": "paprika",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 14,
+            "name": "Ui",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 34,
+            "name": "Kidneybonen",
+            "amount": "250.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 41,
+            "name": "Knoflook",
+            "amount": "2.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 49,
+            "name": "Chilipoeder",
+            "amount": "1.00",
+            "amountType": "tsp"
+         },
+         {
+            "id": 50,
+            "name": "Komijn",
+            "amount": "1.00",
+            "amountType": "tsp"
+         },
+         {
+            "id": 51,
+            "name": "Rijst",
+            "amount": "200.00",
+            "amountType": "gram"
+         }
+      ]
+   },
+   {
+      "id": 4,
+      "name": "Pasta e Ceci",
+      "description": "Pasta met groenten en Parmezaanse kaas",
+      "servingCalories": 878,
+      "servingCount": 2,
+      "cuisine": "Italiaans",
+      "note": "Gezonde pasta met groenten",
+      "externalRecipeLink": "https://example.com/orechiette-vegetables",
+      "ingredients": [
+         {
+            "id": 1,
+            "name": "tomatenblokjes",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 6,
+            "name": "paprika",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 7,
+            "name": "courgette",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 14,
+            "name": "Ui",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 19,
+            "name": "Orechiette",
+            "amount": "200.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 20,
+            "name": "Wortel",
+            "amount": "250.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 21,
+            "name": "Bleekselderij",
+            "amount": "250.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 22,
+            "name": "Kikkererwrten",
+            "amount": "200.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 23,
+            "name": "Olijfolie",
+            "amount": "12.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 24,
+            "name": "Parmezaanse kaas",
+            "amount": "70.00",
+            "amountType": "gram"
+         }
+      ]
+   },
+   {
+      "id": 5,
+      "name": "Okonomiyaki",
+      "description": "Japanse hartige pannenkoek met groenten en saus",
+      "servingCalories": 1154,
+      "servingCount": 2,
+      "cuisine": "Japans",
+      "note": "Hartige pannenkoek met verse groenten",
+      "externalRecipeLink": "https://example.com/okonomiyaki",
+      "ingredients": [
+         {
+            "id": 5,
+            "name": "bosui",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 9,
+            "name": "Ei",
+            "amount": "4.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 20,
+            "name": "Wortel",
+            "amount": "280.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 25,
+            "name": "Spitskool",
+            "amount": "120.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 26,
+            "name": "Oesterzwam",
+            "amount": "150.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 27,
+            "name": "Bloem",
+            "amount": "1.00",
+            "amountType": "cup"
+         },
+         {
+            "id": 28,
+            "name": "Surimi",
+            "amount": "125.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 29,
+            "name": "Nori",
+            "amount": "3.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 30,
+            "name": "Mayonnaise",
+            "amount": "50.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 31,
+            "name": "Okonomiyakisaus",
+            "amount": "2.00",
+            "amountType": "portie"
+         },
+         {
+            "id": 32,
+            "name": "Chinese kool",
+            "amount": "190.00",
+            "amountType": "gram"
+         }
+      ]
+   },
+   {
+      "id": 6,
+      "name": "Jerk Chicken",
+      "description": "Geurige pandan rijst met kip, kidneybonen en verse groenten",
+      "servingCalories": 987,
+      "servingCount": 2,
+      "cuisine": "Aziatisch",
+      "note": "Rijstgerecht met kip en groenten",
+      "externalRecipeLink": "https://example.com/pandan-rijst",
+      "ingredients": [
+         {
+            "id": 5,
+            "name": "bosui",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 25,
+            "name": "Spitskool",
+            "amount": "120.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 33,
+            "name": "Pandan rijst",
+            "amount": "1.00",
+            "amountType": "cup"
+         },
+         {
+            "id": 34,
+            "name": "Kidneybonen",
+            "amount": "125.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 35,
+            "name": "Oranje paprika",
+            "amount": "1.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 36,
+            "name": "Ketchup",
+            "amount": "25.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 37,
+            "name": "Sojasaus",
+            "amount": "20.00",
+            "amountType": "ml"
+         },
+         {
+            "id": 38,
+            "name": "Kippendij filet",
+            "amount": "375.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 39,
+            "name": "Maiskorrels",
+            "amount": "140.00",
+            "amountType": "gram"
+         }
+      ]
+   },
+   {
+      "id": 8,
+      "name": "Pad Thai",
+      "description": "Thaise noedels met kip, groenten en pinda’s",
+      "servingCalories": 950,
+      "servingCount": 2,
+      "cuisine": "Thais",
+      "note": "Authentieke Thaise wokschotel",
+      "externalRecipeLink": "https://example.com/pad-thai",
+      "ingredients": [
+         {
+            "id": 9,
+            "name": "Ei",
+            "amount": "2.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 37,
+            "name": "Sojasaus",
+            "amount": "30.00",
+            "amountType": "ml"
+         },
+         {
+            "id": 43,
+            "name": "Rijstnoedels",
+            "amount": "200.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 44,
+            "name": "Kipfilet",
+            "amount": "250.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 45,
+            "name": "Taugé",
+            "amount": "100.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 46,
+            "name": "Lente-ui",
+            "amount": "2.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 47,
+            "name": "Pinda’s",
+            "amount": "50.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 48,
+            "name": "Limoen",
+            "amount": "1.00",
+            "amountType": "stuk"
+         }
+      ]
+   },
+   {
+      "id": 3,
+      "name": "Aardappel Groenten Beef",
+      "description": "Gebakken ossenhaas met oven aardappelen en snijbonen",
+      "servingCalories": 833,
+      "servingCount": 2,
+      "cuisine": "Westers",
+      "note": "",
+      "externalRecipeLink": "",
+      "ingredients": [
+         {
+            "id": 13,
+            "name": "Knoflooksaus",
+            "amount": "2.00",
+            "amountType": "stuk"
+         },
+         {
+            "id": 15,
+            "name": "Aardappel",
+            "amount": "700.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 16,
+            "name": "Boter",
+            "amount": "1.00",
+            "amountType": "tbsp"
+         },
+         {
+            "id": 17,
+            "name": "Ossenhaas",
+            "amount": "375.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 18,
+            "name": "Snijbonen",
+            "amount": "700.00",
+            "amountType": "gram"
+         },
+         {
+            "id": 23,
+            "name": "Olijfolie",
+            "amount": "5.00",
+            "amountType": "gram"
+         }
+      ]
+   },
+   {
+      "id": 33,
+      "name": "Teriyaki Beef",
+      "description": "Noodles met gewokte groenten en biefstuk",
+      "servingCalories": 933,
+      "servingCount": 2,
+      "cuisine": "Aziatisch",
+      "note": "",
+      "externalRecipeLink": "",
+      "ingredients": []
+   }
+]
