@@ -292,7 +292,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     return (
         <>
             <div className="edit-page" onKeyDown={handleKeyDown}>
-                <input className="page-title" placeholder="Recipe name*" autoFocus={true} type="text" name="name" value={formData.name} onChange={handleChange}></input>
+                <input className="page-title" placeholder="Recipe name*" type="text" name="name" value={formData.name} onChange={handleChange}></input>
 
                 <div className="recipe-card">
                     <div className="top-details">
