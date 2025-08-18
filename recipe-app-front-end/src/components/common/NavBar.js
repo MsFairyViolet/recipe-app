@@ -1,7 +1,7 @@
 "use client"
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 export default function NavBar() {
@@ -13,9 +13,25 @@ export default function NavBar() {
    const hideMenu = () => setIsOpen(false)
 
    const router = useRouter()
+   const navRef = useRef(null)
+
+
+   const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+         setIsOpen(false)
+      }
+   }
+
+   useEffect(() => {
+      document.addEventListener('click', handleClickOutside)
+
+      return () => {
+         document.removeEventListener('click', handleClickOutside)
+      }
+   }, [])
 
    return (
-      <nav data-test="nav-bar">
+      <nav data-test="nav-bar" ref={navRef}>
          <div className="logo" onClick={() => router.push('/')}>Recipe App</div>
          <button data-test="menu-button" className="menu-button" onClick={toggleMenu}>&#9776;</button>
 
