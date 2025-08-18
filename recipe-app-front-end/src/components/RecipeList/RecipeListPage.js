@@ -20,7 +20,9 @@ export default function RecipeListPage({ recipes }) {
 
             <div className="recipes-container">
                 <RecipeList recipes={recipes} searchQuery={searchQuery} />
-                <button data-test="new-recipe-button" className="recipe-button primary-button" onClick={handleRecipeAdd}>Add new recipe</button>
+                <div className="button-container">
+                    <button data-test="new-recipe-button" className="recipe-button primary-button" onClick={handleRecipeAdd}>Add new recipe</button>
+                </div>
             </div>
         </div>
     )
