@@ -15,7 +15,6 @@ export default function NavBar() {
    const router = useRouter()
    const navRef = useRef(null)
 
-
    const handleClickOutside = (event) => {
       if (navRef.current && !navRef.current.contains(event.target)) {
          setIsOpen(false)
