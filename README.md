@@ -9,6 +9,20 @@ It is designed to eventually expand into a meal planning tool with automatic gro
 
 I developed this project to advance my front-end development skills, focusing on React and modern web development practices. While I handled all the front-end development, I collaborated closely with a backend developer on database design and API architecture, giving me valuable insight into full-stack development workflows and cross-team collaboration.
 
+## Screenshots
+
+| Desktop View | Mobile View |
+|--------------|-------------|
+|![Web Recipes](./screenshots/WebRecipeList.png)| ![ Mobile Recipes](./screenshots/MobileRecipeList.png)
+|![Web Recipe](./screenshots/WebRecipeView.png)| ![Mobile Recipes](./screenshots/MobileRecipeView.png)
+|![Web Recipe Edit](./screenshots/WebRecipeEdit.png)| ![Mobile Recipes](./screenshots/MobileRecipeEdit.png)
+|[Web Ingredients](./screenshots/IngredientList.png)| [Mobile Ingredients](./screenshots/IngredientList.png)
+|[Web Recipe Edit](./screenshots/WebRecipeEdit.png)| [Mobile Recipe Edit](./screenshots/MobileRecipeEdit.png)
+|[Web Empty Recipe](./screenshots/WebEmptyRecipe.png)| [Mobile Nav bar](./screenshots/MobileNavBar.png) |
+|[Web Modal](./screenshots/WebDeleteRecipe.png)| [Mobile Modal](./screenshots/MobileDeleteRecipe.png)
+| | [Mobile Used in Display](./screenshots/MobileUsedInDisplay.png)
+
+
 ## Features
 
 - 🔍 Search recipes by name
@@ -67,5 +81,6 @@ I developed this project to advance my front-end development skills, focusing on
 
 **Technical Functionality:**
 - [ ] Custom alert context
+
 
 
