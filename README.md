@@ -95,10 +95,10 @@ Full local setup requires:
 For demonstration purposes, please view the screenshots above.
 
 ### Prerequisites
-- Node.js (v18 or higher) - [Download](https://nodejs.org/)
-- Java 17 - [Download](https://www.oracle.com/java/technologies/downloads/)
-- MySQL - [Download](https://dev.mysql.com/downloads/installer/)
-- Git - [Download](https://git-scm.com/download)
+- Node.js (v18 or higher)
+- Java 17
+- MySQL
+- Git
 
 ### Installation
 
@@ -146,4 +146,5 @@ cd web
 npm run dev
 ```
 ---
+
 
