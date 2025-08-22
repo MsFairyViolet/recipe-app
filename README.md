@@ -82,6 +82,68 @@ I developed this project to advance my front-end development skills, focusing on
 **Technical Functionality:**
 - [ ] Custom alert context
 
+# Getting Started
 
+This project consists of a React frontend and Kotlin/Spring Boot backend with MySQL database.
 
+**⚠️ Local Setup Limitations:** 
+This project uses a custom backend API and private database configuration. The frontend can be run independently but would miss the basic functionality of the backend API.
+Full local setup requires:
+- Specific server configuration
+- Database with recipe data
+- API keys and authentication setup
+For demonstration purposes, please view the screenshots above.
+
+### Prerequisites
+- Node.js (v18 or higher) - [Download](https://nodejs.org/)
+- Java 17 - [Download](https://www.oracle.com/java/technologies/downloads/)
+- MySQL - [Download](https://dev.mysql.com/downloads/installer/)
+- Git - [Download](https://git-scm.com/download)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/recipe-app.git
+   cd recipe-app
+   ```
+
+2. **Database Setup**
+   ```bash
+   # Create MySQL database and user
+   mysql -u root -p
+   CREATE DATABASE recipe_app;
+   CREATE USER 'recipe_user'@'localhost' IDENTIFIED BY 'your_password';
+   GRANT ALL PRIVILEGES ON recipe_app.* TO 'recipe_user'@'localhost';
+   ```
+
+3. **Backend Configuration**
+   ```bash
+   # Copy and configure application properties
+   cp src/main/resources/application.example.properties src/main/resources/application.properties
+   # Edit application.properties with your database credentials
+   ```
+
+4. **Install Dependencies**
+   ```bash
+   # Frontend dependencies
+   npm install
+   
+   # Backend dependencies are managed by Gradle
+   ```
+
+### Running the Application
+
+**Start Backend:**
+```bash
+# From project root
+./gradlew bootRun
+```
+
+**Start Frontend:**
+```bash
+cd web
+npm run dev
+```
+---
 
