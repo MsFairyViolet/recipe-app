@@ -7,5 +7,5 @@ pm2 start "java -jar /app/app.jar --spring.profiles.active=production" --name re
 cd /frontend && pm2 start "npm run start" --name recipe-app-front-end
 
 
-# Keep the container running
-tail -f /dev/null
+# Keep the container running, output logs to stdout
+pm2 logs
