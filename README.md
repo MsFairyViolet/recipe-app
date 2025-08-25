@@ -43,7 +43,6 @@ I developed this project to advance my front-end development skills, focusing on
 - Database (MySQL)
 
 **Tools & Services:**
-- Recipe API (custom)
 - Testing (Cypress)
 - Deployment (Docker)
 - Version Control (Git/GitHub)
@@ -82,16 +81,19 @@ I developed this project to advance my front-end development skills, focusing on
 **Technical Functionality:**
 - [ ] Custom alert context
 
+---
+
 # Getting Started
 
 This project consists of a React frontend and Kotlin/Spring Boot backend with MySQL database.
 
-**⚠️ Local Setup Limitations:** 
-This project uses a custom backend API and private database configuration. The frontend can be run independently but would miss the basic functionality of the backend API.
-Full local setup requires:
-- Specific server configuration
-- Database with recipe data
-- API keys and authentication setup
+**Local Setup:** 
+This project uses a backend API and database configuration. The frontend can be run independently but needs the backend API for basic functionality.
+Backend server in local development:
+- Clears the database
+- Seeds the database with example recipe data
+- Provides API endpoints
+
 For demonstration purposes, please view the screenshots above.
 
 ### Prerequisites
@@ -104,7 +106,7 @@ For demonstration purposes, please view the screenshots above.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/recipe-app.git
+   git clone https://github.com/MsFairyViolet/recipe-app.git
    cd recipe-app
    ```
 
@@ -112,39 +114,39 @@ For demonstration purposes, please view the screenshots above.
    ```bash
    # Create MySQL database and user
    mysql -u root -p
-   CREATE DATABASE recipe_app;
-   CREATE USER 'recipe_user'@'localhost' IDENTIFIED BY 'your_password';
-   GRANT ALL PRIVILEGES ON recipe_app.* TO 'recipe_user'@'localhost';
+   CREATE DATABASE recipes;
+   CREATE USER 'recipes'@'localhost' IDENTIFIED BY 'your_password';
+   GRANT ALL PRIVILEGES ON recipes.* TO 'recipes'@'localhost';
    ```
 
 3. **Backend Configuration**
-   ```bash
-   # Copy and configure application properties
-   cp src/main/resources/application.example.properties src/main/resources/application.properties
-   # Edit application.properties with your database credentials
-   ```
+```bash
+   # Configure application properties
+   cd recipe-app-back-end/src/main/resources/application-local.properties
+   # Edit application-local.properties with your database credentials
+```
 
-4. **Install Dependencies**
+5. **Install Dependencies**
    ```bash
    # Frontend dependencies
+   cd recipe-app-front-end
    npm install
-   
-   # Backend dependencies are managed by Gradle
    ```
 
 ### Running the Application
 
 **Start Backend:**
 ```bash
-# From project root
-./gradlew bootRun
+cd recipe-app-backend
+./start-dev.sh
 ```
 
 **Start Frontend:**
 ```bash
-cd web
+cd recipe-app-front-end
 npm run dev
 ```
 ---
+
 
 
