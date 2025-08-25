@@ -11,16 +11,16 @@ export default function UsedInDisplay({ recipes, onOpenModal }) {
 
    if (recipes.length <= 2) {
       return (
-         <span>
+         <div className="used-in-display">
             {sortedRecipes.map((recipe, index) => (
-               <span key={recipe.id}>
+               <div className="used-in-element" key={recipe.id}>
                   <Link href={`/recipe/${recipe.id}`} className="recipe-link-inline">
                      {recipe.name}
                   </Link>
                   {index < sortedRecipes.length - 1 && ", "}
-               </span>
+               </div>
             ))}
-         </span>
+         </div>
       )
    }
 
@@ -28,20 +28,18 @@ export default function UsedInDisplay({ recipes, onOpenModal }) {
    const hiddenCount = sortedRecipes.length - 2
 
    return (
-      <span>
+      <div className="used-in-display">
          {displayed.map((recipe, index) => (
-            <span key={recipe.id}>
+            <div className="used-in-element" key={recipe.id}>
                <Link href={`/recipe/${recipe.id}`} className="recipe-link-inline">
                   {recipe.name}
                </Link>
-               {index < displayed.length - 1 && ", "}
-            </span>
+               {index < displayed.length && ", "}
+            </div>
          ))}
-         {", "}
          <button onClick={onOpenModal} className="inline-button">
             and {hiddenCount} more
          </button>
-      </span>
+      </div>
    )
-
 }
