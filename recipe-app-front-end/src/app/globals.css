@@ -190,6 +190,7 @@ nav {
 .used-in-display {
   display: flex;
   flex-direction: row;
+  align-items: baseline;
   gap: 0.25rem;
   padding-right: 0.5rem;
   flex-wrap: wrap;
