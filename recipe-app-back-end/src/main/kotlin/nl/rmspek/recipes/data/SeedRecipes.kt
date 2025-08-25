@@ -73,7 +73,7 @@ class SeedRecipes(
         val rijst = ingredientRepository.save(Ingredient("Rijst"))
 
         val r1 = recipeRepository.save(Recipe().also {
-            it.name = "Albondigas"
+            it.name = "AlbondigasAlbondigasAlbondigasAlbondigas"
             it.description = "Midden-oosterse gehaktballetjes in tomatensaus met couscous en tzatziki"
             it.servingCalories = 945
             it.servingCount = 2
