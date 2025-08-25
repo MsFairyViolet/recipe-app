@@ -475,12 +475,12 @@ textarea.note-details {
 
 /* All Ingredients Page */
 .ingredients-page .first-column {
-  width: 35%;
+  width: 40%;
 }
 
 .ingredients-page .second-column {
-  width: 50%;
-  min-width: 50%;
+  width: 45%;
+  min-width: 45%;
 }
 
 .ingredients-page .third-column {
