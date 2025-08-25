@@ -10,6 +10,7 @@ RUN npm run build
 FROM eclipse-temurin:17-jdk AS backend-builder
 WORKDIR /app
 COPY recipe-app-back-end ./
+RUN sed -i 's/\r$//' gradlew && chmod +x gradlew
 RUN ./gradlew build
 
 # Stage 3: Final production container
