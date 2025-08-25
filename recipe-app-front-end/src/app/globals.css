@@ -137,8 +137,7 @@ nav {
   transition: background 0.2s ease;
 }
 
-.nav-links a.active,
-.nav-links a:hover {
+.nav-links a.active {
   background: var(--primary-accent);
 }
 
@@ -430,10 +429,6 @@ textarea.note-details {
   transition: background-color 0.2s ease;
 }
 
-.dropdown-options li:hover {
-  background-color: var(--hoover-color)
-}
-
 .dropdown-label {
   width: 100%;
 }
@@ -532,10 +527,6 @@ textarea.note-details {
   transition: background-color 0.2s ease;
 }
 
-.autocomplete-dropdown li:hover {
-  background-color: var(--hoover-color)
-}
-
 select,
 .autocomplete-dropdown li {
   background-color: var(--accent-background-color);
@@ -614,10 +605,6 @@ select,
   cursor: pointer;
 }
 
-.overlay-close-button:hover {
-  color: var(--primary-accent)
-}
-
 .overlay ul {
   margin-top: 1rem;
   list-style: none;
@@ -664,11 +651,6 @@ select:focus {
   text-decoration: underline;
 }
 
-.recipe-link-inline:hover {
-  color: var(--primary-accent);
-  text-decoration: none;
-}
-
 .box-title {
   color: var(--primary-color);
   margin-top: 0.25rem;
@@ -705,12 +687,6 @@ button.fourth-column {
   cursor: pointer;
 }
 
-button.third-column:hover,
-button.fourth-column:hover {
-  background-color: var(--primary-accent);
-  color: var(--accent-text);
-}
-
 .inline-button {
   background: none;
   border: none;
@@ -719,11 +695,6 @@ button.fourth-column:hover {
   font-size: 0.9rem;
   text-decoration: underline;
   cursor: pointer;
-}
-
-.inline-button:hover {
-  text-decoration: none;
-  color: var(--primary-accent);
 }
 
 .primary-button {
@@ -736,11 +707,6 @@ button.fourth-column:hover {
   background-color: var(--primary-accent);
   color: var(--accent-background-color);
   text-transform: uppercase;
-}
-
-.primary-button:hover,
-.secondary-button:hover {
-  background-color: var(--button-hover);
 }
 
 .add-ingredient-button {
@@ -773,12 +739,6 @@ button.fourth-column:hover {
   cursor: pointer;
 }
 
-.add-ingredient-button:hover,
-.delete-all-ingredients-button:hover {
-  background-color: var(--primary-accent);
-  color: var(--accent-text);
-  border: none;
-}
 
 /* Hide the number input spinners in modern browsers */
 input[type="number"]::-webkit-outer-spin-button,
@@ -788,6 +748,53 @@ input[type="number"]::-webkit-inner-spin-button {
 
 input[type="number"] {
   appearance: textfield;
+}
+
+@media (hover: hover) {
+  .nav-link:hover {
+   background: var(--primary-accent);
+  }
+
+  .dropdown-options li:hover {
+  background-color: var(--hoover-color)
+}
+
+.autocomplete-dropdown li:hover {
+  background-color: var(--hoover-color)
+}
+
+.overlay-close-button:hover {
+  color: var(--primary-accent)
+}
+
+.recipe-link-inline:hover {
+  color: var(--primary-accent);
+  text-decoration: none;
+}
+
+button.third-column:hover,
+button.fourth-column:hover {
+  background-color: var(--primary-accent);
+  color: var(--accent-text);
+}
+
+.inline-button:hover {
+  text-decoration: none;
+  color: var(--primary-accent);
+}
+
+.primary-button:hover,
+.secondary-button:hover {
+  background-color: var(--button-hover);
+}
+
+.add-ingredient-button:hover,
+.delete-all-ingredients-button:hover {
+  background-color: var(--primary-accent);
+  color: var(--accent-text);
+  border: none;
+}
+
 }
 
 /* Web Media Query, WEBPAGE OVERWRITE */
@@ -842,11 +849,6 @@ input[type="number"] {
     border-radius: 5px;
     display: inline-block;
     text-decoration: none;
-  }
-
-  .nav-links a:hover,
-  .nav-links a.active {
-    background: var(--primary-accent)
   }
 
   /* View Recipe */
