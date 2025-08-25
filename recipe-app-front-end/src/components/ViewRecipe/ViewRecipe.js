@@ -15,6 +15,8 @@ export default function ViewRecipe({ recipe }) {
     document.title = recipe.name
   }, [recipe.name])
 
+  const recipeNotes = recipe.note ? recipe.note.split("\n") : [];
+
   return (
     <div className="recipe-view-page">
       <div className="page-header">
@@ -43,7 +45,10 @@ export default function ViewRecipe({ recipe }) {
           <div>
             <h4 className="box-title">Notes:</h4>
             <div className="note-details">
-              <span>{recipe.note}</span>
+              {recipeNotes.map((note, index) => {
+                return <p key={index}>{note}</p>
+              }
+              )}
             </div>
           </div>
         )}

@@ -78,7 +78,7 @@ class SeedRecipes(
             it.servingCalories = 945
             it.servingCount = 2
             it.cuisine = Cuisine.MID_EASTERN
-            it.note = "Couscous : water = 1 : 1"
+            it.note = "1. Couscous : water = 1 : 1 \n 2. Couscous : water = 1 : 1 \n 3. Couscous : water = 1 : 1 \n 4. Couscous : water = 1 : 1 \n 5. Couscous : water = 1 : 1 \n 6. Couscous : water = 1 : 1 \n 7. Couscous : water = 1 : 1 \n "
             it.externalRecipeLink = "https://www.ah.nl/allerhande/recept/R-R1196836/albondigas"
         })
         r1.addIngredient(tomBlok, BigDecimal(1), AmountType.STUK)
@@ -164,7 +164,7 @@ class SeedRecipes(
             it.servingCalories = 1154
             it.servingCount = 2
             it.cuisine = Cuisine.JAPANESE
-            it.note = "Hartige pannenkoek met verse groenten"
+            it.note = ""
             it.externalRecipeLink = "https://example.com/okonomiyaki"
         })
         okonomiyaki.addIngredient(bosui, BigDecimal(1), AmountType.STUK)
