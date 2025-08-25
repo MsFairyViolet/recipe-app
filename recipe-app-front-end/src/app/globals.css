@@ -188,11 +188,6 @@ nav {
   margin-top: 0.1rem;
 }
 
-.used-in-display{
-  display: flex;
-  flex-direction: row;
-}
-
 /* Pages */
 
 .recipe-page,
