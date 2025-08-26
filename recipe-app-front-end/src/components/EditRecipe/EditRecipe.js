@@ -119,7 +119,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     const handleCancel = async () => {
         await confirm(
             isNew ? "Do you want to cancel creating recipe"
-            : "Do you want to cancel editing", recipe.name)
+                : "Do you want to cancel editing", recipe.name)
             .then((confirmed) => {
                 if (confirmed) {
                     router.push(isNew ? `/recipe` : `/recipe/${recipe.id}`)
@@ -196,13 +196,14 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const handleKeyDown = (event) => {
-        if (event.target.closest(".ingredient-input") || event.target.tagName === "textarea") {
+        if (event.target.closest(".ingredient-input") || event.target.closest(".autocomplete-input")|| event.target.closest(".select-container") || event.target.closest(".note-details") || event.target.closest(".description-details") || event.target.closest(".url-details")) {
             if (event.key === "Enter") {
-                event.preventDefault()
+                console.log("should prevent enter on textarea")
+                return
             }
-            return
         }
         if (event.key === "Enter") {
+            console.log("should save on enter")
             handleSave()
         }
     }
