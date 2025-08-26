@@ -196,7 +196,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const handleKeyDown = (event) => {
-        if (event.target.closest(".ingredient-input") || event.target.closest(".autocomplete-input")|| event.target.closest(".select-container") || event.target.closest(".note-details") || event.target.closest(".description-details") || event.target.closest(".url-details")) {
+        if (event.target.closest(".ingredient-input") || event.target.closest(".select-container")|| event.target.closest(".autocomplete-input") || event.target.closest(".note-details") || event.target.closest(".description-details") || event.target.closest(".url-details")) {
             if (event.key === "Enter") {
                 console.log("should prevent enter on textarea")
                 return
