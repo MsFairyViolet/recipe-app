@@ -76,7 +76,7 @@ export function ConfirmProvider({ children }) {
          {isOpen && (
             <div className="overlay">
                <div className="overlay-content">
-                  <p data-test="overlay-message">{message} <strong data-test="overlay-value" className="text-highlight">{value}</strong>?</p>
+                  <p data-test="overlay-message" className="overlay-message">{message} <strong data-test="overlay-value" className="text-highlight">{value}</strong>?</p>
 
                   {hasInput && (
                      <input data-test="overlay-input" type="text" value={inputValue} autoFocus onChange={(e) => setInputValue(e.target.value)} />

@@ -575,6 +575,12 @@ select,
   border-radius: 5px;
 }
 
+.overlay-message {
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .overlay-buttons {
   display: flex;
   flex-direction: row;
@@ -753,48 +759,48 @@ input[type="number"] {
 
 @media (hover: hover) {
   .nav-link:hover {
-   background: var(--primary-accent);
+    background: var(--primary-accent);
   }
 
   .dropdown-options li:hover {
-  background-color: var(--hoover-color)
-}
+    background-color: var(--hoover-color)
+  }
 
-.autocomplete-dropdown li:hover {
-  background-color: var(--hoover-color)
-}
+  .autocomplete-dropdown li:hover {
+    background-color: var(--hoover-color)
+  }
 
-.overlay-close-button:hover {
-  color: var(--primary-accent)
-}
+  .overlay-close-button:hover {
+    color: var(--primary-accent)
+  }
 
-.recipe-link-inline:hover {
-  color: var(--primary-accent);
-  text-decoration: none;
-}
+  .recipe-link-inline:hover {
+    color: var(--primary-accent);
+    text-decoration: none;
+  }
 
-button.third-column:hover,
-button.fourth-column:hover {
-  background-color: var(--primary-accent);
-  color: var(--accent-text);
-}
+  button.third-column:hover,
+  button.fourth-column:hover {
+    background-color: var(--primary-accent);
+    color: var(--accent-text);
+  }
 
-.inline-button:hover {
-  text-decoration: none;
-  color: var(--primary-accent);
-}
+  .inline-button:hover {
+    text-decoration: none;
+    color: var(--primary-accent);
+  }
 
-.primary-button:hover,
-.secondary-button:hover {
-  background-color: var(--button-hover);
-}
+  .primary-button:hover,
+  .secondary-button:hover {
+    background-color: var(--button-hover);
+  }
 
-.add-ingredient-button:hover,
-.delete-all-ingredients-button:hover {
-  background-color: var(--primary-accent);
-  color: var(--accent-text);
-  border: none;
-}
+  .add-ingredient-button:hover,
+  .delete-all-ingredients-button:hover {
+    background-color: var(--primary-accent);
+    color: var(--accent-text);
+    border: none;
+  }
 
 }
 
