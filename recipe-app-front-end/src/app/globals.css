@@ -632,7 +632,8 @@ select:focus {
   box-shadow: 0 0 4px 2px rgba(81, 60, 151, 0.4);
 }
 
-.first-column {
+.recipe-page .first-column,
+.ingredients-page .first-column {
   white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
