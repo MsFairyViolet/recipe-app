@@ -9,14 +9,31 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
    const confirm = useConfirm()
    const [query, setQuery] = useState("")
    const [isOpen, setIsOpen] = useState(false)
+   const [isSelectingFromDropdown, setIsSelectingFromDropdown] = useState(false)
 
    const handleFocus = () => {
       setIsOpen(true)
    }
 
-   const handleBlur = () => {
+   const handleBlur = (inputfield) => {
+      if (inputfield.target.value.trim() !== "") {
+         if (!isSelectingFromDropdown && !checkIngredientExists(inputfield.target.value)) {
+            alert("Please select or add this ingredient.")
+            setIsOpen(true)
+            inputfield.target.classList.add("error")
+            inputfield.target.focus()
+            return
+         }
+      }
       setQuery("")
       setIsOpen(false)
+   }
+
+   const checkIngredientExists = (queryIngredient) => {
+      const ingredientExists = allIngredients.some(
+         (ingredient) => ingredient.name.toLowerCase() === queryIngredient.trim().toLowerCase()
+      )
+      return ingredientExists
    }
 
    const handleQueryIngredientAdd = async (defaultName = "") => {
@@ -24,12 +41,9 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
          .then((queryIngredient) => {
             if (!queryIngredient) return
 
-            const newIngredient = queryIngredient.trim();
-            const ingredientExists = allIngredients.some(
-               (ingredient) => ingredient.name.toLowerCase() === newIngredient.toLowerCase()
-            )
+            const newIngredient = queryIngredient.trim()
 
-            if (ingredientExists) {
+            if (checkIngredientExists(newIngredient)) {
                alert("That ingredient already exists! Please modify the name and try again.")
                return
             }
@@ -67,7 +81,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                setQuery(e.target.value)
             }}
             onFocus={handleFocus}
-            onBlur={handleBlur}
+            onBlur={(field) => handleBlur(field)}
             placeholder="Start typing..."
          />
          {isOpen && (
@@ -75,6 +89,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                {filteredIngredients.map((option) => (
                   <li data-test="autocomplete-option" key={option.id}
                      onMouseDown={(e) => {
+                        setIsSelectingFromDropdown(true)
                         e.preventDefault()
                         handleIngredientChange(row, "name", option.name)
                         handleIngredientChange(row, "id", option.id)
@@ -86,11 +101,13 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                {!allIngredients.some(
                   (item) => item.name.toLowerCase() === query.toLowerCase()
                ) && (
-                     <li data-test="add-ingredient-option" className="add-new-ingredient" onMouseDown={(e) => {
-                        e.preventDefault()
-                        handleQueryIngredientAdd(query)
-                        setIsOpen(false)
-                     }}>
+                     <li data-test="add-ingredient-option" className="add-new-ingredient"
+                        onMouseDown={(e) => {
+                           setIsSelectingFromDropdown(true)
+                           e.preventDefault()
+                           handleQueryIngredientAdd(query)
+                           setIsOpen(false)
+                        }}>
                         + Add <i>{query}</i>
                      </li>
                   )

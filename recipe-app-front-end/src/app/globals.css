@@ -506,6 +506,12 @@ textarea.note-details {
   box-shadow: 0 0 4px 2px rgba(81, 60, 151, 0.4);
 }
 
+.autocomplete-input.error:focus {
+  outline: none;
+  border-color: var(--error-color);
+  box-shadow: 0 0 4px 3px rgba(129, 28, 50, 0.5);
+}
+
 .autocomplete-dropdown {
   position: absolute;
   width: 130%;
@@ -514,7 +520,7 @@ textarea.note-details {
   background-color: var(--input-color);
   border: 1px solid #ccc;
   border-radius: 10px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
   font-size: 0.85rem;
   z-index: 10;
 }
