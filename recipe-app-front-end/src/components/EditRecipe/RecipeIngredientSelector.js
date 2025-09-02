@@ -16,9 +16,9 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
    }
 
    const handleBlur = (inputfield) => {
+
       if (inputfield.target.value.trim() !== "") {
          if (!isSelectingFromDropdown && !checkIngredientExists(inputfield.target.value)) {
-            alert("Please select or add this ingredient.")
             setIsOpen(true)
             inputfield.target.classList.add("error")
             inputfield.target.focus()
@@ -79,6 +79,10 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
             onChange={(e) => {
                handleIngredientChange(row, "name", e.target.value)
                setQuery(e.target.value)
+
+               if(e.target.value.trim() === ""){
+                  e.target.classList.remove("error")
+               }
             }}
             onFocus={handleFocus}
             onBlur={(field) => handleBlur(field)}
@@ -93,7 +97,6 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                         e.preventDefault()
                         handleIngredientChange(row, "name", option.name)
                         handleIngredientChange(row, "id", option.id)
-                        setIsOpen(false)
                      }}>
                      {option.name}
                   </li>
