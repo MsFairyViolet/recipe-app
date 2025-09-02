@@ -10,6 +10,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
    const [query, setQuery] = useState("")
    const [isOpen, setIsOpen] = useState(false)
    const [isSelectingFromDropdown, setIsSelectingFromDropdown] = useState(false)
+   const [hasError, setHasError] = useState(false)
 
    const handleFocus = () => {
       setIsOpen(true)
@@ -21,13 +22,14 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
       if (inputfield.target.value.trim() !== "") {
          if (!isSelectingFromDropdown && !checkIngredientExists(inputfield.target.value)) {
             setIsOpen(true)
-            inputfield.target.classList.add("error")
+            setHasError(true)
             inputfield.target.focus()
             return
          }
       }
       setQuery("")
       setIsOpen(false)
+      setHasError(false)
    }
 
    const checkIngredientExists = (queryIngredient) => {
@@ -41,9 +43,10 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
       await confirm("Add new global ingredient", defaultName, true)
          .then((queryIngredient) => {
             if (!queryIngredient) {
-
+               if (ingredient.name.trim() !== "" && !checkIngredientExists(ingredient.name)) {
+                  setHasError(true)
+               }
                setQuery(ingredient.name)
-
                return
             }
 
@@ -64,6 +67,8 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                   } else {
                      handleIngredientChange(row, "name", newIngredient)
                   }
+                  setHasError(false)
+                  setQuery("")
                })
                .catch((error) => {
                   console.error("Error adding ingredient:", error)
@@ -79,7 +84,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
 
    return (
       <div className="first-column autocomplete-container">
-         <input data-test={`ingredient-name`} className="autocomplete-input"
+         <input data-test={`ingredient-name`} className={`autocomplete-input ${hasError ? 'error' : ''}`}
             type="text"
             value={ingredient.name}
             onChange={(e) => {
@@ -87,7 +92,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                setQuery(e.target.value)
 
                if (e.target.value.trim() === "") {
-                  e.target.classList.remove("error")
+                  setHasError(false)
                }
             }}
             onFocus={handleFocus}
@@ -103,6 +108,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                         e.preventDefault()
                         handleIngredientChange(row, "name", option.name)
                         handleIngredientChange(row, "id", option.id)
+                        setHasError(false)
                      }}>
                      {option.name}
                   </li>
