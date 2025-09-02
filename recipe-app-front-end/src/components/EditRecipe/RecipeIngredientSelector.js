@@ -13,6 +13,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
 
    const handleFocus = () => {
       setIsOpen(true)
+      setQuery(ingredient.name)
    }
 
    const handleBlur = (inputfield) => {
@@ -39,7 +40,12 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
    const handleQueryIngredientAdd = async (defaultName = "") => {
       await confirm("Add new global ingredient", defaultName, true)
          .then((queryIngredient) => {
-            if (!queryIngredient) return
+            if (!queryIngredient) {
+
+               setQuery(ingredient.name)
+
+               return
+            }
 
             const newIngredient = queryIngredient.trim()
 
@@ -80,7 +86,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                handleIngredientChange(row, "name", e.target.value)
                setQuery(e.target.value)
 
-               if(e.target.value.trim() === ""){
+               if (e.target.value.trim() === "") {
                   e.target.classList.remove("error")
                }
             }}
