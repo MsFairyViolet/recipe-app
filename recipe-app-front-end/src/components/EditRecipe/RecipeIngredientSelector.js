@@ -21,15 +21,16 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
 
       if (inputfield.target.value.trim() !== "") {
          if (!isSelectingFromDropdown && !checkIngredientExists(inputfield.target.value)) {
-            setIsOpen(true)
             setHasError(true)
-            inputfield.target.focus()
+            setIsOpen(false)
+            setIsSelectingFromDropdown(false)
             return
          }
       }
       setQuery("")
       setIsOpen(false)
       setHasError(false)
+      setIsSelectingFromDropdown(false)
    }
 
    const checkIngredientExists = (queryIngredient) => {
@@ -46,7 +47,6 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                if (ingredient.name.trim() !== "" && !checkIngredientExists(ingredient.name)) {
                   setHasError(true)
                }
-               setQuery(ingredient.name)
                return
             }
 
