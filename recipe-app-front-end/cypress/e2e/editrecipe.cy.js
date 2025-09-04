@@ -423,6 +423,63 @@ describe('Edit Recipe Page', () => {
          })
       })
    })
+   describe.only("Ingredient validation", () => {
+      beforeEach(() => {
+         cy.visit('http://localhost:3000/recipe/1/edit')
+         cy.wait("@getRecipe")
+      })
+
+      it(`marks a temporary ingredient as non-valid`, () => {
+         cy.dataTest("ingredient-edit-row-0").within(() => {
+            cy.dataTest("ingredient-name").click().clear().type("bbb").blur()
+            cy.dataTest("ingredient-name").should("have.class", "error")
+         })
+      })
+
+      it(`clears non-valid mark when input becomes empty`, () => {
+         cy.dataTest("ingredient-edit-row-0").within(() => {
+            cy.dataTest("ingredient-name").click().clear().type("bbb").blur()
+            cy.dataTest("ingredient-name").should("have.class", "error")
+            cy.dataTest("ingredient-name").click().clear()
+            cy.dataTest("ingredient-name").should("not.have.class", "error")
+         })
+      })
+
+      it(`keeps non-valid mark when canceling adding a new ingredient`, () => {
+         cy.dataTest("ingredient-edit-row-0").within(() => {
+            cy.dataTest("ingredient-name").click().clear().type("bbb")
+            cy.dataTest("add-ingredient-option").should("contain", "+ Add bbb").click()
+         })
+         cy.get(".overlay-content").should("exist")
+         cy.dataTest("cancel-button").click()
+
+         cy.dataTest("ingredient-edit-row-0").within(() => {
+            cy.dataTest("ingredient-name").should("have.class", "error")
+         })
+      })
+
+      it(`clears non-valid mark when ingredient is added to database`, () => {
+         cy.dataTest("ingredient-edit-row-0").within(() => {
+            cy.dataTest("ingredient-name").click().clear().type("bbb")
+            cy.dataTest("add-ingredient-option").should("contain", "+ Add bbb").click()
+         })
+         cy.get(".overlay-content").should("exist")
+         cy.dataTest("confirm-button").click()
+
+         cy.dataTest("ingredient-edit-row-0").within(() => {
+            cy.dataTest("ingredient-name").should("not.have.class", "error")
+         })
+      })
+
+      it.only(`clears non-valid mark when typing valid existing ingredient`, () => {
+         cy.dataTest("ingredient-edit-row-0").within(() => {
+            cy.dataTest("ingredient-name").click().clear().type("bbb").blur()
+            cy.dataTest("ingredient-name").should("have.class", "error")
+            cy.dataTest("ingredient-name").click().clear().type("Boter")
+            cy.dataTest("ingredient-name").should("not.have.class", "error")
+         })
+      })
+   })
 })
 
 describe('API calls on Edit Page', () => {
