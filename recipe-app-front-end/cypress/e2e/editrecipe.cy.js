@@ -24,7 +24,7 @@ describe('Edit Recipe Page', () => {
          cy.dataTest('cuisine').should("contain", "Midden-Oosters")
          cy.get('.note-details').should("have.value", "Couscous : water = 1 : 1")
       })
-      
+
       describe('Ingredients', () => {
          beforeEach(() => {
             cy.visit('http://localhost:3000/recipe/1/edit')
@@ -74,8 +74,8 @@ describe('Edit Recipe Page', () => {
 
          it('changes ingredient when selecting ingredient from dropdown', () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
-               cy.dataTest("ingredient-name").click()
-               cy.get(".autocomplete-dropdown").should("exist").within(() => {
+               cy.dataTest("ingredient-name").click().clear()
+               cy.get(".autocomplete-container").should("exist").within(() => {
                   cy.dataTest("autocomplete-option").contains("Aardappel").click()
                })
                cy.dataTest("ingredient-name").should("have.value", "Aardappel")
@@ -319,7 +319,7 @@ describe('Edit Recipe Page', () => {
                cy.dataTest('cuisine').click()
                cy.dataTest('cuisine-options').contains("Japans").click()
                cy.dataTest("ingredient-edit-row-0").within(() => {
-                  cy.dataTest("ingredient-name").click()
+                  cy.dataTest("ingredient-name").click().clear()
                   cy.get(".autocomplete-dropdown").should("exist").within(() => {
                      cy.dataTest("autocomplete-option").contains("Aardappel").click()
                   })
