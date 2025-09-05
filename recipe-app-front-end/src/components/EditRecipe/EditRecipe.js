@@ -196,7 +196,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const handleKeyDown = (event) => {
-        if (event.target.closest(".ingredient-input") || event.target.closest(".select-container")|| event.target.closest(".autocomplete-input") || event.target.closest(".note-details") || event.target.closest(".description-details") || event.target.closest(".url-details")) {
+        if (event.target.closest(".ingredient-input") || event.target.closest(".select-container") || event.target.closest(".autocomplete-input") || event.target.closest(".note-details") || event.target.closest(".description-details") || event.target.closest(".url-details")) {
             if (event.key === "Enter") {
                 console.log("should prevent enter on textarea")
                 return
@@ -298,23 +298,38 @@ export default function EditRecipe({ recipe, isNew = false }) {
                 <div className="recipe-card">
                     <div className="top-details">
                         <div className="big-details">
-                            <textarea className="description-details" placeholder="Add a description" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
-                            <textarea className="url-details" type="text" placeholder="Add a reference link" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
+                            <div>
+                                <label className="box-label">Description</label>
+                                <textarea className="description-details" placeholder="Add a description" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
+                            </div>
+                            <div>
+                                <label className="box-label">Link</label>
+                                <textarea className="url-details" type="text" placeholder="Add a reference link" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
+                            </div>
                         </div>
 
                         <div className="small-details">
-                            <input name="servingCalories" className="small-detail-box" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
-                            <input name="servingCount" className="small-detail-box" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
-                            <Select options={cuisines}
-                                selected={selectedCuisine}
-                                onSelect={(value) => {
-                                    setSelectedCuisine(value)
-                                    handleChange({ target: { name: "cuisine", value } })
-                                }}
-                                getOptionLabel={(item) => item.cuisineTitle}
-                                placeholder="Cuisine*"
-                                styleType="card-box"
-                                dataTest="cuisine" />
+                            <div>
+                                <label className="box-label">Calories</label>
+                                <input name="servingCalories" className="small-detail-box" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
+                            </div>
+                            <div>
+                                <label className="box-label">Servings</label>
+                                <input name="servingCount" className="small-detail-box" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
+                            </div>
+                            <div>
+                                <label className="box-label">Cuisine</label>
+                                <Select options={cuisines}
+                                    selected={selectedCuisine}
+                                    onSelect={(value) => {
+                                        setSelectedCuisine(value)
+                                        handleChange({ target: { name: "cuisine", value } })
+                                    }}
+                                    getOptionLabel={(item) => item.cuisineTitle}
+                                    placeholder="Cuisine*"
+                                    styleType="card-box"
+                                    dataTest="cuisine" />
+                            </div>
                         </div >
                     </div>
                 </div>

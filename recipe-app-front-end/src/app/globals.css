@@ -904,7 +904,8 @@ input[type="number"] {
     width: 80%;
   }
 
-  .small-details {
+  .small-details,
+  .select-box {
     width: 20%;
     min-width: 10.5rem;
     justify-content: space-between;
