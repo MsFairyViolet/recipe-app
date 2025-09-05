@@ -20,7 +20,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
    const handleBlur = (inputfield) => {
 
       if (inputfield.target.value.trim() !== "") {
-         if (!isSelectingFromDropdown && !checkIngredientExists(inputfield.target.value)) {
+         if (!isSelectingFromDropdown && !validateIngredient(ingredient)) {
             setHasError(true)
             setIsOpen(false)
             setIsSelectingFromDropdown(false)
@@ -31,6 +31,10 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
       setIsOpen(false)
       setHasError(false)
       setIsSelectingFromDropdown(false)
+   }
+
+   const validateIngredient = (queryIngredient) => {
+      return !isNaN(Number(queryIngredient.id))
    }
 
    const checkIngredientExists = (queryIngredient) => {
