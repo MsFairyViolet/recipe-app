@@ -30,9 +30,18 @@ export default function ViewRecipe({ recipe }) {
           </div>
 
           <div className="small-details">
-            <span data-test="calories">{recipe.servingCalories}</span>
-            <span data-test="serving">{recipe.servingCount}</span>
-            <span data-test="cuisine">{recipe.cuisine}</span>
+            <div data-test="calories">
+              <label className="box-label">Calories</label>
+              <span className="box-content">{recipe.servingCalories}</span>
+            </div>
+            <div data-test="serving">
+              <label className="box-label">Servings</label>
+              <span className="box-content">{recipe.servingCount}</span>
+            </div>
+            <div data-test="cuisine">
+              <label className="box-label">Cuisine</label>
+              <span className="box-content">{recipe.cuisine}</span>
+            </div>
           </div>
         </div>
 
