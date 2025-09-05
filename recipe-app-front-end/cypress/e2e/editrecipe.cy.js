@@ -423,7 +423,7 @@ describe('Edit Recipe Page', () => {
          })
       })
    })
-   describe.only("Ingredient validation", () => {
+   describe("Ingredient validation", () => {
       beforeEach(() => {
          cy.visit('http://localhost:3000/recipe/1/edit')
          cy.wait("@getRecipe")
@@ -471,7 +471,7 @@ describe('Edit Recipe Page', () => {
          })
       })
 
-      it.only(`clears non-valid mark when typing valid existing ingredient`, () => {
+      it(`clears non-valid mark when typing valid existing ingredient`, () => {
          cy.dataTest("ingredient-edit-row-0").within(() => {
             cy.dataTest("ingredient-name").click().clear().type("bbb").blur()
             cy.dataTest("ingredient-name").should("have.class", "error")
