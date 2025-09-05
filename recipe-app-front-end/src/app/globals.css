@@ -58,11 +58,10 @@ html {
 .page-title {
   font-size: 1.4rem;
   font-weight: bold;
-  width: 40%;
+  min-width: 40%;
   color: var(--primary-color);
   line-height: 1;
-  margin-left: 0.5rem;
-  align-self: center;
+  word-break: break-word;
 }
 
 .search-bar {
