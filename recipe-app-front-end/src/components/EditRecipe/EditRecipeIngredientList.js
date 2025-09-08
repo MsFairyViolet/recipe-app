@@ -16,7 +16,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
                 <div data-test={`ingredient-edit-row-${index}`} className="row" key={ingredient.id}>
                     <RecipeIngredientSelector ingredient={ingredient} row={index} allIngredients={allIngredients} ingredientList={ingredientList} handleIngredientChange={handleIngredientChange} fetchIngredients={fetchIngredients} />
                     <input
-                        data-test="ingredient-amount" className="second-column ingredient-input" type="number"
+                        data-test="ingredient-amount" className="second-column ingredient-input" type="number" placeholder="quanity"
                         value={ingredient.amount === "" | isNaN(parseFloat(ingredient.amount)) ? "" : parseFloat(ingredient.amount)}
                         onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}>
                     </input>

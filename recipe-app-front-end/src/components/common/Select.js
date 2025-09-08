@@ -15,7 +15,7 @@ export default function Select({options, selected, onSelect, getOptionLabel, pla
 
    return (
       <>
-         <div className={`select-container ${styleType === "inline" ? "third-column" : "small-detail-box"}`} data-test={dataTest}>
+         <div className={`select-container ${styleType === "inline" ? "third-column" : "small-detail-input"}`} data-test={dataTest}>
             <div className={`select-box ${styleType === "card-box" ? "cuisine" : ""}`}
                tabIndex={0}
                onMouseDown={handleFocus}

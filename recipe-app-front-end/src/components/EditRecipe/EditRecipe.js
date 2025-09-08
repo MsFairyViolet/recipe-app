@@ -293,32 +293,34 @@ export default function EditRecipe({ recipe, isNew = false }) {
     return (
         <>
             <div className="edit-page" onKeyDown={handleKeyDown}>
-                <input className="page-title" placeholder="Recipe name*" type="text" name="name" value={formData.name} onChange={handleChange}></input>
-
+                <div className="title-detail-box">
+                    <label className="box-label" htmlFor="page-title">Recipe name*</label>
+                    <input className="page-title" id="page-title" placeholder="Name your recipe" type="text" name="name" value={formData.name} onChange={handleChange}></input>
+                </div>
                 <div className="recipe-card">
                     <div className="top-details">
                         <div className="big-details">
-                            <div>
-                                <label className="box-label">Description</label>
-                                <textarea className="description-details" placeholder="Add a description" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
+                            <div className="big-detail-box">
+                                <label className="box-label" htmlFor="description-details">Description</label>
+                                <textarea className="description-details" id="description-details" placeholder="Brief description of your recipe" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
                             </div>
-                            <div>
-                                <label className="box-label">Link</label>
-                                <textarea className="url-details" type="text" placeholder="Add a reference link" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
+                            <div className="big-detail-box">
+                                <label className="box-label" htmlFor="url-details">Link</label>
+                                <textarea className="url-details" id="url-details" type="text" placeholder="Add a reference link" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
                             </div>
                         </div>
 
                         <div className="small-details">
-                            <div>
-                                <label className="box-label">Calories</label>
-                                <input name="servingCalories" className="small-detail-box" type="number" placeholder="Calories*" value={formData.servingCalories} onChange={handleChange}></input>
+                            <div className="small-detail-box">
+                                <label className="box-label" htmlFor="servingCalories">Calories*</label>
+                                <input name="servingCalories" id="servingCalories" className="small-detail-input" type="number" placeholder="kcal" value={formData.servingCalories} onChange={handleChange}></input>
                             </div>
-                            <div>
-                                <label className="box-label">Servings</label>
-                                <input name="servingCount" className="small-detail-box" type="number" placeholder="Servings*" value={formData.servingCount} onChange={handleChange}></input>
+                            <div className="small-detail-box">
+                                <label className="box-label" htmlFor="servingCount">Servings*</label>
+                                <input name="servingCount" id="servingCount" className="small-detail-input" type="number" placeholder="people" value={formData.servingCount} onChange={handleChange}></input>
                             </div>
-                            <div>
-                                <label className="box-label">Cuisine</label>
+                            <div className="small-detail-box">
+                                <label className="box-label" htmlFor="cuisine">Cuisine*</label>
                                 <Select options={cuisines}
                                     selected={selectedCuisine}
                                     onSelect={(value) => {
@@ -326,8 +328,9 @@ export default function EditRecipe({ recipe, isNew = false }) {
                                         handleChange({ target: { name: "cuisine", value } })
                                     }}
                                     getOptionLabel={(item) => item.cuisineTitle}
-                                    placeholder="Cuisine*"
+                                    placeholder="style"
                                     styleType="card-box"
+                                    id="cuisine"
                                     dataTest="cuisine" />
                             </div>
                         </div >
@@ -341,7 +344,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                 <div>
                     <h4 className="box-title">Notes:</h4>
-                    <textarea className="note-details" placeholder="Add additional notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
+                    <textarea className="note-details" placeholder="Add instructions or notes" type="text" name="note" value={formData.note} onChange={handleChange}></textarea>
                 </div>
                 <div className="button-container">
                     {!isNew ? <button data-test="recipe-delete-button" className="recipe-button secondary-button" onClick={handleDelete}>Delete</button> : ""}

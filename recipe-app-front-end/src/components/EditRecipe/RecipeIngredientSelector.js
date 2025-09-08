@@ -101,7 +101,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
             }}
             onFocus={handleFocus}
             onBlur={(field) => handleBlur(field)}
-            placeholder="Start typing..."
+            placeholder="ingredient"
          />
          {isOpen && (
             <ul className="autocomplete-dropdown ingredient-input">

@@ -64,6 +64,10 @@ html {
   word-break: break-word;
 }
 
+.page-title::placeholder{
+  font-weight: normal;
+}
+
 .search-bar {
   width: 55%;
   min-height: 2rem;
@@ -245,7 +249,6 @@ nav {
   background-color: var(--mid-background-color);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   font-size: 1rem;
 }
 
@@ -258,7 +261,7 @@ nav {
   width: 65%;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .big-details textarea:first-child {
@@ -274,7 +277,7 @@ nav {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .recipe-view-page .small-details div {
@@ -349,7 +352,31 @@ nav {
   margin-bottom: 0.5rem;
 }
 
-.small-detail-box {
+.title-detail-box,
+.big-detail-box,
+.small-detail-box{
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+}
+
+.title-detail-box .box-label{
+  margin-left: 1.1rem;
+}
+
+.big-detail-box{
+  height: 100%;
+}
+
+.big-detail-box .description-details{
+  height: 60%;
+}
+
+.big-detail-box .url-details{
+  height: 40%;
+}
+
+.small-detail-input {
   height: 4rem;
   text-align: center;
 }
@@ -689,7 +716,7 @@ select:focus {
   flex-direction: row;
   width: 100%;
   gap: 0.5rem;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
 }
 
 .recipe-button,
@@ -884,7 +911,7 @@ input[type="number"] {
   }
 
   .page-container {
-    margin-top: 1.2rem;
+    margin-top: 0.5rem;
   }
 
   .column-title {
