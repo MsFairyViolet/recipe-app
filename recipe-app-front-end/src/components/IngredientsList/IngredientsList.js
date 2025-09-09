@@ -22,8 +22,8 @@ export default function IngredientsList({ ingredients, searchQuery, onIngredient
                <div data-test={`ingredient-row-${index}`} className="row" key={ingredient.id}>
                   <span className="first-column">{ingredient.name}</span>
                   <div className="second-column"><UsedInDisplay recipes={ingredient.recipes} onOpenModal={() => setSelectedIngredient(ingredient)} /></div>
-                  <button className="third-column edit-button" onClick={() => onIngredientEdit(index)}>✎</button>
-                  <button className="fourth-column delete-button" onClick={() => onIngredientDelete(index)}>x</button>
+                  <button className="third-column edit-button" onClick={() => onIngredientEdit(ingredient)}>✎</button>
+                  <button className="fourth-column delete-button" onClick={() => onIngredientDelete(ingredient)}>x</button>
                </div>
             ))
          ) : (

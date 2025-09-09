@@ -36,9 +36,9 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
             })
     }
 
-    const handleIngredientEdit = async (index) => {
-        const ingredient = ingredients[index]
-
+    const handleIngredientEdit = async (ingredient) => {
+        
+        console.log("Ingredient edit:", ingredient)
         await confirm("Globally edit", ingredient.name, true)
             .then((newName) => {
 
@@ -64,9 +64,10 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
             })
     }
 
-    const handleIngredientDelete = async (index) => {
+    const handleIngredientDelete = async (ingredient) => {
 
-        const ingredient = ingredients[index]
+        console.log("Ingredient delete:", ingredient)
+
         const usedInCount = ingredient.recipes.length
 
         if (usedInCount > 0) {
