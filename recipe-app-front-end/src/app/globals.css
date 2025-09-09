@@ -64,7 +64,7 @@ html {
   word-break: break-word;
 }
 
-.page-title::placeholder{
+.page-title::placeholder {
   font-weight: normal;
 }
 
@@ -300,7 +300,7 @@ nav {
   color: var(--primary-color);
 }
 
-.box-content{
+.box-content {
   padding-bottom: 0.25rem;
 }
 
@@ -354,29 +354,25 @@ nav {
 
 .title-detail-box,
 .big-detail-box,
-.small-detail-box{
+.small-detail-box {
   display: flex;
   flex-direction: column;
   align-items: space-between;
 }
 
-.title-detail-box .box-label{
-  margin-left: 1.1rem;
-}
-
-.big-detail-box{
+.big-detail-box {
   height: 100%;
 }
 
-.big-detail-box .description-details{
+.big-detail-box .description-details {
   height: 60%;
 }
 
-.big-detail-box .url-details{
+.big-detail-box .url-details {
   height: 40%;
 }
 
-.small-detail-box{
+.small-detail-box {
   width: 100%;
 }
 
@@ -912,6 +908,10 @@ input[type="number"] {
 
   .page-title {
     font-size: 1.8rem;
+    margin-left: 1.1rem;
+  }
+
+  .title-detail-box .box-label {
     margin-left: 1.1rem;
   }
 
