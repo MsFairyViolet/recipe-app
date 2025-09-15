@@ -61,7 +61,7 @@ describe('Recipe List Page', () => {
   })
 
   describe("Searchbar", () => {
-    const searchTerms = ['okono', 'Okono', "OKONO", "Okonomiyaki"]
+    const searchTerms = ['okono', 'Okono', "OKONO", "Okonomiyaki", "ókônõmìyakï"]
     searchTerms.forEach((term) => {
       it(`returns Okonomiyaki when searching ${term}`, () => {
         cy.dataTest('search-bar').type(term)

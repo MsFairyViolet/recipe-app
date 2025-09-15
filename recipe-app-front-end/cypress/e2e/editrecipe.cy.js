@@ -102,6 +102,15 @@ describe('Edit Recipe Page', () => {
             })
          })
 
+         it("filters the autocomplete list to a partially match when entering an ingredient with diacritics", () => {
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").click()
+               cy.dataTest("ingredient-name").clear().type(`Bötèr`)
+               cy.dataTest("autocomplete-option").should("contain", "Boter")
+               cy.dataTest("add-ingredient-option").should("contain", "+ Add Bötèr")
+            })
+         })
+
          it("filters the autocomplete list to multiple existing results when typing in ingredient name field", () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").click()
