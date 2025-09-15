@@ -1,8 +1,7 @@
 import Link from 'next/link'
+import { toBaseChars } from "@components/common/filterHelpers"
 
 export default function RecipeList({ recipes, searchQuery }) {
-
-   const toBaseChars = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
 
     const filteredRecipes = recipes.filter((recipe) =>
         toBaseChars(recipe.name.toLowerCase()).includes(toBaseChars(searchQuery.toLowerCase())))

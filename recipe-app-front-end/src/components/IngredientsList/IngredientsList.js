@@ -1,13 +1,12 @@
 import { useState } from "react"
 import UsedInDisplay from "./UsedInDisplay"
 import UsedInModal from "./UsedInModal"
+import { toBaseChars } from "@components/common/filterHelpers"
 
 export default function IngredientsList({ ingredients, searchQuery, onIngredientEdit, onIngredientDelete }) {
 
-   const toBaseChars = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-
    const filteredIngredients = ingredients.filter(i =>
-      toBaseChars(i.name.toLowerCase()).includes(toBaseChars(searchQuery.toLowerCase())) 
+      toBaseChars(i.name.toLowerCase()).includes(toBaseChars(searchQuery.toLowerCase()))
    )
 
    const [selectedIngredient, setSelectedIngredient] = useState(null)

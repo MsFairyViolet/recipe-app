@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { addIngredient } from "@components/common/Apicalls"
 import { useConfirm } from "@components/common/ConfirmProvider"
+import { toBaseChars } from "@components/common/filterHelpers"
 
 export default function RecipeIngredientSelector({ ingredient, row, allIngredients, ingredientList, handleIngredientChange, fetchIngredients }) {
 
@@ -81,7 +82,6 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
          })
    }
 
-   const toBaseChars = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
 
    const filteredIngredients = allIngredients.filter(i =>
       toBaseChars(i.name.toLowerCase()).includes(toBaseChars(searchQuery.toLowerCase())) &&
