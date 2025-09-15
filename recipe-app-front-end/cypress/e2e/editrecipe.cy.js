@@ -102,7 +102,7 @@ describe('Edit Recipe Page', () => {
             })
          })
 
-         it("filters the autocomplete list to a partially match when entering an ingredient with diacritics", () => {
+         it("filters the autocomplete list to a partial match when entering an ingredient with diacritics", () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").click()
                cy.dataTest("ingredient-name").clear().type(`Bötèr`)
