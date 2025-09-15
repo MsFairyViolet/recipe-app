@@ -2,8 +2,10 @@ import Link from 'next/link'
 
 export default function RecipeList({ recipes, searchQuery }) {
 
+   const toBaseChars = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+
     const filteredRecipes = recipes.filter((recipe) =>
-        recipe.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        toBaseChars(recipe.name.toLowerCase()).includes(toBaseChars(searchQuery.toLowerCase())))
 
     return (
         <div className="list">

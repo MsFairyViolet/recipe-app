@@ -4,8 +4,11 @@ import UsedInModal from "./UsedInModal"
 
 export default function IngredientsList({ ingredients, searchQuery, onIngredientEdit, onIngredientDelete }) {
 
-   const filteredIngredients = ingredients.filter((ingredient) =>
-      ingredient.name.toLowerCase().includes(searchQuery.toLowerCase()))
+   const toBaseChars = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+
+   const filteredIngredients = ingredients.filter(i =>
+      toBaseChars(i.name.toLowerCase()).includes(toBaseChars(searchQuery.toLowerCase())) 
+   )
 
    const [selectedIngredient, setSelectedIngredient] = useState(null)
 
