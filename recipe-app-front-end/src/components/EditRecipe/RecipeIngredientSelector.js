@@ -3,18 +3,19 @@
 import { useState } from "react"
 import { addIngredient } from "@components/common/Apicalls"
 import { useConfirm } from "@components/common/ConfirmProvider"
+import { toBaseChars } from "@components/common/filterHelpers"
 
 export default function RecipeIngredientSelector({ ingredient, row, allIngredients, ingredientList, handleIngredientChange, fetchIngredients }) {
 
    const confirm = useConfirm()
-   const [query, setQuery] = useState("")
+   const [searchQuery, setSearchQuery] = useState("")
    const [isOpen, setIsOpen] = useState(false)
    const [isSelectingFromDropdown, setIsSelectingFromDropdown] = useState(false)
    const [hasError, setHasError] = useState(false)
 
    const handleFocus = () => {
       setIsOpen(true)
-      setQuery(ingredient.name)
+      setSearchQuery(ingredient.name)
    }
 
    const handleBlur = (inputfield) => {
@@ -27,7 +28,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
             return
          }
       }
-      setQuery("")
+      setSearchQuery("")
       setIsOpen(false)
       setHasError(false)
       setIsSelectingFromDropdown(false)
@@ -72,7 +73,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                      handleIngredientChange(row, "name", newIngredient)
                   }
                   setHasError(false)
-                  setQuery("")
+                  setSearchQuery("")
                })
                .catch((error) => {
                   console.error("Error adding ingredient:", error)
@@ -81,8 +82,9 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
          })
    }
 
+
    const filteredIngredients = allIngredients.filter(i =>
-      i.name.toLowerCase().includes(query.toLowerCase()) &&
+      toBaseChars(i.name.toLowerCase()).includes(toBaseChars(searchQuery.toLowerCase())) &&
       !ingredientList.some(ingredient => ingredient.id === i.id)
    )
 
@@ -93,7 +95,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
             value={ingredient.name}
             onChange={(e) => {
                handleIngredientChange(row, "name", e.target.value)
-               setQuery(e.target.value)
+               setSearchQuery(e.target.value)
 
                if (e.target.value.trim() === "") {
                   setHasError(false)
@@ -118,16 +120,16 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                   </li>
                ))}
                {!allIngredients.some(
-                  (item) => item.name.toLowerCase() === query.toLowerCase()
+                  (item) => item.name.toLowerCase() === searchQuery.toLowerCase()
                ) && (
                      <li data-test="add-ingredient-option" className="add-new-ingredient"
                         onMouseDown={(e) => {
                            setIsSelectingFromDropdown(true)
                            e.preventDefault()
-                           handleQueryIngredientAdd(query)
+                           handleQueryIngredientAdd(searchQuery)
                            setIsOpen(false)
                         }}>
-                        + Add <i>{query}</i>
+                        + Add <i>{searchQuery}</i>
                      </li>
                   )
                }

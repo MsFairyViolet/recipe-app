@@ -1,11 +1,13 @@
 import { useState } from "react"
 import UsedInDisplay from "./UsedInDisplay"
 import UsedInModal from "./UsedInModal"
+import { toBaseChars } from "@components/common/filterHelpers"
 
 export default function IngredientsList({ ingredients, searchQuery, onIngredientEdit, onIngredientDelete }) {
 
-   const filteredIngredients = ingredients.filter((ingredient) =>
-      ingredient.name.toLowerCase().includes(searchQuery.toLowerCase()))
+   const filteredIngredients = ingredients.filter(i =>
+      toBaseChars(i.name.toLowerCase()).includes(toBaseChars(searchQuery.toLowerCase()))
+   )
 
    const [selectedIngredient, setSelectedIngredient] = useState(null)
 

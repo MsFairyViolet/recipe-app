@@ -1,9 +1,10 @@
 import Link from 'next/link'
+import { toBaseChars } from "@components/common/filterHelpers"
 
 export default function RecipeList({ recipes, searchQuery }) {
 
     const filteredRecipes = recipes.filter((recipe) =>
-        recipe.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        toBaseChars(recipe.name.toLowerCase()).includes(toBaseChars(searchQuery.toLowerCase())))
 
     return (
         <div className="list">

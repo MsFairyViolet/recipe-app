@@ -97,7 +97,7 @@ describe("Ingredients Page", () => {
          cy.intercept('GET', '/api/ingredient', { fixture: 'all-ingredients.json' })
       })
 
-      const searchTerms = ['okono', 'Okono', "OKONO", "Okonomiyaki"]
+      const searchTerms = ['okono', 'Okono', "OKONO", "Okonomiyaki", "ókônomìyakï"]
       searchTerms.forEach((term) => {
          it(`returns 'Okonomiyakisaus' when searching ${term}`, () => {
             cy.dataTest('search-bar').type(term)
