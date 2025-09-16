@@ -264,12 +264,12 @@ nav {
   gap: 0.25rem;
 }
 
-.big-details .description-details {
-  flex: 5.5;
+.big-details textarea:first-child {
+  flex: 7;
 }
 
-.big-details .url-details {
-  flex: 4.5;
+.big-details textarea:last-child {
+  flex: 3;
 }
 
 .small-details {
