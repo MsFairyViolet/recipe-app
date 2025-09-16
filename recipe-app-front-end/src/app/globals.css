@@ -264,12 +264,12 @@ nav {
   gap: 0.25rem;
 }
 
-.big-details textarea:first-child {
-  flex: 7;
+.big-details .description-details {
+  flex: 5.5;
 }
 
-.big-details textarea:last-child {
-  flex: 3;
+.big-details .url-details {
+  flex: 4.5;
 }
 
 .small-details {
@@ -621,7 +621,7 @@ select,
 }
 
 .overlay-message {
-  white-space: wrap;
+  white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -666,6 +666,8 @@ select,
 
 a {
   color: var(--primary-color);
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 input:focus,
@@ -679,7 +681,7 @@ select:focus {
 
 .recipe-page .first-column,
 .ingredients-page .first-column {
-  white-space: wrap;
+  white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
 }
