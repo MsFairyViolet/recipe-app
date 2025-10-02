@@ -184,14 +184,27 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
+    const normalizeIngredientAmounts = (ingredients) => {
+        return ingredients.map((ingredient) => ({
+            ...ingredient,
+            amount: ingredient.amount.replace(',', '.')
+        }))
+    }
+
     const validateFormData = () => {
         const { name, servingCalories, servingCount, cuisine } = formData
         return name && servingCalories && servingCount && cuisine
     }
 
-    const validateIngredients = () => {
-        return formData.ingredients.every(ingredient => {
-            return ingredient.name.trim() !== "" && ingredient.amount.trim() !== ""
+    const validateIngredients = (ingredients) => {
+        return ingredients.every(ingredient => {
+            return ingredient.name.trim() !== "" && ingredient.amount.trim() !== "" 
+        })
+    }
+
+    const validateAmounts = (ingredients) => {
+        return ingredients.every(ingredient => {
+           return !isNaN(parseFloat(ingredient.amount))
         })
     }
 
@@ -214,19 +227,31 @@ export default function EditRecipe({ recipe, isNew = false }) {
             return
         }
 
-        if (!validateIngredients()) {
+        const normalizedIngredients = normalizeIngredientAmounts(formData.ingredients)
+
+        const normalizedFormData = {
+            ...formData,
+            ingredients: normalizedIngredients
+        }
+
+        if (!validateIngredients(normalizedIngredients)) {
             alert("Please fill in all ingredient fields.")
             return
         }
 
+        if(!validateAmounts(normalizedIngredients)) {
+            alert("Those ingredients are no valid numbers!")
+            return
+        }
+
         if (isNew) {
-            handleCreate()
+            handleCreate(normalizedFormData)
         } else {
-            handleUpdate()
+            handleUpdate(normalizedFormData)
         }
     }
 
-    const handleCreate = () => {
+    const handleCreate = (formData) => {
         const recipeExists = recipes.some(
             (recipe) => recipe.name.toLowerCase() === formData.name.toLowerCase()
         )
@@ -246,7 +271,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
-    const handleUpdate = async () => {
+    const handleUpdate = async (formData) => {
         const recipeExists = recipes.some(
             (recipe) => recipe.id !== formData.id && recipe.name.toLowerCase() === formData.name.toLowerCase()
         )
