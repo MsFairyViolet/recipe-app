@@ -338,11 +338,11 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         <div className="small-details">
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="servingCalories">Calories*</label>
-                                <input name="servingCalories" id="servingCalories" className="small-detail-input" type="number" placeholder="kcal" value={formData.servingCalories} onChange={handleChange}></input>
+                                <input name="servingCalories" id="servingCalories" className="small-detail-input" type="number" placeholder="kcal" value={formData.servingCalories} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
                             </div>
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="servingCount">Servings*</label>
-                                <input name="servingCount" id="servingCount" className="small-detail-input" type="number" placeholder="people" value={formData.servingCount} onChange={handleChange}></input>
+                                <input name="servingCount" id="servingCount" className="small-detail-input" type="number" placeholder="people" value={formData.servingCount} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
                             </div>
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="cuisine">Cuisine*</label>

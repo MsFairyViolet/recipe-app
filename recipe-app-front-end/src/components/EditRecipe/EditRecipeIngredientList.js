@@ -18,6 +18,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
                     <input
                         data-test="ingredient-amount" className="second-column ingredient-input" type="text" placeholder="quanity"
                         value={ingredient.amount}
+                        onFocus={(e) => e.target.select()}
                         onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}>
                     </input>
                     <Select options={amountTypes}
