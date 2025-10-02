@@ -84,8 +84,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
 
 
    const filteredIngredients = allIngredients.filter(i =>
-      toBaseChars(i.name.toLowerCase()).includes(toBaseChars(searchQuery.toLowerCase())) &&
-      !ingredientList.some(ingredient => ingredient.id === i.id)
+      toBaseChars(i.name.toLowerCase()).includes(toBaseChars(searchQuery.toLowerCase()))
    )
 
    return (
@@ -107,18 +106,22 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
          />
          {isOpen && (
             <ul className="autocomplete-dropdown ingredient-input">
-               {filteredIngredients.map((option) => (
-                  <li data-test="autocomplete-option" key={option.id}
-                     onMouseDown={(e) => {
-                        setIsSelectingFromDropdown(true)
-                        e.preventDefault()
-                        handleIngredientChange(row, "name", option.name)
-                        handleIngredientChange(row, "id", option.id)
-                        setHasError(false)
-                     }}>
-                     {option.name}
-                  </li>
-               ))}
+               {filteredIngredients.map((option, index) => {
+                  const isSelected = ingredientList.some(ingredient => ingredient.id === option.id)
+
+                  return (
+                     <li data-test="autocomplete-option" key={`${option.id}-${index}`}
+                     className= {isSelected ? 'selected' : ''}
+                        onMouseDown={(e) => {
+                           setIsSelectingFromDropdown(true)
+                           e.preventDefault()
+                           handleIngredientChange(row, "name", option.name)
+                           handleIngredientChange(row, "id", option.id)
+                           setHasError(false)
+                        }}>
+                        {option.name}
+                     </li>)
+               })}
                {!allIngredients.some(
                   (item) => item.name.toLowerCase() === searchQuery.toLowerCase()
                ) && (

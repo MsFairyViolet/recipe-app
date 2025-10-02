@@ -13,7 +13,7 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
             </div>
 
             {ingredientList.map((ingredient, index) => (
-                <div data-test={`ingredient-edit-row-${index}`} className="row" key={ingredient.id}>
+                <div data-test={`ingredient-edit-row-${index}`} className="row" key={`${ingredient.id}-${index}`}>
                     <RecipeIngredientSelector ingredient={ingredient} row={index} allIngredients={allIngredients} ingredientList={ingredientList} handleIngredientChange={handleIngredientChange} fetchIngredients={fetchIngredients} />
                     <input
                         data-test="ingredient-amount" className="second-column ingredient-input" type="text" placeholder="quanity"

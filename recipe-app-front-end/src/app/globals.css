@@ -468,6 +468,10 @@ textarea.note-details {
   transition: background-color 0.2s ease;
 }
 
+.selected{
+  font-style: italic;
+}
+
 .dropdown-label {
   width: 100%;
 }
