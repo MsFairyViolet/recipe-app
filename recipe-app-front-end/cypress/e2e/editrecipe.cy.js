@@ -121,7 +121,7 @@ describe('Edit Recipe Page', () => {
             cy.dataTest("ingredient-name").should("have.value", "Tomatenblokjes")
          })
 
-         it.only("identical ingredients in the recipe are recognizable in the dropdown and not allowed to be selected", () => {
+         it("identical ingredients in the recipe are recognizable in the dropdown and not allowed to be selected", () => {
             const alertStub = cy.stub()
             cy.on('window:alert', alertStub)
 
