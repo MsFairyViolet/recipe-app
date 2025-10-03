@@ -120,6 +120,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                            if (occursInRecipe) {
                               alert("Ingredient is already used in this recipe.")
                               handleIngredientChange(row, "name", "")
+                              setSearchQuery("")
                               inputRef.current.focus()
                               return
                            }
