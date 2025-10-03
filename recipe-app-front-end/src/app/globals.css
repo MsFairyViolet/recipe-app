@@ -11,6 +11,7 @@
   --accent-background-color: #fffefb;
   --accent-text: #fffefb;
   --text-color: #333;
+  --text-color-light: #929292;
   --placeholder-color: #75777a;
   --font-main: 'Inter', sans-serif;
 }
@@ -468,12 +469,13 @@ textarea.note-details {
   transition: background-color 0.2s ease;
 }
 
-.selected{
+.autocomplete-dropdown .selected{
   font-style: italic;
+  background-color: var(--hoover-color)
 }
 
 .occurs{
-  color: var(--primary-accent);
+  color: var(--text-color-light);
   font-style: italic;
 }
 
