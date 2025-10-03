@@ -19,7 +19,6 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
    }
 
    const handleBlur = (inputfield) => {
-
       if (inputfield.target.value.trim() !== "") {
          if (!isSelectingFromDropdown && !validateIngredient(ingredient)) {
             setHasError(true)
@@ -82,7 +81,6 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
          })
    }
 
-
    const filteredIngredients = allIngredients.filter(i =>
       toBaseChars(i.name.toLowerCase()).includes(toBaseChars(searchQuery.toLowerCase()))
    )
@@ -107,12 +105,17 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
          {isOpen && (
             <ul className="autocomplete-dropdown ingredient-input">
                {filteredIngredients.map((option, index) => {
-                  const isSelected = ingredientList.some(ingredient => ingredient.id === option.id)
+                  const occursInRecipe = ingredientList.some((ingredient, index) => ingredient.id === option.id && index !== row)
+                  const isSelected = ingredientList.some((ingredient, index) => ingredient.id === option.id && index === row)
 
                   return (
                      <li data-test="autocomplete-option" key={`${option.id}-${index}`}
-                     className= {isSelected ? 'selected' : ''}
+                        className={`${isSelected ? 'selected' : ''} ${occursInRecipe ? 'occurs' : ''}`}
                         onMouseDown={(e) => {
+                           if (occursInRecipe) {
+                              alert("Ingredient is already used in this recipe.")
+                              return
+                           }
                            setIsSelectingFromDropdown(true)
                            e.preventDefault()
                            handleIngredientChange(row, "name", option.name)

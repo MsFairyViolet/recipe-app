@@ -472,6 +472,11 @@ textarea.note-details {
   font-style: italic;
 }
 
+.occurs{
+  color: var(--primary-accent);
+  font-style: italic;
+}
+
 .dropdown-label {
   width: 100%;
 }
