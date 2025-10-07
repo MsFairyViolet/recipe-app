@@ -111,6 +111,31 @@ describe('Edit Recipe Page', () => {
             })
          })
 
+         it("selecting previous selected ingredient in this field is recognizable and allowed", () => {
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").click()
+               cy.dataTest("autocomplete-option").should("contain", "Tomatenblokjes").click()
+               cy.dataTest("autocomplete-option").should("have.class", "selected")
+               cy.dataTest("add-ingredient-option").should("not.exist")
+            })
+            cy.dataTest("ingredient-name").should("have.value", "Tomatenblokjes")
+         })
+
+         it("identical ingredients in the recipe are recognizable in the dropdown and not allowed to be selected", () => {
+            const alertStub = cy.stub()
+            cy.on('window:alert', alertStub)
+
+            cy.dataTest("ingredient-edit-row-1").within(() => {
+               cy.dataTest("ingredient-name").click().clear().type("Tomatenblokjes")
+               cy.dataTest("autocomplete-option").should("contain", "Tomatenblokjes").should("have.class", "occurs").click().then(() => {
+                  expect(alertStub).to.have.been.calledOnce
+                  expect(alertStub).to.have.been.calledWith("Ingredient is already used in this recipe.")
+               })
+               cy.dataTest("ingredient-name").should("be.empty").should("have.focus")
+               })
+               cy.get(".autocomplete-dropdown").should("exist").should("contain", "Aardappel").and("contain", "Bleekselderij").and("contain", "Boter")
+         })
+
          it("filters the autocomplete list to multiple existing results when typing in ingredient name field", () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").click()
