@@ -1,7 +1,8 @@
-export default function SearchBar({value, onChange, placeholder}) { 
+export default function SearchBar({value, changeValue, placeholder}) {
     return (
         <>
-        <input data-test="search-bar" className="search-bar" value={value} placeholder={placeholder} onChange={(e) => onChange(e.target.value)}></input>
+        <input data-test="search-bar" className="search-bar" value={value} placeholder={placeholder} onChange={(e) => changeValue(e.target.value)}></input>
+        <button data-test="search-bar-clear" className="clear-button" onClick={() => changeValue("")}>╳</button>
         </>
     )
 }

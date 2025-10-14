@@ -37,7 +37,7 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
     }
 
     const handleIngredientEdit = async (ingredient) => {
-        
+
         console.log("Ingredient edit:", ingredient)
         await confirm("Globally edit", ingredient.name, true)
             .then((newName) => {
@@ -94,7 +94,7 @@ export default function IngredientsPage({ ingredients, fetchIngredients }) {
         <div className="ingredients-page">
             <div className="page-header">
                 <div className="page-title">Ingredients</div>
-                <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={"Search for ingredient..."} />
+                <SearchBar value={searchQuery} changeValue={setSearchQuery} placeholder={"Search for ingredient..."} />
             </div>
 
             <div className="ingredients-container">

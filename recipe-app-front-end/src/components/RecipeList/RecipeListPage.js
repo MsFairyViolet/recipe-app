@@ -15,7 +15,7 @@ export default function RecipeListPage({ recipes }) {
         <div className="recipe-page">
             <div className="page-header">
                 <div className="page-title">Recipes</div>
-                <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={"Search for recipe..."} />
+                <SearchBar value={searchQuery} changeValue={setSearchQuery} placeholder={"Search for recipe..."} />
             </div>
 
             <div className="recipes-container">
