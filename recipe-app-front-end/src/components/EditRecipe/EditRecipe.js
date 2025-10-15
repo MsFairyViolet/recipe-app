@@ -184,6 +184,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
+    //replace commas with points
     const normalizeIngredientAmounts = (ingredients) => {
         return ingredients.map((ingredient) => ({
             ...ingredient,
@@ -191,17 +192,20 @@ export default function EditRecipe({ recipe, isNew = false }) {
         }))
     }
 
+    //check if required fields are filled in
     const validateFormData = () => {
         const { name, servingCalories, servingCount, cuisine } = formData
         return name && servingCalories && servingCount && cuisine
     }
 
+    //check if all the ingredients are not empty
     const validateIngredients = (ingredients) => {
         return ingredients.every(ingredient => {
-            return ingredient.name.trim() !== "" && ingredient.amount.trim() !== "" 
+            return ingredient.name.trim() !== "" && ingredient.amount.trim() !== ""
         })
     }
 
+    //check if all the amounts are a valid number
     const validateAmounts = (ingredients) => {
         return ingredients.every(ingredient => {
            return !isNaN(parseFloat(ingredient.amount))
