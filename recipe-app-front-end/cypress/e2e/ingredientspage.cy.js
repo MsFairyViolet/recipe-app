@@ -116,7 +116,7 @@ describe("Ingredients Page", () => {
          cy.get(".warning").contains("No ingredients found.")
       })
 
-      it.only("pressing X clears search field and returns to full list", () => {
+      it("pressing X clears search field and returns to full list", () => {
       cy.dataTest('search-bar').type("zzzzzzzz")
       cy.get(".warning").contains("No ingredients found.")
       cy.dataTest('search-bar-clear').click()
