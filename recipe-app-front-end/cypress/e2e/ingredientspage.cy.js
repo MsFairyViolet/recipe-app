@@ -115,6 +115,14 @@ describe("Ingredients Page", () => {
          cy.dataTest('search-bar').type("zzzzzzzz")
          cy.get(".warning").contains("No ingredients found.")
       })
+
+      it("pressing X clears search field and returns to full list", () => {
+      cy.dataTest('search-bar').type("zzzzzzzz")
+      cy.get(".warning").contains("No ingredients found.")
+      cy.dataTest('search-bar-clear').click()
+      cy.dataTest('search-bar').should("have.value", "")
+      cy.dataTest('ingredient-row', '^=').should("have.length", 52)
+    })
    })
 
    describe("Edit Ingredient Button", () => {

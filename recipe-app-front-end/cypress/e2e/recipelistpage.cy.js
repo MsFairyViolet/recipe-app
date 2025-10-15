@@ -79,6 +79,14 @@ describe('Recipe List Page', () => {
       cy.dataTest('search-bar').type("zzzzzzzz")
       cy.get(".warning").contains("No recipes found.")
     })
+
+    it("pressing X clears search field and returns to full list", () => {
+      cy.dataTest('search-bar').type("zzzzzzzz")
+      cy.get(".warning").contains("No recipes found.")
+      cy.dataTest('search-bar-clear').click()
+      cy.dataTest('search-bar').should("have.value", "")
+      cy.dataTest('recipe-row', '^=').should("have.length", 10)
+    })
   })
 
   describe("New Recipe Button", () => {
