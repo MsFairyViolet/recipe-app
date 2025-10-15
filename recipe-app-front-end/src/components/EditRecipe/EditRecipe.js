@@ -184,14 +184,6 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
-    //replace commas with points
-    const normalizeIngredientAmounts = (ingredients) => {
-        return ingredients.map((ingredient) => ({
-            ...ingredient,
-            amount: ingredient.amount.replace(',', '.')
-        }))
-    }
-
     //check if required fields are filled in
     const validateFormData = () => {
         const { name, servingCalories, servingCount, cuisine } = formData
