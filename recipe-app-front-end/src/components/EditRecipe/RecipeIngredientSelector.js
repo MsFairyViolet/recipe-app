@@ -11,7 +11,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
    const [searchQuery, setSearchQuery] = useState("")
    const [isOpen, setIsOpen] = useState(false)
    const [isSelectingFromDropdown, setIsSelectingFromDropdown] = useState(false)
-   const [hasError, setHasError] = useState(false)
+   const [errorField, setErrorField] = useState(false)
    const inputRef = useRef(null)
 
    const handleFocus = () => {
@@ -22,7 +22,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
    const handleBlur = (inputfield) => {
       if (inputfield.target.value.trim() !== "") {
          if (!isSelectingFromDropdown && !validateIngredient(ingredient)) {
-            setHasError(true)
+            setErrorField(true)
             setIsOpen(false)
             setIsSelectingFromDropdown(false)
             return
@@ -30,7 +30,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
       }
       setSearchQuery("")
       setIsOpen(false)
-      setHasError(false)
+      setErrorField(false)
       setIsSelectingFromDropdown(false)
    }
 
@@ -72,7 +72,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                   } else {
                      handleIngredientChange(row, "name", newIngredient)
                   }
-                  setHasError(false)
+                  setErrorField(false)
                   setSearchQuery("")
                })
                .catch((error) => {
@@ -91,7 +91,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
          <input
             ref={inputRef}
             data-test={`ingredient-name`}
-            className={`autocomplete-input ${hasError ? 'error' : ''}`}
+            className={`autocomplete-input ${errorField ? 'error' : ''}`}
             type="text"
             value={ingredient.name}
             onChange={(e) => {
@@ -99,7 +99,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                setSearchQuery(e.target.value)
 
                if (e.target.value.trim() === "") {
-                  setHasError(false)
+                  setErrorField(false)
                }
             }}
             onFocus={handleFocus}
@@ -127,7 +127,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                            setIsSelectingFromDropdown(true)
                            handleIngredientChange(row, "name", option.name)
                            handleIngredientChange(row, "id", option.id)
-                           setHasError(false)
+                           setErrorField(false)
                         }}>
                         {option.name}
                      </li>)
