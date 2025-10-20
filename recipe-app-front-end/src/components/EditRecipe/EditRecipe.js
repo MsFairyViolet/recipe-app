@@ -191,15 +191,15 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     //check if all the ingredients are not empty
-    const validateIngredients = (ingredients) => {
+    const validateIngredients = () => {
         return formData.ingredients.every(ingredient => {
             return ingredient.name.trim() !== "" && ingredient.amount.trim() !== ""
         })
     }
 
     //check if all the amounts are a valid number
-    const validateAmounts = (ingredients) => {
-        return ingredients.every(ingredient => {
+    const validateAmounts = () => {
+        return formData.ingredients.every(ingredient => {
            return !isNaN(parseFloat(ingredient.amount))
         })
     }
