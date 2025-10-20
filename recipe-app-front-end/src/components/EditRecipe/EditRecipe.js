@@ -201,10 +201,6 @@ export default function EditRecipe({ recipe, isNew = false }) {
         if (formData.servingCount === 0) {
             setErrorField(prev => ({ ...prev, servingCount: true }))
         }
-    }
-    //check if required fields are filled in (preferably combine this with the required field)
-    const validateFormData = () => {
-        validateRequired()
         const { name, servingCalories, servingCount, cuisine } = formData
         return name && servingCalories && servingCount && cuisine
     }
@@ -237,7 +233,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const handleSave = () => {
-        if (!validateFormData()) {
+        if (!validateRequired()) {
             alert("Please fill in the required fields.")
             return
         }
