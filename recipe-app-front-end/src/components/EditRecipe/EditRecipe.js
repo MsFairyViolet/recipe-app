@@ -23,6 +23,11 @@ export default function EditRecipe({ recipe, isNew = false }) {
         cuisines: null,
         amountTypes: null
     })
+    const [hasError, setHasError] = useState({
+        name: null,
+        servingCalories: null,
+        servingCount: null
+    })
     const [allIngredients, setAllIngredients] = useState(null)
     const [recipes, setRecipes] = useState([])
     const [cuisines, setCuisines] = useState(null)
@@ -185,7 +190,21 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     //check if required fields are filled in
+    const validateRequired = () => {
+        if (formData.name === "")
+            setHasError(prev => ({ ...prev, name: true }))
+
+        if (formData.servingCalories === 0) {
+            setHasError(prev => ({ ...prev, servingCalories: true }))
+        }
+
+        if (formData.servingCount === 0) {
+            setHasError(prev => ({ ...prev, servingCount: true }))
+        }
+    }
+    //check if required fields are filled in
     const validateFormData = () => {
+        validateRequired()
         const { name, servingCalories, servingCount, cuisine } = formData
         return name && servingCalories && servingCount && cuisine
     }
@@ -200,7 +219,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
     //check if all the amounts are a valid number
     const validateAmounts = () => {
         return formData.ingredients.every(ingredient => {
-           return !isNaN(parseFloat(ingredient.amount))
+            return !isNaN(parseFloat(ingredient.amount))
         })
     }
 
@@ -233,7 +252,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             return
         }
 
-        if(!validateAmounts(formData.ingredients)) {
+        if (!validateAmounts(formData.ingredients)) {
             alert("Those ingredients are no valid numbers!")
             return
         }
@@ -314,7 +333,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             <div className="edit-page" onKeyDown={handleKeyDown}>
                 <div className="title-detail-box">
                     <label className="box-label" htmlFor="page-title">Recipe name*</label>
-                    <input className="page-title" id="page-title" placeholder="Name your recipe" type="text" name="name" value={formData.name} onChange={handleChange}></input>
+                    <input className={`page-title ${hasError.name ? 'error' : ''}`} id="page-title" placeholder="Name your recipe" type="text" name="name" value={formData.name} onChange={handleChange}></input>
                 </div>
                 <div className="recipe-card">
                     <div className="top-details">
@@ -332,11 +351,11 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         <div className="small-details">
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="servingCalories">Calories*</label>
-                                <input name="servingCalories" id="servingCalories" className="small-detail-input" type="number" placeholder="kcal" value={formData.servingCalories} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
+                                <input name="servingCalories" id="servingCalories" className={`small-detail-input ${hasError.servingCalories ? 'error' : ''}`} type="number" placeholder="kcal" value={formData.servingCalories} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
                             </div>
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="servingCount">Servings*</label>
-                                <input name="servingCount" id="servingCount" className="small-detail-input" type="number" placeholder="people" value={formData.servingCount} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
+                                <input name="servingCount" id="servingCount" className={`small-detail-input ${hasError.servingCount ? 'error' : ''}`} type="number" placeholder="people" value={formData.servingCount} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
                             </div>
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="cuisine">Cuisine*</label>
