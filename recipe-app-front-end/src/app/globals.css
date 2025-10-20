@@ -616,7 +616,11 @@ select,
 .autocomplete-input.error:focus,
 .autocomplete-input.error,
 .ingredient-input.error:focus,
-.ingredient-input.error {
+.ingredient-input.error,
+.page-title.error:focus,
+.page-title.error,
+.small-detail-input.error:focus,
+.small-detail-input.error {
   outline: none;
   border-color: var(--error-color);
   box-shadow: 0 0 4px 3px rgba(129, 28, 50, 0.5);

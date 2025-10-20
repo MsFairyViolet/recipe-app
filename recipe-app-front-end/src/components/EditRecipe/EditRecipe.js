@@ -202,7 +202,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             setHasError(prev => ({ ...prev, servingCount: true }))
         }
     }
-    //check if required fields are filled in
+    //check if required fields are filled in (preferably combine this with the required field)
     const validateFormData = () => {
         validateRequired()
         const { name, servingCalories, servingCount, cuisine } = formData
