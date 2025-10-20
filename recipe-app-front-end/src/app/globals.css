@@ -614,12 +614,7 @@ select,
 
 /* Error validation */
 .autocomplete-input.error:focus,
-.autocomplete-input.error {
-  outline: none;
-  border-color: var(--error-color);
-  box-shadow: 0 0 4px 3px rgba(129, 28, 50, 0.5);
-}
-
+.autocomplete-input.error,
 .ingredient-input.error:focus,
 .ingredient-input.error {
   outline: none;
