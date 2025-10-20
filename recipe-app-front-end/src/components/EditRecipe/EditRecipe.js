@@ -192,7 +192,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
     //check if all the ingredients are not empty
     const validateIngredients = (ingredients) => {
-        return ingredients.every(ingredient => {
+        return formData.ingredients.every(ingredient => {
             return ingredient.name.trim() !== "" && ingredient.amount.trim() !== ""
         })
     }
@@ -223,19 +223,17 @@ export default function EditRecipe({ recipe, isNew = false }) {
             return
         }
 
-        const normalizedIngredients = normalizeIngredientAmounts(formData.ingredients)
-
         const normalizedFormData = {
             ...formData,
-            ingredients: normalizedIngredients
+            ingredients: formData.ingredients
         }
 
-        if (!validateIngredients(normalizedIngredients)) {
+        if (!validateIngredients(formData.ingredients)) {
             alert("Please fill in all ingredient fields.")
             return
         }
 
-        if(!validateAmounts(normalizedIngredients)) {
+        if(!validateAmounts(formData.ingredients)) {
             alert("Those ingredients are no valid numbers!")
             return
         }

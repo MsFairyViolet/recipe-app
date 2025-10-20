@@ -10,6 +10,7 @@ export default function IngredientAmountType({ ingredient, row, handleIngredient
       if(isNaN(parseFloat(amount))){
          setHasError(true)
          console.log("error on this amount")
+         return
       }
       setHasError(false)
    }
