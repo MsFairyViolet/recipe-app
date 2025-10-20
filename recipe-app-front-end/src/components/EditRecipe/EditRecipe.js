@@ -17,13 +17,13 @@ export default function EditRecipe({ recipe, isNew = false }) {
         cuisines: true,
         amountTypes: true
     })
-    const [error, setError] = useState({
+    const [errorApi, setErrorApi] = useState({
         allIngredients: null,
         recipes: null,
         cuisines: null,
         amountTypes: null
     })
-    const [hasError, setHasError] = useState({
+    const [errorField, setErrorField] = useState({
         name: null,
         servingCalories: null,
         servingCount: null
@@ -53,7 +53,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
             .catch((error) => {
                 console.log("Error fetching all ingredients: ", error)
-                setError(prev => ({ ...prev, allIngredients: error.message }))
+                setErrorApi(prev => ({ ...prev, allIngredients: error.message }))
                 setLoading(prev => ({ ...prev, allIngredients: false }))
             })
     }
@@ -66,7 +66,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
             .catch((error) => {
                 console.log("Error fetching recipes: ", error)
-                setError(prev => ({ ...prev, recipes: error.message }))
+                setErrorApi(prev => ({ ...prev, recipes: error.message }))
                 setLoading(prev => ({ ...prev, recipes: false }))
             })
     }
@@ -79,7 +79,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
             .catch((error) => {
                 console.log("Error fetching cuisines: ", error)
-                setError(prev => ({ ...prev, cuisines: error.message }))
+                setErrorApi(prev => ({ ...prev, cuisines: error.message }))
                 setLoading(prev => ({ ...prev, cuisines: false }))
             })
     }
@@ -92,7 +92,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
             .catch((error) => {
                 console.log("Error fetching amount types: ", error)
-                setError(prev => ({ ...prev, amountTypes: error.message }))
+                setErrorApi(prev => ({ ...prev, amountTypes: error.message }))
                 setLoading(prev => ({ ...prev, amountTypes: false }))
             })
     }
@@ -192,14 +192,14 @@ export default function EditRecipe({ recipe, isNew = false }) {
     //check if required fields are filled in
     const validateRequired = () => {
         if (formData.name === "")
-            setHasError(prev => ({ ...prev, name: true }))
+            setErrorField(prev => ({ ...prev, name: true }))
 
         if (formData.servingCalories === 0) {
-            setHasError(prev => ({ ...prev, servingCalories: true }))
+            setErrorField(prev => ({ ...prev, servingCalories: true }))
         }
 
         if (formData.servingCount === 0) {
-            setHasError(prev => ({ ...prev, servingCount: true }))
+            setErrorField(prev => ({ ...prev, servingCount: true }))
         }
     }
     //check if required fields are filled in (preferably combine this with the required field)
@@ -324,7 +324,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
         return <p className="warning">Loading...</p>
     }
 
-    if (error.allIngredients || error.recipes || error.cuisines || error.amountTypes) {
+    if (errorApi.allIngredients || errorApi.recipes || errorApi.cuisines || errorApi.amountTypes) {
         return <p className="warning error">Failed to load.</p>
     }
 
@@ -333,7 +333,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             <div className="edit-page" onKeyDown={handleKeyDown}>
                 <div className="title-detail-box">
                     <label className="box-label" htmlFor="page-title">Recipe name*</label>
-                    <input className={`page-title ${hasError.name ? 'error' : ''}`} id="page-title" placeholder="Name your recipe" type="text" name="name" value={formData.name} onChange={handleChange}></input>
+                    <input className={`page-title ${errorField.name ? 'error' : ''}`} id="page-title" placeholder="Name your recipe" type="text" name="name" value={formData.name} onChange={handleChange}></input>
                 </div>
                 <div className="recipe-card">
                     <div className="top-details">
@@ -351,11 +351,11 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         <div className="small-details">
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="servingCalories">Calories*</label>
-                                <input name="servingCalories" id="servingCalories" className={`small-detail-input ${hasError.servingCalories ? 'error' : ''}`} type="number" placeholder="kcal" value={formData.servingCalories} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
+                                <input name="servingCalories" id="servingCalories" className={`small-detail-input ${errorField.servingCalories ? 'error' : ''}`} type="number" placeholder="kcal" value={formData.servingCalories} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
                             </div>
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="servingCount">Servings*</label>
-                                <input name="servingCount" id="servingCount" className={`small-detail-input ${hasError.servingCount ? 'error' : ''}`} type="number" placeholder="people" value={formData.servingCount} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
+                                <input name="servingCount" id="servingCount" className={`small-detail-input ${errorField.servingCount ? 'error' : ''}`} type="number" placeholder="people" value={formData.servingCount} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
                             </div>
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="cuisine">Cuisine*</label>
