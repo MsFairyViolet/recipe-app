@@ -1,6 +1,6 @@
 import { useState, useRef } from "react"
 
-export default function IngredientAmountType({ ingredient, row, handleIngredientChange }) {
+export default function IngredientAmountType({ ingredient, row, handleIngredientChange, showErrors }) {
 
    const [errorField, setErrorField] = useState(false)
    const inputRef = useRef(null)
@@ -9,7 +9,7 @@ export default function IngredientAmountType({ ingredient, row, handleIngredient
    const validateAmount = (amount) => {
       if(isNaN(parseFloat(amount))){
          setErrorField(true)
-         console.log("error on this amount")
+         console.log("error on this amount", amount)
          return
       }
       setErrorField(false)
@@ -17,7 +17,7 @@ export default function IngredientAmountType({ ingredient, row, handleIngredient
 
    return (
       <input
-         data-test="ingredient-amount" className={`second-column ingredient-input ${errorField ? 'error' : ''}`} type="text" placeholder="quanity"
+         data-test="ingredient-amount" className={`second-column ingredient-input ${showErrors && errorField ? 'error' : ''}`} type="text" placeholder="quanity"
          value={ingredient.amount}
          onFocus={(e) => e.target.select()}
          onChange={(e) => handleIngredientChange(row, "amount", e.target.value.replace(',', '.'))}

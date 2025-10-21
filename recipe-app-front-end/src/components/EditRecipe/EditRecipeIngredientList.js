@@ -2,7 +2,7 @@ import RecipeIngredientSelector from "@components/EditRecipe/RecipeIngredientSel
 import Select from "../common/Select"
 import IngredientAmountType from "./IngredientAmounttype"
 
-export default function EditRecipeIngredientsList({ ingredientList, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, allIngredients, fetchIngredients, amountTypes }) {
+export default function EditRecipeIngredientsList({ ingredientList, handleIngredientAdd, handleIngredientChange, handleIngredientDelete, handleAllIngredientsDelete, allIngredients, fetchIngredients, amountTypes, showErrors }) {
 
     return (
         <div className="edit-page ingredients-list">
@@ -15,8 +15,8 @@ export default function EditRecipeIngredientsList({ ingredientList, handleIngred
 
             {ingredientList.map((ingredient, index) => (
                 <div data-test={`ingredient-edit-row-${index}`} className="row" key={`${ingredient.id}-${index}`}>
-                    <RecipeIngredientSelector ingredient={ingredient} row={index} allIngredients={allIngredients} ingredientList={ingredientList} handleIngredientChange={handleIngredientChange} fetchIngredients={fetchIngredients} />
-                    <IngredientAmountType ingredient={ingredient} row={index} handleIngredientChange={handleIngredientChange}/>
+                    <RecipeIngredientSelector ingredient={ingredient} row={index} allIngredients={allIngredients} ingredientList={ingredientList} handleIngredientChange={handleIngredientChange} fetchIngredients={fetchIngredients} showErrors={showErrors}/>
+                    <IngredientAmountType ingredient={ingredient} row={index} handleIngredientChange={handleIngredientChange} showErrors={showErrors}/>
                     <Select options={amountTypes}
                         selected={ingredient.amountType}
                         onSelect={(value) => handleIngredientChange(index, "amountType", value)}

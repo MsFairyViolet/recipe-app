@@ -28,6 +28,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
         servingCalories: null,
         servingCount: null
     })
+    const [showErrors, setShowErrors] = useState(false)
     const [allIngredients, setAllIngredients] = useState(null)
     const [recipes, setRecipes] = useState([])
     const [cuisines, setCuisines] = useState(null)
@@ -189,18 +190,32 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
+    const validateRecipeName = (name) => {
+        if (name === "") {
+            setErrorField(prev => ({ ...prev, name: true }))
+            return
+        }
+        setErrorField(prev => ({ ...prev, name: false }))
+    }
+
+    const validateServingCalories = (servingCalories) => {
+        if (servingCalories === 0 || servingCalories === "") {
+            setErrorField(prev => ({ ...prev, servingCalories: true }))
+            return
+        }
+        setErrorField(prev => ({ ...prev, servingCalories: false }))
+    }
+
+    const validateServingCount = (servingCount) => {
+        if (servingCount === 0 || servingCount === "") {
+            setErrorField(prev => ({ ...prev, servingCount: true }))
+            return
+        }
+        setErrorField(prev => ({ ...prev, servingCount: false }))
+    }
+
     //check if required fields are filled in
     const validateRequired = () => {
-        if (formData.name === "")
-            setErrorField(prev => ({ ...prev, name: true }))
-
-        if (formData.servingCalories === 0) {
-            setErrorField(prev => ({ ...prev, servingCalories: true }))
-        }
-
-        if (formData.servingCount === 0) {
-            setErrorField(prev => ({ ...prev, servingCount: true }))
-        }
         const { name, servingCalories, servingCount, cuisine } = formData
         return name && servingCalories && servingCount && cuisine
     }
@@ -233,8 +248,13 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const handleSave = () => {
+        validateRecipeName(formData.name)
+        validateServingCalories(formData.servingCalories)
+        validateServingCount(formData.servingCount)
+
         if (!validateRequired()) {
             alert("Please fill in the required fields.")
+            setShowErrors(true)
             return
         }
 
@@ -245,11 +265,13 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
         if (!validateIngredients(formData.ingredients)) {
             alert("Please fill in all ingredient fields.")
+            setShowErrors(true)
             return
         }
 
         if (!validateAmounts(formData.ingredients)) {
             alert("Those ingredients are no valid numbers!")
+            setShowErrors(true)
             return
         }
 
@@ -329,7 +351,13 @@ export default function EditRecipe({ recipe, isNew = false }) {
             <div className="edit-page" onKeyDown={handleKeyDown}>
                 <div className="title-detail-box">
                     <label className="box-label" htmlFor="page-title">Recipe name*</label>
-                    <input className={`page-title ${errorField.name ? 'error' : ''}`} id="page-title" placeholder="Name your recipe" type="text" name="name" value={formData.name} onChange={handleChange}></input>
+                    <input
+                        className={`page-title ${showErrors && errorField.name ? 'error' : ''}`}
+                        id="page-title" placeholder="Name your recipe"
+                        type="text" name="name" value={formData.name}
+                        onChange={handleChange}
+                        onBlur={(e) => validateRecipeName(e.target.value)}>
+                    </input>
                 </div>
                 <div className="recipe-card">
                     <div className="top-details">
@@ -347,11 +375,27 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         <div className="small-details">
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="servingCalories">Calories*</label>
-                                <input name="servingCalories" id="servingCalories" className={`small-detail-input ${errorField.servingCalories ? 'error' : ''}`} type="number" placeholder="kcal" value={formData.servingCalories} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
+                                <input
+                                    name="servingCalories" id="servingCalories"
+                                    className={`small-detail-input ${showErrors && errorField.servingCalories ? 'error' : ''}`}
+                                    type="number" placeholder="kcal"
+                                    value={formData.servingCalories}
+                                    onFocus={(e) => e.target.select()}
+                                    onChange={handleChange}
+                                    onBlur={(e) => validateServingCalories(e.target.value)}>
+                                </input>
                             </div>
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="servingCount">Servings*</label>
-                                <input name="servingCount" id="servingCount" className={`small-detail-input ${errorField.servingCount ? 'error' : ''}`} type="number" placeholder="people" value={formData.servingCount} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
+                                <input
+                                    name="servingCount" id="servingCount"
+                                    className={`small-detail-input ${showErrors && errorField.servingCount ? 'error' : ''}`}
+                                    type="number" placeholder="people"
+                                    value={formData.servingCount}
+                                    onFocus={(e) => e.target.select()}
+                                    onChange={handleChange}
+                                    onBlur={(e) => validateServingCount(e.target.value)}>
+                                </input>
                             </div>
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="cuisine">Cuisine*</label>
@@ -373,7 +417,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                 <div>
                     <h4 className="box-title">Ingredients:</h4>
-                    <EditRecipeIngriedientList ingredientList={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} allIngredients={allIngredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} />
+                    <EditRecipeIngriedientList ingredientList={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} allIngredients={allIngredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} showErrors={showErrors} />
                 </div>
 
                 <div>

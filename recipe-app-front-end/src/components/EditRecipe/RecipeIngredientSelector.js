@@ -5,7 +5,7 @@ import { addIngredient } from "@components/common/Apicalls"
 import { useConfirm } from "@components/common/ConfirmProvider"
 import { toBaseChars } from "@components/common/filterHelpers"
 
-export default function RecipeIngredientSelector({ ingredient, row, allIngredients, ingredientList, handleIngredientChange, fetchIngredients }) {
+export default function RecipeIngredientSelector({ ingredient, row, allIngredients, ingredientList, handleIngredientChange, fetchIngredients, showErrors }) {
 
    const confirm = useConfirm()
    const [searchQuery, setSearchQuery] = useState("")
