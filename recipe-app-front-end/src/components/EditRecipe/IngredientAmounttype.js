@@ -8,11 +8,11 @@ export default function IngredientAmountType({ ingredient, row, handleIngredient
    //check if all the amounts are a valid number
    const validateAmount = (amount) => {
       if(isNaN(parseFloat(amount))){
-         setHasError(true)
+         setErrorField(true)
          console.log("error on this amount")
          return
       }
-      setHasError(false)
+      setErrorField(false)
    }
 
    return (
