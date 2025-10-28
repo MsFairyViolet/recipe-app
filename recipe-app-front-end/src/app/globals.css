@@ -71,7 +71,7 @@ html {
 
 /* Search Bar */
 
-.search-container{
+.search-container {
   position: relative;
   display: flex;
   width: 55%;
@@ -385,10 +385,11 @@ nav {
   align-items: space-between;
 }
 
-.label-box{
+.label-box {
   display: flex;
   flex-direction: row;
 }
+
 .big-detail-box {
   height: 100%;
 }
@@ -497,12 +498,12 @@ textarea.note-details {
   transition: background-color 0.2s ease;
 }
 
-.autocomplete-dropdown .selected{
+.autocomplete-dropdown .selected {
   font-style: italic;
   background-color: var(--hoover-color)
 }
 
-.occurs{
+.occurs {
   color: var(--text-color-light);
   font-style: italic;
 }
@@ -631,6 +632,23 @@ select,
   box-shadow: 0 0 4px 3px rgba(129, 28, 50, 0.5);
 }
 
+.amount-box {
+  position: relative;
+}
+
+.error-alert-button {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-top-right-radius: 5px;
+  border: 10px solid;
+  border-color: var(--error-color) var(--error-color) transparent transparent;
+}
+
 /* Confirmation Window */
 .overlay {
   position: fixed;
@@ -743,7 +761,7 @@ select:focus {
   color: var(--error-color)
 }
 
-.small-error-message{
+.small-error-message {
   color: var(--error-color);
   font-size: 0.75rem;
   font-weight: bold;
@@ -961,14 +979,14 @@ input[type="number"] {
 
   /* Search Bar */
 
-.search-bar {
-  padding-right: 5%;
+  .search-bar {
+    padding-right: 5%;
   }
 
-.clear-button {
-  width: 5%;
-  cursor: pointer;
-}
+  .clear-button {
+    width: 5%;
+    cursor: pointer;
+  }
 
   /* View Recipe */
 
