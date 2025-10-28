@@ -24,9 +24,9 @@ export default function EditRecipe({ recipe, isNew = false }) {
         amountTypes: null
     })
     const [errorField, setErrorField] = useState({
-        name: null,
-        servingCalories: null,
-        servingCount: null
+        name: {error: false, message: ""},
+        servingCalories: {error: false, message: ""},
+        servingCount: {error: false, message: ""}
     })
     const [showErrors, setShowErrors] = useState(false)
     const [allIngredients, setAllIngredients] = useState(null)
@@ -192,26 +192,26 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
     const validateRecipeName = (name) => {
         if (name === "") {
-            setErrorField(prev => ({ ...prev, name: true }))
+            setErrorField(prev => ({ ...prev, name: {error: true, message: "Required field" }}))
             return
         }
-        setErrorField(prev => ({ ...prev, name: false }))
+        setErrorField(prev => ({ ...prev, name: {error: false, message: "" }}))
     }
 
     const validateServingCalories = (servingCalories) => {
         if (servingCalories === 0 || servingCalories === "") {
-            setErrorField(prev => ({ ...prev, servingCalories: true }))
+            setErrorField(prev => ({ ...prev, servingCalories: {error: true, message: "Required field" }}))
             return
         }
-        setErrorField(prev => ({ ...prev, servingCalories: false }))
+        setErrorField(prev => ({ ...prev, servingCalories: {error: false, message: "" }}))
     }
 
     const validateServingCount = (servingCount) => {
         if (servingCount === 0 || servingCount === "") {
-            setErrorField(prev => ({ ...prev, servingCount: true }))
+            setErrorField(prev => ({ ...prev, servingCount: {error: true, message: "Required field" }}))
             return
         }
-        setErrorField(prev => ({ ...prev, servingCount: false }))
+        setErrorField(prev => ({ ...prev, servingCount: {error: false, message: "" }}))
     }
 
     //check if required fields are filled in
@@ -352,7 +352,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                 <div className="title-detail-box">
                     <label className="box-label" htmlFor="page-title">Recipe name*</label>
                     <input
-                        className={`page-title ${showErrors && errorField.name ? 'error' : ''}`}
+                        className={`page-title ${showErrors && errorField.name.error ? 'error' : ''}`}
                         id="page-title" placeholder="Name your recipe"
                         type="text" name="name" value={formData.name}
                         onChange={handleChange}
@@ -377,7 +377,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                                 <label className="box-label" htmlFor="servingCalories">Calories*</label>
                                 <input
                                     name="servingCalories" id="servingCalories"
-                                    className={`small-detail-input ${showErrors && errorField.servingCalories ? 'error' : ''}`}
+                                    className={`small-detail-input ${showErrors && errorField.servingCalories.error ? 'error' : ''}`}
                                     type="number" placeholder="kcal"
                                     value={formData.servingCalories}
                                     onFocus={(e) => e.target.select()}
@@ -389,7 +389,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                                 <label className="box-label" htmlFor="servingCount">Servings*</label>
                                 <input
                                     name="servingCount" id="servingCount"
-                                    className={`small-detail-input ${showErrors && errorField.servingCount ? 'error' : ''}`}
+                                    className={`small-detail-input ${showErrors && errorField.servingCount.error ? 'error' : ''}`}
                                     type="number" placeholder="people"
                                     value={formData.servingCount}
                                     onFocus={(e) => e.target.select()}

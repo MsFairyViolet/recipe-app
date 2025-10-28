@@ -2,22 +2,20 @@ import { useState, useRef } from "react"
 
 export default function IngredientAmountType({ ingredient, row, handleIngredientChange, showErrors }) {
 
-   const [errorField, setErrorField] = useState(false)
+   const [errorField, setErrorField] = useState({error: false, message: ""})
    const inputRef = useRef(null)
 
-   //check if all the amounts are a valid number
    const validateAmount = (amount) => {
       if(isNaN(parseFloat(amount))){
-         setErrorField(true)
-         console.log("error on this amount", amount)
+         setErrorField({error: true, message: "Not a valid number"})
          return
       }
-      setErrorField(false)
+      setErrorField({error: false, message: ""})
    }
 
    return (
       <input
-         data-test="ingredient-amount" className={`second-column ingredient-input ${showErrors && errorField ? 'error' : ''}`} type="text" placeholder="quanity"
+         data-test="ingredient-amount" className={`second-column ingredient-input ${showErrors && errorField.error ? 'error' : ''}`} type="text" placeholder="quanity"
          value={ingredient.amount}
          onFocus={(e) => e.target.select()}
          onChange={(e) => handleIngredientChange(row, "amount", e.target.value.replace(',', '.'))}
