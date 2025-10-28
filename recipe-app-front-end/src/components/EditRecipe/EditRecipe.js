@@ -24,9 +24,9 @@ export default function EditRecipe({ recipe, isNew = false }) {
         amountTypes: null
     })
     const [errorField, setErrorField] = useState({
-        name: {error: false, message: ""},
-        servingCalories: {error: false, message: ""},
-        servingCount: {error: false, message: ""}
+        name: { error: false, message: "" },
+        servingCalories: { error: false, message: "" },
+        servingCount: { error: false, message: "" }
     })
     const [showErrors, setShowErrors] = useState(false)
     const [allIngredients, setAllIngredients] = useState(null)
@@ -192,26 +192,26 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
     const validateRecipeName = (name) => {
         if (name === "") {
-            setErrorField(prev => ({ ...prev, name: {error: true, message: "Required field" }}))
+            setErrorField(prev => ({ ...prev, name: { error: true, message: "Required field" } }))
             return
         }
-        setErrorField(prev => ({ ...prev, name: {error: false, message: "" }}))
+        setErrorField(prev => ({ ...prev, name: { error: false, message: "" } }))
     }
 
     const validateServingCalories = (servingCalories) => {
         if (servingCalories === 0 || servingCalories === "") {
-            setErrorField(prev => ({ ...prev, servingCalories: {error: true, message: "Required field" }}))
+            setErrorField(prev => ({ ...prev, servingCalories: { error: true, message: "Required field" } }))
             return
         }
-        setErrorField(prev => ({ ...prev, servingCalories: {error: false, message: "" }}))
+        setErrorField(prev => ({ ...prev, servingCalories: { error: false, message: "" } }))
     }
 
     const validateServingCount = (servingCount) => {
         if (servingCount === 0 || servingCount === "") {
-            setErrorField(prev => ({ ...prev, servingCount: {error: true, message: "Required field" }}))
+            setErrorField(prev => ({ ...prev, servingCount: { error: true, message: "Required field" } }))
             return
         }
-        setErrorField(prev => ({ ...prev, servingCount: {error: false, message: "" }}))
+        setErrorField(prev => ({ ...prev, servingCount: { error: false, message: "" } }))
     }
 
     //check if required fields are filled in
@@ -350,7 +350,12 @@ export default function EditRecipe({ recipe, isNew = false }) {
         <>
             <div className="edit-page" onKeyDown={handleKeyDown}>
                 <div className="title-detail-box">
-                    <label className="box-label" htmlFor="page-title">Recipe name*</label>
+                    <div className="label-box">
+                        <label className="box-label" htmlFor="page-title">Recipe name*</label>
+                        {errorField.name.error && (
+                            <p className="small-error-message">{errorField.name.message}</p>
+                        )}
+                    </div>
                     <input
                         className={`page-title ${showErrors && errorField.name.error ? 'error' : ''}`}
                         id="page-title" placeholder="Name your recipe"
@@ -374,7 +379,12 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                         <div className="small-details">
                             <div className="small-detail-box">
-                                <label className="box-label" htmlFor="servingCalories">Calories*</label>
+                                <div className="label-box">
+                                    <label className="box-label" htmlFor="servingCalories">Calories*</label>
+                                    {errorField.servingCalories.error && (
+                                        <p className="small-error-message">{errorField.servingCalories.message}</p>
+                                    )}
+                                </div>
                                 <input
                                     name="servingCalories" id="servingCalories"
                                     className={`small-detail-input ${showErrors && errorField.servingCalories.error ? 'error' : ''}`}
@@ -386,7 +396,12 @@ export default function EditRecipe({ recipe, isNew = false }) {
                                 </input>
                             </div>
                             <div className="small-detail-box">
-                                <label className="box-label" htmlFor="servingCount">Servings*</label>
+                                <div className="label-box">
+                                    <label className="box-label" htmlFor="servingCount">Servings*</label>
+                                    {errorField.servingCount.error && (
+                                        <p className="small-error-message">{errorField.servingCount.message}</p>
+                                    )}
+                                </div>
                                 <input
                                     name="servingCount" id="servingCount"
                                     className={`small-detail-input ${showErrors && errorField.servingCount.error ? 'error' : ''}`}
