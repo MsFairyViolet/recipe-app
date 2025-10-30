@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import { validate } from "uuid"
 
 export default function IngredientAmountType({ ingredient, row, handleIngredientChange, showErrors }) {
 
@@ -14,11 +13,12 @@ export default function IngredientAmountType({ ingredient, row, handleIngredient
    }
 
    useEffect(() => {
-      if(showErrors==true){
-         validateAmount()
+      if(showErrors){
+         validateAmount(ingredient.amount)
+         console.log(ingredient.amount)
       }
    }, [showErrors])
-   
+
    return (
       <div className="amount-box">
          <input
