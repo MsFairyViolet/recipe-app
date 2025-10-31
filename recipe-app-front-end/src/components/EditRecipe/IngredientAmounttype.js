@@ -15,9 +15,8 @@ export default function IngredientAmountType({ ingredient, row, handleIngredient
    useEffect(() => {
       if(showErrors){
          validateAmount(ingredient.amount)
-         console.log(ingredient.amount)
       }
-   }, [showErrors])
+   }, [showErrors, ingredient.amount])
 
    return (
       <div className="amount-box">
@@ -26,7 +25,7 @@ export default function IngredientAmountType({ ingredient, row, handleIngredient
             value={ingredient.amount}
             onFocus={(e) => e.target.select()}
             onChange={(e) => handleIngredientChange(row, "amount", e.target.value.replace(',', '.'))}
-            onBlur={(e) => validateAmount(e.target.value)}>
+         >
          </input>
          {errorField.error && (
             <button className="error-alert-button" onClick={() => console.log("test")}></button>
