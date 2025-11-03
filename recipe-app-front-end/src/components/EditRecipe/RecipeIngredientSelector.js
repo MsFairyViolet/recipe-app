@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { addIngredient } from "@components/common/Apicalls"
 import { useConfirm } from "@components/common/ConfirmProvider"
 import { toBaseChars } from "@components/common/filterHelpers"
@@ -14,6 +14,12 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
    const [errorField, setErrorField] = useState({ error: false, message: "" })
    const inputRef = useRef(null)
 
+   useEffect(() => {
+      if (showErrors) {
+         validateIngredient(ingredient)
+      }
+   }, [showErrors, ingredient])
+
    const handleFocus = () => {
       setIsOpen(true)
       setSearchQuery(ingredient.name)
@@ -21,8 +27,8 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
 
    const handleBlur = (inputfield) => {
       if (inputfield.target.value.trim() !== "") {
-         if (!isSelectingFromDropdown && !validateIngredient(ingredient)) {
-            setErrorField({ error: true, message: "No ingredient selected" })
+         if (!isSelectingFromDropdown) {
+            validateIngredient(ingredient)
             setIsOpen(false)
             setIsSelectingFromDropdown(false)
             return
@@ -30,12 +36,33 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
       }
       setSearchQuery("")
       setIsOpen(false)
-      setErrorField({ error: false, message: "" })
       setIsSelectingFromDropdown(false)
    }
 
-   const validateIngredient = (queryIngredient) => {
-      return !isNaN(Number(queryIngredient.id))
+   const validateIngredient = (ingredientToValidate) => {
+      if (!ingredientToValidate) {
+         setErrorField({ error: false, message: "No ingredient to validate" })
+         return
+      }
+
+      if (ingredientToValidate.name.trim() === "") {
+         setErrorField({ error: true, message: "Ingredient can not be empty" })
+         return
+      }
+
+      if (isNaN(Number(ingredientToValidate.id))) {
+         setErrorField({ error: true, message: "No ingredient selected" })
+         return
+      }
+
+      const matchingIngredient = allIngredients.find(i => i.id === ingredientToValidate.id)
+
+      if (!matchingIngredient || matchingIngredient.name !== ingredientToValidate.name) {
+         setErrorField({ error: true, message: "No ingredient selected" })
+         return
+      }
+
+      setErrorField({ error: false, message: "" })
    }
 
    const checkIngredientExists = (queryIngredient) => {
@@ -49,9 +76,6 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
       await confirm("Add new global ingredient", defaultName, true)
          .then((queryIngredient) => {
             if (!queryIngredient) {
-               if (ingredient.name.trim() !== "" && !checkIngredientExists(ingredient.name)) {
-                  setHasError(true)
-               }
                return
             }
 
