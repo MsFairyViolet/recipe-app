@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
 import { getIngredients, getRecipes, getCuisines, getAmountTypes, createRecipe, updateRecipe, deleteRecipe } from "@components/common/Apicalls"
 import Select from "../common/Select"
+import ErrorToolTip from "@components/common/ErrorToolTip"
 
 export default function EditRecipe({ recipe, isNew = false }) {
     const router = useRouter()
@@ -234,7 +235,6 @@ export default function EditRecipe({ recipe, isNew = false }) {
         validateRequiredField("servingCount", formData.servingCount)
 
         if (!validateRequired()) {
-            alert("Please fill in the required fields.")
             setShowErrors(true)
             return
         }
@@ -245,13 +245,11 @@ export default function EditRecipe({ recipe, isNew = false }) {
         }
 
         if (!validateIngredients(formData.ingredients)) {
-            alert("Please fill in all ingredient fields.")
             setShowErrors(true)
             return
         }
 
         if (!validateAmounts(formData.ingredients)) {
-            alert("Those ingredients are no valid numbers!")
             setShowErrors(true)
             return
         }
@@ -331,18 +329,19 @@ export default function EditRecipe({ recipe, isNew = false }) {
         <>
             <div className="edit-page" onKeyDown={handleKeyDown}>
                 <div className="title-detail-box">
-                    <div className="label-box">
-                        <label className="box-label" htmlFor="page-title">Recipe name*</label>
+                    <label className="box-label" htmlFor="page-title">Recipe name*</label>
+                    <div className="name-box">
                         {errorField.name.error && (
-                            <p className="small-error-message">{errorField.name.message}</p>
+                            <ErrorToolTip message={errorField.name.message} />
                         )}
+                        <input
+                            className={`page-title title-input ${showErrors && errorField.name.error ? 'error' : ''}`}
+                            id="page-title" placeholder="Name your recipe"
+                            type="text" name="name" value={formData.name}
+                            onChange={handleChange}>
+                        </input>
+
                     </div>
-                    <input
-                        className={`page-title ${showErrors && errorField.name.error ? 'error' : ''}`}
-                        id="page-title" placeholder="Name your recipe"
-                        type="text" name="name" value={formData.name}
-                        onChange={handleChange}>
-                    </input>
                 </div>
                 <div className="recipe-card">
                     <div className="top-details">
@@ -359,36 +358,38 @@ export default function EditRecipe({ recipe, isNew = false }) {
 
                         <div className="small-details">
                             <div className="small-detail-box">
-                                <div className="label-box">
-                                    <label className="box-label" htmlFor="servingCalories">Calories*</label>
+                                <label className="box-label" htmlFor="servingCalories">Calories*</label>
+                                <div className="calorie-box">
                                     {errorField.servingCalories.error && (
-                                        <p className="small-error-message">{errorField.servingCalories.message}</p>
+                                        <ErrorToolTip message={errorField.servingCalories.message} />
                                     )}
+                                    <input
+                                        name="servingCalories" id="servingCalories"
+                                        className={`small-detail-input ${showErrors && errorField.servingCalories.error ? 'error' : ''}`}
+                                        type="number" placeholder="kcal"
+                                        value={formData.servingCalories}
+                                        onFocus={(e) => e.target.select()}
+                                        onChange={handleChange}>
+                                    </input>
+
                                 </div>
-                                <input
-                                    name="servingCalories" id="servingCalories"
-                                    className={`small-detail-input ${showErrors && errorField.servingCalories.error ? 'error' : ''}`}
-                                    type="number" placeholder="kcal"
-                                    value={formData.servingCalories}
-                                    onFocus={(e) => e.target.select()}
-                                    onChange={handleChange}>
-                                </input>
                             </div>
                             <div className="small-detail-box">
-                                <div className="label-box">
-                                    <label className="box-label" htmlFor="servingCount">Servings*</label>
+                                <label className="box-label" htmlFor="servingCount">Servings*</label>
+                                <div className="serving-box">
                                     {errorField.servingCount.error && (
-                                        <p className="small-error-message">{errorField.servingCount.message}</p>
+                                        <ErrorToolTip message={errorField.servingCount.message} />
                                     )}
+                                    <input
+                                        name="servingCount" id="servingCount"
+                                        className={`small-detail-input ${showErrors && errorField.servingCount.error ? 'error' : ''}`}
+                                        type="number" placeholder="people"
+                                        value={formData.servingCount}
+                                        onFocus={(e) => e.target.select()}
+                                        onChange={handleChange}>
+                                    </input>
+
                                 </div>
-                                <input
-                                    name="servingCount" id="servingCount"
-                                    className={`small-detail-input ${showErrors && errorField.servingCount.error ? 'error' : ''}`}
-                                    type="number" placeholder="people"
-                                    value={formData.servingCount}
-                                    onFocus={(e) => e.target.select()}
-                                    onChange={handleChange}>
-                                </input>
                             </div>
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="cuisine">Cuisine*</label>
@@ -404,7 +405,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                                     id="cuisine"
                                     dataTest="cuisine" />
                             </div>
-                        </div >
+                        </div>
                     </div>
                 </div>
 

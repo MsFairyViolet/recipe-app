@@ -377,6 +377,10 @@ nav {
   margin-bottom: 0.5rem;
 }
 
+.title-input {
+  width: calc(100% - 1.1rem)
+}
+
 .title-detail-box,
 .big-detail-box,
 .small-detail-box {
@@ -632,7 +636,10 @@ select,
   box-shadow: 0 0 4px 3px rgba(129, 28, 50, 0.5);
 }
 
-.amount-box {
+.amount-box,
+.name-box,
+.calorie-box,
+.serving-box {
   position: relative;
 }
 
@@ -647,6 +654,24 @@ select,
   border-top-right-radius: 5px;
   border: 10px solid;
   border-color: var(--error-color) var(--error-color) transparent transparent;
+}
+
+.error-tool-tip {
+  position: absolute;
+  width: 80%;
+  height: 3rem;
+  bottom: 100%;
+  right: 0%;
+  margin-bottom: 0.25rem;
+  padding: 0.5rem;
+  background-color: var(--mid-background-color);
+  border-radius: 5px;
+  border-color: var(--error-color);
+  box-shadow: 0 0 4px 3px rgba(129, 28, 50, 0.5);
+  z-index: 101;
+  font-size: 1rem;
+  color: var(--error-color);
+
 }
 
 /* Confirmation Window */
@@ -759,13 +784,6 @@ select:focus {
 
 .error {
   color: var(--error-color)
-}
-
-.small-error-message {
-  color: var(--error-color);
-  font-size: 0.75rem;
-  font-weight: bold;
-  margin-left: auto;
 }
 
 .text-highlight {

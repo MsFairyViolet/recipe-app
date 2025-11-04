@@ -4,13 +4,18 @@
 
    const [isTooltipOpen, setIsToolTipOpen] = useState(false)
 
+   console.log("ErrorToolTip rendering")
+
    return (
-      <div onBlur={() => setIsToolTipOpen(false)}>
-         <button className="error-alert-button" onClick={() => setIsToolTipOpen(!isTooltipOpen)}></button>
+      <div>
          {isTooltipOpen && (
-            <div className="tooltip" >{message}</div>
+            <div className="error-tool-tip">{message}</div>
          )}
-      </div>
+         <button className="error-alert-button" onClick={() => setIsToolTipOpen(!isTooltipOpen)}></button>
+         </div>
 
    )
 }
+
+// Place back in code after styling
+// onBlur={() => setIsToolTipOpen(false)}
