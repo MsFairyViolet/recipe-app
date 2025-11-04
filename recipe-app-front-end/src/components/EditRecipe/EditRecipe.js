@@ -341,8 +341,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                         className={`page-title ${showErrors && errorField.name.error ? 'error' : ''}`}
                         id="page-title" placeholder="Name your recipe"
                         type="text" name="name" value={formData.name}
-                        onChange={handleChange}
-                        onBlur={(e) => validateRecipeName(e.target.value)}>
+                        onChange={handleChange}>
                     </input>
                 </div>
                 <div className="recipe-card">
@@ -372,8 +371,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                                     type="number" placeholder="kcal"
                                     value={formData.servingCalories}
                                     onFocus={(e) => e.target.select()}
-                                    onChange={handleChange}
-                                    onBlur={(e) => validateServingCalories(e.target.value)}>
+                                    onChange={handleChange}>
                                 </input>
                             </div>
                             <div className="small-detail-box">
@@ -389,8 +387,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
                                     type="number" placeholder="people"
                                     value={formData.servingCount}
                                     onFocus={(e) => e.target.select()}
-                                    onChange={handleChange}
-                                    onBlur={(e) => validateServingCount(e.target.value)}>
+                                    onChange={handleChange}>
                                 </input>
                             </div>
                             <div className="small-detail-box">
