@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import { addIngredient } from "@components/common/Apicalls"
 import { useConfirm } from "@components/common/ConfirmProvider"
 import { toBaseChars } from "@components/common/filterHelpers"
+import ErrorToolTip from "@components/common/ErrorToolTip"
 
 export default function RecipeIngredientSelector({ ingredient, row, allIngredients, ingredientList, handleIngredientChange, fetchIngredients, showErrors }) {
 
@@ -132,7 +133,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                placeholder="ingredient"
             />
             {errorField.error && (
-               <button className="error-alert-button" onClick={() => console.log("test")}></button>
+               <ErrorToolTip message={errorField.message}/>
             )}
          </div>
          {isOpen && (

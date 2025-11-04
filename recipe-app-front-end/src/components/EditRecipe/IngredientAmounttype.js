@@ -1,3 +1,4 @@
+import ErrorToolTip from "@components/common/ErrorToolTip"
 import { useState, useEffect } from "react"
 
 export default function IngredientAmountType({ ingredient, row, handleIngredientChange, showErrors }) {
@@ -13,7 +14,7 @@ export default function IngredientAmountType({ ingredient, row, handleIngredient
    }
 
    useEffect(() => {
-      if(showErrors){
+      if (showErrors) {
          validateAmount(ingredient.amount)
       }
    }, [showErrors, ingredient.amount])
@@ -28,7 +29,7 @@ export default function IngredientAmountType({ ingredient, row, handleIngredient
          >
          </input>
          {errorField.error && (
-            <button className="error-alert-button" onClick={() => console.log("test")}></button>
+            <ErrorToolTip message={errorField.message}/>
          )}
       </div >
    )
