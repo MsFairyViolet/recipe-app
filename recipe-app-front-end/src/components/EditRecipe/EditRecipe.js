@@ -190,44 +190,25 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
-    const validateRecipeName = (name) => {
-        if (name === "") {
-            setErrorField(prev => ({ ...prev, name: { error: true, message: "Required field" } }))
+    const validateRequiredField = (fieldName, value) => {
+        if (value === 0 || value === "") {
+            setErrorField(prev => ({ ...prev, [fieldName]: { error: true, message: "Required field" } }))
             return
         }
-        setErrorField(prev => ({ ...prev, name: { error: false, message: "" } }))
+        setErrorField(prev => ({ ...prev, [fieldName]: { error: false, message: "" } }))
     }
 
-    const validateServingCalories = (servingCalories) => {
-        if (servingCalories === 0 || servingCalories === "") {
-            setErrorField(prev => ({ ...prev, servingCalories: { error: true, message: "Required field" } }))
-            return
-        }
-        setErrorField(prev => ({ ...prev, servingCalories: { error: false, message: "" } }))
-    }
-
-    const validateServingCount = (servingCount) => {
-        if (servingCount === 0 || servingCount === "") {
-            setErrorField(prev => ({ ...prev, servingCount: { error: true, message: "Required field" } }))
-            return
-        }
-        setErrorField(prev => ({ ...prev, servingCount: { error: false, message: "" } }))
-    }
-
-    //check if required fields are filled in
     const validateRequired = () => {
         const { name, servingCalories, servingCount, cuisine } = formData
         return name && servingCalories && servingCount && cuisine
     }
 
-    //check if all the ingredients are not empty
     const validateIngredients = () => {
         return formData.ingredients.every(ingredient => {
             return ingredient.name.trim() !== "" && ingredient.amount.trim() !== ""
         })
     }
 
-    //check if all the amounts are a valid number
     const validateAmounts = () => {
         return formData.ingredients.every(ingredient => {
             return !isNaN(parseFloat(ingredient.amount))
@@ -248,9 +229,9 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const handleSave = () => {
-        validateRecipeName(formData.name)
-        validateServingCalories(formData.servingCalories)
-        validateServingCount(formData.servingCount)
+        validateRequiredField("name", formData.name)
+        validateRequiredField("servingCalories", formData.servingCalories)
+        validateRequiredField("servingCount", formData.servingCount)
 
         if (!validateRequired()) {
             alert("Please fill in the required fields.")
