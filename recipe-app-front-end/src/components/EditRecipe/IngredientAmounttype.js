@@ -20,9 +20,9 @@ export default function IngredientAmountType({ ingredient, row, handleIngredient
    }, [showErrors, ingredient.amount])
 
    return (
-      <div className="amount-box">
+      <div className="amount-box second-column">
          <input
-            data-test="ingredient-amount" className={`second-column ingredient-input ${showErrors && errorField.error ? 'error' : ''}`} type="text" placeholder="quanity"
+            data-test="ingredient-amount" className={`ingredient-input ${showErrors && errorField.error ? 'error' : ''}`} type="text" placeholder="quanity"
             value={ingredient.amount}
             onFocus={(e) => e.target.select()}
             onChange={(e) => handleIngredientChange(row, "amount", e.target.value.replace(',', '.'))}

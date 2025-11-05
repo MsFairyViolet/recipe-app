@@ -47,7 +47,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
       }
 
       if (ingredientToValidate.name.trim() === "") {
-         setErrorField({ error: true, message: "Ingredient can not be empty" })
+         setErrorField({ error: true, message: "Can't be empty" })
          return
       }
 
