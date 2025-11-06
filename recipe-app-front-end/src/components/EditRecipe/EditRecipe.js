@@ -317,6 +317,14 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
+    useEffect(() => {
+        if (showErrors) {
+            validateRequiredField("name", formData.name)
+            validateRequiredField("servingCalories", formData.servingCalories)
+            validateRequiredField("servingCount", formData.servingCount)
+        }
+    }, [showErrors, formData.name, formData.servingCalories, formData.servingCount])
+
     if (loading.allIngredients || loading.recipes || loading.cuisines || loading.amountTypes) {
         return <p className="warning">Loading...</p>
     }
