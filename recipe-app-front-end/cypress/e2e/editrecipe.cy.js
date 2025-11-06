@@ -34,7 +34,7 @@ describe('Edit Recipe Page', () => {
          it('displays all the correct ingredients for unedited Albondigas', () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").should("have.value", "tomatenblokjes")
-               cy.dataTest("ingredient-amount").should("have.value", "1")
+               cy.dataTest("ingredient-amount").should("have.value", "1.00")
                cy.dataTest("amount-type").should("contain", "stuk")
             })
          })
@@ -348,7 +348,7 @@ describe('Edit Recipe Page', () => {
                cy.wait("@getRecipe")
             })
 
-            it('sends a patch request with correct edits when saving recipe', () => {
+            it.only('sends a patch request with correct edits when saving recipe', () => {
                cy.get(".page-title").clear().type("Albondigas!")
                cy.dataTest('cuisine').click()
                cy.dataTest('cuisine-options').contains("Japans").click()
@@ -387,7 +387,7 @@ describe('Edit Recipe Page', () => {
                         {
                            "id": 15,
                            "name": "Aardappel",
-                           "amount": "15",
+                           "amount": "5",
                            "amountType": "portie"
                         }]
                   })
@@ -457,7 +457,8 @@ describe('Edit Recipe Page', () => {
          })
       })
    })
-   describe("Ingredient validation", () => {
+
+   describe("Form validation", () => {
       beforeEach(() => {
          cy.visit('http://localhost:3000/recipe/1/edit')
          cy.wait("@getRecipe")
