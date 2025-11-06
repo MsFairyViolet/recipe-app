@@ -19,7 +19,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
       if (showErrors) {
          validateIngredient(ingredient)
       }
-   }, [showErrors, ingredient])
+   }, [showErrors, ingredient.name])
 
    const handleFocus = () => {
       setIsOpen(true)
@@ -75,12 +75,13 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
 
    const handleQueryIngredientAdd = async (defaultName = "") => {
       await confirm("Add new global ingredient", defaultName, true)
-         .then((queryIngredient) => {
-            if (!queryIngredient) {
+         .then((confirmResult) => {
+            if (!confirmResult) {
+               validateIngredient(ingredient)
                return
             }
 
-            const newIngredient = queryIngredient.trim()
+            const newIngredient = confirmResult.trim()
 
             if (checkIngredientExists(newIngredient)) {
                alert("That ingredient already exists! Please modify the name and try again.")

@@ -348,7 +348,6 @@ export default function EditRecipe({ recipe, isNew = false }) {
                             type="text" name="name" value={formData.name}
                             onChange={handleChange}>
                         </input>
-
                     </div>
                 </div>
                 <div className="recipe-card">

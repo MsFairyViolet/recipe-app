@@ -9,9 +9,9 @@ export default function ErrorToolTip({ message }) {
          onBlur={() => setIsToolTipOpen(false)}
       >
          {isTooltipOpen && (
-            <div className="error-tool-tip">{message}</div>
+            <div data-test="tooltip-content" className="error-tool-tip">{message}</div>
          )}
-         <button className="error-alert-button" onClick={() => setIsToolTipOpen(!isTooltipOpen)}></button>
+         <button data-test="tooltip-button" className="error-alert-button" onClick={() => setIsToolTipOpen(!isTooltipOpen)}></button>
       </div>
 
    )

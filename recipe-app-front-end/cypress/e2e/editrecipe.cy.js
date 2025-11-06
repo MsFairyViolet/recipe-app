@@ -33,7 +33,7 @@ describe('Edit Recipe Page', () => {
 
          it('displays all the correct ingredients for unedited Albondigas', () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
-               cy.dataTest("ingredient-name").should("have.value", "tomatenblokjes")
+               cy.dataTest("ingredient-name").should("have.value", "Tomatenblokjes")
                cy.dataTest("ingredient-amount").should("have.value", "1.00")
                cy.dataTest("amount-type").should("contain", "stuk")
             })
@@ -132,8 +132,8 @@ describe('Edit Recipe Page', () => {
                   expect(alertStub).to.have.been.calledWith("Ingredient is already used in this recipe.")
                })
                cy.dataTest("ingredient-name").should("be.empty").should("have.focus")
-               })
-               cy.get(".autocomplete-dropdown").should("exist").should("contain", "Aardappel").and("contain", "Bleekselderij").and("contain", "Boter")
+            })
+            cy.get(".autocomplete-dropdown").should("exist").should("contain", "Aardappel").and("contain", "Bleekselderij").and("contain", "Boter")
          })
 
          it("filters the autocomplete list to multiple existing results when typing in ingredient name field", () => {
@@ -348,7 +348,7 @@ describe('Edit Recipe Page', () => {
                cy.wait("@getRecipe")
             })
 
-            it.only('sends a patch request with correct edits when saving recipe', () => {
+            it('sends a patch request with correct edits when saving recipe', () => {
                cy.get(".page-title").clear().type("Albondigas!")
                cy.dataTest('cuisine').click()
                cy.dataTest('cuisine-options').contains("Japans").click()
@@ -394,39 +394,6 @@ describe('Edit Recipe Page', () => {
                })
             })
 
-            it('alerts for missing required fields when saving recipe', () => {
-               const patchSpy = cy.spy().as('patchSpy')
-               cy.intercept('PATCH', '/api/recipe/1', patchSpy)
-               const alertStub = cy.stub()
-               cy.on('window:alert', alertStub)
-
-               cy.get(".page-title").clear()
-               cy.dataTest('recipe-save-button').click().then(() => {
-                  expect(alertStub).to.have.been.calledOnce
-                  expect(alertStub).to.have.been.calledWith("Please fill in the required fields.")
-               })
-               cy.get('@patchSpy').should("not.have.been.called")
-            })
-
-            it('alerts for missing ingredient fields when saving recipe', () => {
-               const patchSpy = cy.spy().as('patchSpy')
-               cy.intercept('PATCH', '/api/recipe/1', patchSpy)
-               const alertStub = cy.stub()
-               cy.on('window:alert', alertStub)
-
-               cy.dataTest("ingredient-edit-row-0").within(() => {
-                  cy.dataTest("ingredient-name").clear()
-                  cy.dataTest("ingredient-amount").clear()
-               })
-
-               cy.dataTest('recipe-save-button').click()
-                  .then(() => {
-                     expect(alertStub).to.have.been.calledOnce
-                     expect(alertStub).to.have.been.calledWith("Please fill in all ingredient fields.")
-                  })
-               cy.get('@patchSpy').should("not.have.been.called")
-            })
-
             it('alerts recipe with the same name exists when saving recipe', () => {
                const patchSpy = cy.spy().as('patchSpy')
                cy.intercept('PATCH', '/api/recipe/1', patchSpy)
@@ -456,62 +423,113 @@ describe('Edit Recipe Page', () => {
             })
          })
       })
-   })
 
-   describe("Form validation", () => {
-      beforeEach(() => {
-         cy.visit('http://localhost:3000/recipe/1/edit')
-         cy.wait("@getRecipe")
-      })
 
-      it(`marks a temporary ingredient as non-valid`, () => {
-         cy.dataTest("ingredient-edit-row-0").within(() => {
-            cy.dataTest("ingredient-name").click().clear().type("bbb").blur()
-            cy.dataTest("ingredient-name").should("have.class", "error")
+      describe("Form validation", () => {
+         beforeEach(() => {
+            cy.visit('http://localhost:3000/recipe/1/edit')
+            cy.wait("@getRecipe")
          })
-      })
 
-      it(`clears non-valid mark when input becomes empty`, () => {
-         cy.dataTest("ingredient-edit-row-0").within(() => {
-            cy.dataTest("ingredient-name").click().clear().type("bbb").blur()
-            cy.dataTest("ingredient-name").should("have.class", "error")
-            cy.dataTest("ingredient-name").click().clear()
-            cy.dataTest("ingredient-name").should("not.have.class", "error")
+         it(`marks a temporary ingredient as non-valid`, () => {
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").click().clear().type("bbb").blur()
+               cy.dataTest("ingredient-name").should("have.class", "error")
+               cy.dataTest("tooltip-button").should("exist").click()
+               cy.dataTest("tooltip-content").should("contain", "No ingredient selected")
+            })
          })
-      })
 
-      it(`keeps non-valid mark when canceling adding a new ingredient`, () => {
-         cy.dataTest("ingredient-edit-row-0").within(() => {
-            cy.dataTest("ingredient-name").click().clear().type("bbb")
-            cy.dataTest("add-ingredient-option").should("contain", "+ Add bbb").click()
+         it(`clears non-valid mark when input becomes empty`, () => {
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").click().clear().type("bbb").blur()
+               cy.dataTest("ingredient-name").should("have.class", "error")
+               cy.dataTest("ingredient-name").click().clear()
+               cy.dataTest("ingredient-name").should("not.have.class", "error")
+            })
          })
-         cy.get(".overlay-content").should("exist")
-         cy.dataTest("cancel-button").click()
 
-         cy.dataTest("ingredient-edit-row-0").within(() => {
-            cy.dataTest("ingredient-name").should("have.class", "error")
+         it(`keeps non-valid mark when canceling adding a new ingredient`, () => {
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").click().clear().type("bbb")
+               cy.dataTest("add-ingredient-option").should("contain", "+ Add bbb").click()
+            })
+            cy.get(".overlay-content").should("exist")
+            cy.dataTest("cancel-button").click()
+
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").should("have.class", "error")
+            })
          })
-      })
 
-      it(`clears non-valid mark when ingredient is added to database`, () => {
-         cy.dataTest("ingredient-edit-row-0").within(() => {
-            cy.dataTest("ingredient-name").click().clear().type("bbb")
-            cy.dataTest("add-ingredient-option").should("contain", "+ Add bbb").click()
+         it(`clears non-valid mark when ingredient is added to database`, () => {
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").click().clear().type("bbb")
+               cy.dataTest("add-ingredient-option").should("contain", "+ Add bbb").click()
+            })
+            cy.get(".overlay-content").should("exist")
+            cy.dataTest("confirm-button").click()
+
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").should("not.have.class", "error")
+            })
          })
-         cy.get(".overlay-content").should("exist")
-         cy.dataTest("confirm-button").click()
 
-         cy.dataTest("ingredient-edit-row-0").within(() => {
-            cy.dataTest("ingredient-name").should("not.have.class", "error")
+         it(`clears non-valid mark when typing valid existing ingredient`, () => {
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").click().clear().type("bbb").blur()
+               cy.dataTest("ingredient-name").should("have.class", "error")
+               cy.dataTest("ingredient-name").click().clear().type("Boter")
+               cy.dataTest("ingredient-name").should("not.have.class", "error")
+            })
          })
-      })
 
-      it(`clears non-valid mark when typing valid existing ingredient`, () => {
-         cy.dataTest("ingredient-edit-row-0").within(() => {
-            cy.dataTest("ingredient-name").click().clear().type("bbb").blur()
-            cy.dataTest("ingredient-name").should("have.class", "error")
-            cy.dataTest("ingredient-name").click().clear().type("Boter")
-            cy.dataTest("ingredient-name").should("not.have.class", "error")
+         it('alerts for missing required fields when saving recipe', () => {
+            const patchSpy = cy.spy().as('patchSpy')
+            cy.intercept('PATCH', '/api/recipe/1', patchSpy)
+
+            cy.get(".page-title").clear()
+            cy.dataTest('recipe-save-button').click()
+            cy.get(".page-title").should("have.class", "error")
+            cy.get(".title-detail-box").within(() => {
+               cy.dataTest("tooltip-button").should("exist").click()
+               cy.dataTest("tooltip-content").should("contain", "Required field")
+            })
+
+            cy.get('@patchSpy').should("not.have.been.called")
+         })
+
+         it('alerts for missing ingredient name when saving recipe', () => {
+            const patchSpy = cy.spy().as('patchSpy')
+            cy.intercept('PATCH', '/api/recipe/1', patchSpy)
+
+
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-name").clear()
+            })
+
+            cy.dataTest('recipe-save-button').click()
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("tooltip-button").should("exist").click()
+               cy.dataTest("tooltip-content").should("contain", "Can't be empty")
+            })
+            cy.get('@patchSpy').should("not.have.been.called")
+         })
+
+         it('alerts for incorrect ingredient amount when saving recipe', () => {
+            const patchSpy = cy.spy().as('patchSpy')
+            cy.intercept('PATCH', '/api/recipe/1', patchSpy)
+
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("ingredient-amount").clear().type("bbb")
+            })
+
+            cy.dataTest('recipe-save-button').click()
+            cy.dataTest("ingredient-edit-row-0").within(() => {
+               cy.dataTest("tooltip-button").should("exist").click()
+               cy.dataTest("tooltip-content").should("contain", "Not a valid number")
+            })
+            cy.get('@patchSpy').should("not.have.been.called")
          })
       })
    })
