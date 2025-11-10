@@ -440,7 +440,7 @@ describe('Edit Recipe Page', () => {
             })
          })
 
-         it(`clears non-valid mark when input becomes empty`, () => {
+         it(`clears non-valid mark when input becomes empty if you haven't saved yet`, () => {
             cy.dataTest("ingredient-edit-row-0").within(() => {
                cy.dataTest("ingredient-name").click().clear().type("bbb").blur()
                cy.dataTest("ingredient-name").should("have.class", "error")
