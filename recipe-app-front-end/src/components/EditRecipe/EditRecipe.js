@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 import EditRecipeIngriedientList from "./EditRecipeIngredientList"
 import { getIngredients, getRecipes, getCuisines, getAmountTypes, createRecipe, updateRecipe, deleteRecipe } from "@components/common/Apicalls"
 import Select from "../common/Select"
+import ErrorToolTip from "@components/common/ErrorToolTip"
 
 export default function EditRecipe({ recipe, isNew = false }) {
     const router = useRouter()
@@ -17,12 +18,18 @@ export default function EditRecipe({ recipe, isNew = false }) {
         cuisines: true,
         amountTypes: true
     })
-    const [error, setError] = useState({
+    const [errorApi, setErrorApi] = useState({
         allIngredients: null,
         recipes: null,
         cuisines: null,
         amountTypes: null
     })
+    const [errorField, setErrorField] = useState({
+        name: { error: false, message: "" },
+        servingCalories: { error: false, message: "" },
+        servingCount: { error: false, message: "" }
+    })
+    const [showErrors, setShowErrors] = useState(false)
     const [allIngredients, setAllIngredients] = useState(null)
     const [recipes, setRecipes] = useState([])
     const [cuisines, setCuisines] = useState(null)
@@ -48,7 +55,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
             .catch((error) => {
                 console.log("Error fetching all ingredients: ", error)
-                setError(prev => ({ ...prev, allIngredients: error.message }))
+                setErrorApi(prev => ({ ...prev, allIngredients: error.message }))
                 setLoading(prev => ({ ...prev, allIngredients: false }))
             })
     }
@@ -61,7 +68,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
             .catch((error) => {
                 console.log("Error fetching recipes: ", error)
-                setError(prev => ({ ...prev, recipes: error.message }))
+                setErrorApi(prev => ({ ...prev, recipes: error.message }))
                 setLoading(prev => ({ ...prev, recipes: false }))
             })
     }
@@ -74,7 +81,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
             .catch((error) => {
                 console.log("Error fetching cuisines: ", error)
-                setError(prev => ({ ...prev, cuisines: error.message }))
+                setErrorApi(prev => ({ ...prev, cuisines: error.message }))
                 setLoading(prev => ({ ...prev, cuisines: false }))
             })
     }
@@ -87,7 +94,7 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
             .catch((error) => {
                 console.log("Error fetching amount types: ", error)
-                setError(prev => ({ ...prev, amountTypes: error.message }))
+                setErrorApi(prev => ({ ...prev, amountTypes: error.message }))
                 setLoading(prev => ({ ...prev, amountTypes: false }))
             })
     }
@@ -184,27 +191,28 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
-    const normalizeIngredientAmounts = (ingredients) => {
-        return ingredients.map((ingredient) => ({
-            ...ingredient,
-            amount: ingredient.amount.replace(',', '.')
-        }))
+    const validateRequiredField = (fieldName, value) => {
+        if (value === 0 || value === "") {
+            setErrorField(prev => ({ ...prev, [fieldName]: { error: true, message: "Required field" } }))
+            return
+        }
+        setErrorField(prev => ({ ...prev, [fieldName]: { error: false, message: "" } }))
     }
 
-    const validateFormData = () => {
+    const validateRequired = () => {
         const { name, servingCalories, servingCount, cuisine } = formData
         return name && servingCalories && servingCount && cuisine
     }
 
-    const validateIngredients = (ingredients) => {
-        return ingredients.every(ingredient => {
-            return ingredient.name.trim() !== "" && ingredient.amount.trim() !== "" 
+    const validateIngredients = () => {
+        return formData.ingredients.every(ingredient => {
+            return ingredient.name.trim() !== "" && ingredient.amount.trim() !== ""
         })
     }
 
-    const validateAmounts = (ingredients) => {
-        return ingredients.every(ingredient => {
-           return !isNaN(parseFloat(ingredient.amount))
+    const validateAmounts = () => {
+        return formData.ingredients.every(ingredient => {
+            return !isNaN(parseFloat(ingredient.amount))
         })
     }
 
@@ -222,25 +230,27 @@ export default function EditRecipe({ recipe, isNew = false }) {
     }
 
     const handleSave = () => {
-        if (!validateFormData()) {
-            alert("Please fill in the required fields.")
+        validateRequiredField("name", formData.name)
+        validateRequiredField("servingCalories", formData.servingCalories)
+        validateRequiredField("servingCount", formData.servingCount)
+
+        if (!validateRequired()) {
+            setShowErrors(true)
             return
         }
-
-        const normalizedIngredients = normalizeIngredientAmounts(formData.ingredients)
 
         const normalizedFormData = {
             ...formData,
-            ingredients: normalizedIngredients
+            ingredients: formData.ingredients
         }
 
-        if (!validateIngredients(normalizedIngredients)) {
-            alert("Please fill in all ingredient fields.")
+        if (!validateIngredients(formData.ingredients)) {
+            setShowErrors(true)
             return
         }
 
-        if(!validateAmounts(normalizedIngredients)) {
-            alert("Those ingredients are no valid numbers!")
+        if (!validateAmounts(formData.ingredients)) {
+            setShowErrors(true)
             return
         }
 
@@ -307,11 +317,19 @@ export default function EditRecipe({ recipe, isNew = false }) {
             })
     }
 
+    useEffect(() => {
+        if (showErrors) {
+            validateRequiredField("name", formData.name)
+            validateRequiredField("servingCalories", formData.servingCalories)
+            validateRequiredField("servingCount", formData.servingCount)
+        }
+    }, [showErrors, formData.name, formData.servingCalories, formData.servingCount])
+
     if (loading.allIngredients || loading.recipes || loading.cuisines || loading.amountTypes) {
         return <p className="warning">Loading...</p>
     }
 
-    if (error.allIngredients || error.recipes || error.cuisines || error.amountTypes) {
+    if (errorApi.allIngredients || errorApi.recipes || errorApi.cuisines || errorApi.amountTypes) {
         return <p className="warning error">Failed to load.</p>
     }
 
@@ -320,33 +338,92 @@ export default function EditRecipe({ recipe, isNew = false }) {
             <div className="edit-page" onKeyDown={handleKeyDown}>
                 <div className="title-detail-box">
                     <label className="box-label" htmlFor="page-title">Recipe name*</label>
-                    <input className="page-title" id="page-title" placeholder="Name your recipe" type="text" name="name" value={formData.name} onChange={handleChange}></input>
+                    <div className="name-box">
+                        {errorField.name.error && (
+                            <ErrorToolTip message={errorField.name.message} />
+                        )}
+                        <input
+                            className={`page-title title-input ${showErrors && errorField.name.error ? 'error' : ''}`}
+                            id="page-title"
+                            name="name"
+                            type="text"
+                            placeholder="Name your recipe"
+                            value={formData.name}
+                            onChange={handleChange}>
+                        </input>
+                    </div>
                 </div>
                 <div className="recipe-card">
                     <div className="top-details">
                         <div className="big-details">
                             <div className="big-detail-box">
                                 <label className="box-label" htmlFor="description-details">Description</label>
-                                <textarea className="description-details" id="description-details" placeholder="Brief description of your recipe" type="text" name="description" value={formData.description} onChange={handleChange}></textarea>
+                                <textarea
+                                    className="description-details"
+                                    id="description-details"
+                                    placeholder="Brief description of your recipe"
+                                    type="text"
+                                    name="description"
+                                    value={formData.description}
+                                    onChange={handleChange}>
+                                </textarea>
                             </div>
                             <div className="big-detail-box">
                                 <label className="box-label" htmlFor="url-details">Link</label>
-                                <textarea className="url-details" id="url-details" type="text" placeholder="Add a reference link" name="externalRecipeLink" value={formData.externalRecipeLink} onChange={handleChange}></textarea>
+                                <textarea
+                                    className="url-details"
+                                    id="url-details"
+                                    type="text"
+                                    placeholder="Add a reference link"
+                                    name="externalRecipeLink"
+                                    value={formData.externalRecipeLink}
+                                    onChange={handleChange}>
+                                </textarea>
                             </div>
                         </div>
 
                         <div className="small-details">
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="servingCalories">Calories*</label>
-                                <input name="servingCalories" id="servingCalories" className="small-detail-input" type="number" placeholder="kcal" value={formData.servingCalories} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
+                                <div className="calorie-box">
+                                    {errorField.servingCalories.error && (
+                                        <ErrorToolTip message={errorField.servingCalories.message} />
+                                    )}
+                                    <input
+                                        name="servingCalories" id="servingCalories"
+                                        className={`small-detail-input ${showErrors && errorField.servingCalories.error ? 'error' : ''}`}
+                                        type="number"
+                                        placeholder="kcal"
+                                        value={formData.servingCalories}
+                                        onFocus={(e) => e.target.select()}
+                                        onChange={handleChange}>
+                                    </input>
+
+                                </div>
                             </div>
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="servingCount">Servings*</label>
-                                <input name="servingCount" id="servingCount" className="small-detail-input" type="number" placeholder="people" value={formData.servingCount} onFocus={(e) => e.target.select()} onChange={handleChange}></input>
+                                <div className="serving-box">
+                                    {errorField.servingCount.error && (
+                                        <ErrorToolTip message={errorField.servingCount.message} />
+                                    )}
+                                    <input
+                                        className={`small-detail-input ${showErrors && errorField.servingCount.error ? 'error' : ''}`}
+                                        name="servingCount"
+                                        id="servingCount"
+                                        type="number"
+                                        placeholder="people"
+                                        value={formData.servingCount}
+                                        onFocus={(e) => e.target.select()}
+                                        onChange={handleChange}>
+                                    </input>
+
+                                </div>
                             </div>
                             <div className="small-detail-box">
                                 <label className="box-label" htmlFor="cuisine">Cuisine*</label>
-                                <Select options={cuisines}
+                                <Select
+                                    options={cuisines}
                                     selected={selectedCuisine}
                                     onSelect={(value) => {
                                         setSelectedCuisine(value)
@@ -356,15 +433,26 @@ export default function EditRecipe({ recipe, isNew = false }) {
                                     placeholder="style"
                                     styleType="card-box"
                                     id="cuisine"
-                                    dataTest="cuisine" />
+                                    dataTest="cuisine"
+                                />
                             </div>
-                        </div >
+                        </div>
                     </div>
                 </div>
 
                 <div>
                     <h4 className="box-title">Ingredients:</h4>
-                    <EditRecipeIngriedientList ingredientList={formData.ingredients} handleIngredientAdd={handleIngredientAdd} handleIngredientChange={handleIngredientChange} handleIngredientDelete={handleIngredientDelete} handleAllIngredientsDelete={handleAllIngredientsDelete} allIngredients={allIngredients} fetchIngredients={fetchIngredients} amountTypes={amountTypes} />
+                    <EditRecipeIngriedientList
+                        ingredientList={formData.ingredients}
+                        handleIngredientAdd={handleIngredientAdd}
+                        handleIngredientChange={handleIngredientChange}
+                        handleIngredientDelete={handleIngredientDelete}
+                        handleAllIngredientsDelete={handleAllIngredientsDelete}
+                        allIngredients={allIngredients}
+                        fetchIngredients={fetchIngredients}
+                        amountTypes={amountTypes}
+                        showErrors={showErrors}
+                    />
                 </div>
 
                 <div>

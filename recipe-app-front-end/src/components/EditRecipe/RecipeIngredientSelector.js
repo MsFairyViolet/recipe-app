@@ -1,18 +1,25 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { addIngredient } from "@components/common/Apicalls"
 import { useConfirm } from "@components/common/ConfirmProvider"
 import { toBaseChars } from "@components/common/filterHelpers"
+import ErrorToolTip from "@components/common/ErrorToolTip"
 
-export default function RecipeIngredientSelector({ ingredient, row, allIngredients, ingredientList, handleIngredientChange, fetchIngredients }) {
+export default function RecipeIngredientSelector({ ingredient, row, allIngredients, ingredientList, handleIngredientChange, fetchIngredients, showErrors }) {
 
    const confirm = useConfirm()
    const [searchQuery, setSearchQuery] = useState("")
    const [isOpen, setIsOpen] = useState(false)
    const [isSelectingFromDropdown, setIsSelectingFromDropdown] = useState(false)
-   const [hasError, setHasError] = useState(false)
+   const [errorField, setErrorField] = useState({ error: false, message: "" })
    const inputRef = useRef(null)
+
+   useEffect(() => {
+      if (showErrors) {
+         validateIngredient(ingredient)
+      }
+   }, [showErrors, ingredient.name])
 
    const handleFocus = () => {
       setIsOpen(true)
@@ -21,8 +28,8 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
 
    const handleBlur = (inputfield) => {
       if (inputfield.target.value.trim() !== "") {
-         if (!isSelectingFromDropdown && !validateIngredient(ingredient)) {
-            setHasError(true)
+         if (!isSelectingFromDropdown) {
+            validateIngredient(ingredient)
             setIsOpen(false)
             setIsSelectingFromDropdown(false)
             return
@@ -30,12 +37,33 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
       }
       setSearchQuery("")
       setIsOpen(false)
-      setHasError(false)
       setIsSelectingFromDropdown(false)
    }
 
-   const validateIngredient = (queryIngredient) => {
-      return !isNaN(Number(queryIngredient.id))
+   const validateIngredient = (ingredientToValidate) => {
+      if (!ingredientToValidate) {
+         setErrorField({ error: false, message: "No ingredient to validate" })
+         return
+      }
+
+      if (ingredientToValidate.name.trim() === "") {
+         setErrorField({ error: true, message: "Can't be empty" })
+         return
+      }
+
+      if (isNaN(Number(ingredientToValidate.id))) {
+         setErrorField({ error: true, message: "No ingredient selected" })
+         return
+      }
+
+      const matchingIngredient = allIngredients.find(i => i.id === ingredientToValidate.id)
+
+      if (!matchingIngredient || matchingIngredient.name !== ingredientToValidate.name) {
+         setErrorField({ error: true, message: "No ingredient selected" })
+         return
+      }
+
+      setErrorField({ error: false, message: "" })
    }
 
    const checkIngredientExists = (queryIngredient) => {
@@ -47,15 +75,13 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
 
    const handleQueryIngredientAdd = async (defaultName = "") => {
       await confirm("Add new global ingredient", defaultName, true)
-         .then((queryIngredient) => {
-            if (!queryIngredient) {
-               if (ingredient.name.trim() !== "" && !checkIngredientExists(ingredient.name)) {
-                  setHasError(true)
-               }
+         .then((confirmResult) => {
+            if (!confirmResult) {
+               validateIngredient(ingredient)
                return
             }
 
-            const newIngredient = queryIngredient.trim()
+            const newIngredient = confirmResult.trim()
 
             if (checkIngredientExists(newIngredient)) {
                alert("That ingredient already exists! Please modify the name and try again.")
@@ -72,7 +98,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                   } else {
                      handleIngredientChange(row, "name", newIngredient)
                   }
-                  setHasError(false)
+                  setErrorField({ error: false, message: "" })
                   setSearchQuery("")
                })
                .catch((error) => {
@@ -88,24 +114,29 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
 
    return (
       <div className="first-column autocomplete-container">
-         <input
-            ref={inputRef}
-            data-test={`ingredient-name`}
-            className={`autocomplete-input ${hasError ? 'error' : ''}`}
-            type="text"
-            value={ingredient.name}
-            onChange={(e) => {
-               handleIngredientChange(row, "name", e.target.value)
-               setSearchQuery(e.target.value)
+         <div className="name-box">
+            <input
+               ref={inputRef}
+               data-test={`ingredient-name`}
+               className={`autocomplete-input ${errorField.error ? 'error' : ''}`}
+               type="text"
+               value={ingredient.name}
+               onChange={(e) => {
+                  handleIngredientChange(row, "name", e.target.value)
+                  setSearchQuery(e.target.value)
 
-               if (e.target.value.trim() === "") {
-                  setHasError(false)
-               }
-            }}
-            onFocus={handleFocus}
-            onBlur={(field) => handleBlur(field)}
-            placeholder="ingredient"
-         />
+                  if (e.target.value.trim() === "") {
+                     setErrorField({ error: false, message: "" })
+                  }
+               }}
+               onFocus={handleFocus}
+               onBlur={(field) => handleBlur(field)}
+               placeholder="ingredient"
+            />
+            {errorField.error && (
+               <ErrorToolTip message={errorField.message}/>
+            )}
+         </div>
          {isOpen && (
             <ul className="autocomplete-dropdown ingredient-input">
                {filteredIngredients.map((option, index) => {
@@ -127,7 +158,7 @@ export default function RecipeIngredientSelector({ ingredient, row, allIngredien
                            setIsSelectingFromDropdown(true)
                            handleIngredientChange(row, "name", option.name)
                            handleIngredientChange(row, "id", option.id)
-                           setHasError(false)
+                           setErrorField({ error: false, message: "" })
                         }}>
                         {option.name}
                      </li>)
